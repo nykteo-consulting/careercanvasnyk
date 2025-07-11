@@ -41,24 +41,24 @@
       <!-- Right content -->
       <div class="lg:w-1/2 text-center lg:text-left w-full mt-8 md:mt-0">
         <!-- Greeting -->
-        <div class="mb-4 animate-fade-in-up mt-4 md:mt-0" style="animation-delay: 0.2s;">
+        <div class="mb-4 mt-4 md:mt-0 hero-text-element">
           <span class="text-blue-200 dark:text-blue-300 font-medium text-lg block">Hello, I'm</span>
         </div>
         <!-- Name -->
-        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 font-heading leading-tight animate-fade-in-up hero-name" style="animation-delay: 0.3s;">
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 font-heading leading-tight hero-name hero-text-element">
           {{ .Site.Params.name }}
         </h1>
         <!-- Tagline with typing effect -->
-        <h2 class="text-2xl md:text-3xl lg:text-4xl mb-6 font-light text-blue-100 dark:text-blue-200 animate-fade-in-up" style="animation-delay: 0.4s;">
+        <h2 class="text-2xl md:text-3xl lg:text-4xl mb-6 font-light text-blue-100 dark:text-blue-200 hero-text-element">
           <span class="typewriter">{{ .Site.Params.tagline }}</span>
         </h2>
         <!-- Description -->
-        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto lg:mx-0 text-blue-50 dark:text-blue-100 leading-relaxed animate-fade-in-up" style="animation-delay: 0.5s;">
+        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto lg:mx-0 text-blue-50 dark:text-blue-100 leading-relaxed hero-text-element">
           {{ .Site.Params.hero_description }}
         </p>
 
         <!-- Action buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-end animate-fade-in-up" style="animation-delay: 0.7s;">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-end hero-text-element">
           <a href="#contact" class="bg-white text-blue-600 dark:text-blue-700 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl hero-button">
             Get in Touch
           </a>
@@ -67,7 +67,7 @@
           </a>
         </div>
         <!-- Social links -->
-        <div class="flex justify-center lg:justify-end space-x-6 mt-8 mb-8 md:mb-0 animate-fade-in-up" style="animation-delay: 0.8s;">
+        <div class="flex justify-center lg:justify-end space-x-6 mt-8 mb-8 md:mb-0 hero-text-element">
           {{ range .Site.Params.social }}
           <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-white hover:text-blue-200 transition-all duration-300 transform hover:scale-110">
             <i class="fab fa-{{ .icon }} text-2xl"></i>

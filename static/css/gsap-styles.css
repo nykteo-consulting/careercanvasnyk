@@ -1,0 +1,169 @@
+/* GSAP Animation Styles */
+
+/* Hero section enhancements */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Smooth transitions for GSAP animations */
+.hero-text-element {
+    opacity: 0;
+    transform: translateY(30px);
+    will-change: transform, opacity;
+}
+
+.hero-name {
+    will-change: transform, opacity;
+}
+
+/* Enhanced profile image container */
+.hero-section .lg\:w-1\/2 .relative {
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+}
+
+/* Background decoration enhancements */
+.hero-section .absolute.opacity-10 > div {
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+}
+
+/* Image glow effect */
+.hero-section .absolute.-z-10 .bg-gradient-to-br {
+    will-change: transform, opacity;
+    filter: blur(64px);
+}
+
+/* Location badge */
+.hero-section .absolute.-bottom-4.-right-4 {
+    will-change: transform, opacity;
+}
+
+/* Button enhancements */
+.hero-button {
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+/* Social icons */
+.hero-section .space-x-6 a {
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+/* Enhanced typing effect */
+.typewriter {
+    will-change: width, border-right-color;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #93c5fd;
+    animation: none; /* Disable CSS animation, use GSAP instead */
+}
+
+/* Floating animation for profile image */
+.hero-section img {
+    will-change: transform;
+}
+
+/* Parallax container */
+.hero-section .lg\:w-1\/2 {
+    will-change: transform;
+}
+
+/* Performance optimizations */
+.hero-section * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Smooth scrolling for parallax effects */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Enhanced hover states for interactive elements */
+.hero-button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.hero-section .space-x-6 a:hover {
+    transform: translateY(-3px) scale(1.1) rotate(5deg);
+}
+
+/* Background pattern enhancement */
+.hero-section:before {
+    will-change: transform;
+    animation: none; /* Disable CSS animation, use GSAP instead */
+}
+
+/* Dark mode adjustments */
+.dark .hero-section .absolute.-z-10 .bg-gradient-to-br {
+    filter: blur(64px) brightness(0.8);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .hero-text-element {
+        transform: translateY(20px); /* Smaller offset on mobile */
+    }
+    
+    .hero-section .lg\:w-1\/2 .relative {
+        transform: scale(0.9); /* Slightly smaller on mobile */
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .hero-section * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .hero-text-element {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    .typewriter {
+        animation: none !important;
+        border-right: none !important;
+    }
+}
+
+/* Loading state */
+.hero-section.loading {
+    opacity: 0;
+}
+
+.hero-section.loaded {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+/* Enhanced focus states for accessibility */
+.hero-button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.hero-section .space-x-6 a:focus {
+    outline: 2px solid #93c5fd;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Print styles */
+@media print {
+    .hero-section * {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+    
+    .typewriter {
+        border-right: none !important;
+    }
+} 
