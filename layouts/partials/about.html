@@ -1,46 +1,113 @@
 <section id="about" class="py-16 bg-white dark:bg-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-center mb-12 font-heading text-gray-900 dark:text-white">About Me</h2>
-      <div class="flex flex-col lg:flex-row gap-12">
-        {{ with .Site.GetPage "about" }}
-        <div class="lg:w-2/3">
-          <p class="text-lg mb-6 text-gray-700 dark:text-gray-300">{{ .Params.intro | markdownify }}</p>
-          <p class="text-lg mb-6 text-gray-700 dark:text-gray-300">{{ .Params.study | markdownify }}</p>
-  
-          <div class="bg-blue-50 dark:bg-blue-900/30 p-6 rounded-lg mb-6">
-            <h3 class="text-xl font-semibold mb-3 text-blue-800 dark:text-blue-300">{{ .Params.passion_title }}</h3>
-            <p class="text-blue-900 dark:text-blue-200">{{ .Params.passion_text | markdownify }}</p>
-          </div>
-  
-          <p class="text-lg mb-6 text-gray-700 dark:text-gray-300">{{ .Params.mix | markdownify }}</p>
-          <p class="text-lg text-gray-700 dark:text-gray-300">{{ .Params.personal | markdownify }}</p>
-        </div>
-  
-        <div class="lg:w-1/3">
-          <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
-            <h3 class="text-xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-600 pb-2 font-heading text-gray-900 dark:text-white">Quick Facts</h3>
-            <div class="space-y-4">
-              {{ range .Params.quickfacts }}
-              <div class="flex items-start">
-                <div class="bg-blue-100 dark:bg-blue-800 p-2 rounded-full mr-4">
-                  <i class="fas fa-{{ .icon }} text-blue-600 dark:text-blue-300"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-gray-900 dark:text-white">{{ .title }}</h4>
-                  <p class="text-gray-600 dark:text-gray-300">{{ .value | markdownify }}</p>
-                </div>
-              </div>
-              {{ end }}
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-bold text-center mb-12 font-heading text-gray-900 dark:text-white">About Me</h2>
+    {{ with .Site.GetPage "about" }}
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+      <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed md:mb-0 mb-4 flex-1">
+        {{ .Params.intro | markdownify }}
+      </p>
+      <button id="aboutModalBtn" class="ml-0 md:ml-8 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold flex items-center">
+        <i class="fas fa-book-open mr-2"></i>
+        More About Me
+      </button>
+    </div>
+    <div class="w-full">
+      <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 max-w-2xl mx-auto p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600">
+        <h3 class="text-xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-600 pb-3 font-heading text-gray-900 dark:text-white flex items-center">
+          <i class="fas fa-info-circle mr-3 text-blue-600 dark:text-blue-400"></i>
+          Quick Facts
+        </h3>
+        <div class="space-y-0">
+          {{ range $i, $fact := .Params.quickfacts }}
+          <div class="flex items-start quick-fact-card opacity-0" data-animate data-animate-delay="{{ mul $i 150 }}">
+            <div class="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-700 p-3 rounded-xl mr-4 shadow-md flex-shrink-0">
+              <i class="fas fa-{{ $fact.icon }} text-blue-600 dark:text-blue-300 text-lg"></i>
             </div>
-            <div class="mt-6">
-              <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" class="flex items-center justify-center bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300">
-                <i class="fab fa-linkedin-in mr-2"></i> Connect on LinkedIn
-              </a>
+            <div class="flex-1">
+              <h4 class="font-bold text-gray-900 dark:text-white mb-1 text-xl">{{ $fact.title }}</h4>
+              <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">{{ .value | markdownify }}</p>
             </div>
           </div>
+          {{ end }}
         </div>
-        {{ end }}
+        <div class="flex justify-center mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
+          <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <i class="fab fa-linkedin-in mr-3 text-lg"></i> 
+            Connect on LinkedIn
+          </a>
+        </div>
       </div>
     </div>
-  </section>
+    {{ end }}
+
+  <!-- About Modal -->
+  {{ with .Site.GetPage "about" }}
+  <div id="aboutModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-8">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white">About Felipe Cordero</h3>
+          <button id="closeAboutModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl font-bold">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="space-y-6 text-gray-700 dark:text-gray-300">
+          <p class="text-lg leading-relaxed">{{ .Params.intro | markdownify }}</p>
+          <p class="text-lg leading-relaxed">{{ .Params.study | markdownify }}</p>
+
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 p-6 rounded-xl border border-blue-200 dark:border-blue-700">
+            <h4 class="text-xl font-semibold mb-3 text-blue-800 dark:text-blue-300 flex items-center">
+              <i class="fas fa-heart mr-3 text-red-500"></i>
+              {{ .Params.passion_title }}
+            </h4>
+            <p class="text-blue-900 dark:text-blue-200 leading-relaxed">{{ .Params.passion_text | markdownify }}</p>
+          </div>
+
+          <p class="text-lg leading-relaxed">{{ .Params.mix | markdownify }}</p>
+          <p class="text-lg leading-relaxed">{{ .Params.personal | markdownify }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ end }}
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('aboutModal');
+  const modalBtn = document.getElementById('aboutModalBtn');
+  const closeBtn = document.getElementById('closeAboutModal');
+
+  // Open modal
+  modalBtn.addEventListener('click', function() {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close modal
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+
+  // Close modal when clicking outside
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+});
+</script>
   
