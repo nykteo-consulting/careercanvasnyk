@@ -20,7 +20,7 @@
   }
 
   .gradient-bg {
-    background: linear-gradient(135deg, rgb(2, 8, 27) 0%, #0c4a6e 50%, rgb(0, 0, 0) 100%);
+    background: linear-gradient(135deg, rgb(0, 0, 0) 0%, rgb(2, 8, 27) 30%,rgb(13, 7, 65) 70%, rgb(0, 0, 0) 100%);
     position: relative;
   }
 
@@ -31,20 +31,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+    background: radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
     animation: gradient-shift 15s ease-in-out infinite;
   }
 
   .dark .gradient-bg {
-    background: linear-gradient(135deg,rgb(2, 8, 27) 0%, #0c4a6e 50%,rgb(0, 0, 0) 100%);
+    background: linear-gradient(135deg, rgb(0, 0, 0) 0%, rgb(2, 8, 27) 30%, rgb(13, 7, 65) 70%, rgb(0, 0, 0) 100%);
   }
 
   .dark .gradient-bg::before {
-    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    background: radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
   }
 
   @keyframes gradient-shift {
