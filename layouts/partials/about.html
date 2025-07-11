@@ -1,25 +1,25 @@
-<section id="about" class="py-16 bg-white dark:bg-gray-800">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h2 class="text-3xl font-bold text-center mb-12 font-heading text-gray-900 dark:text-white">About Me</h2>
+<section id="about" class="py-16 bg-white dark:bg-gray-800 relative about-section">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <h2 class="text-3xl font-bold text-center mb-12 font-heading text-gray-900 dark:text-white about-text-element" data-animation="title">About Me</h2>
     {{ with .Site.GetPage "about" }}
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-      <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed md:mb-0 mb-4 flex-1">
+      <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed md:mb-0 mb-4 flex-1 about-text-element" data-animation="intro">
         {{ .Params.intro | markdownify }}
       </p>
-      <button id="aboutModalBtn" class="ml-0 md:ml-8 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold flex items-center">
+      <button id="aboutModalBtn" class="ml-0 md:ml-8 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold flex items-center about-button">
         <i class="fas fa-book-open mr-2"></i>
         More about me
       </button>
     </div>
     <div class="w-full">
-      <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 max-w-2xl mx-auto p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600">
-        <h3 class="text-xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-600 pb-3 font-heading text-gray-900 dark:text-white flex items-center">
+      <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 max-w-2xl mx-auto p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 about-card">
+        <h3 class="text-xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-600 pb-3 font-heading text-gray-900 dark:text-white flex items-center about-text-element" data-animation="facts-title">
           <i class="fas fa-info-circle mr-3 text-blue-600 dark:text-blue-400"></i>
           Quick Facts
         </h3>
         <div class="space-y-0">
           {{ range $i, $fact := .Params.quickfacts }}
-          <div class="flex items-start quick-fact-card opacity-0" data-animate data-animate-delay="{{ mul $i 150 }}">
+          <div class="flex items-start quick-fact-card opacity-0 about-text-element" data-animation="fact-{{ $i }}" data-animate data-animate-delay="{{ mul $i 150 }}">
             <div class="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-700 p-3 rounded-xl mr-4 shadow-md flex-shrink-0">
               <i class="fas fa-{{ $fact.icon }} text-blue-600 dark:text-blue-300 text-lg"></i>
             </div>
@@ -31,7 +31,7 @@
           {{ end }}
         </div>
         <div class="flex justify-center mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
-          <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+          <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg about-button">
             <i class="fab fa-linkedin-in mr-3 text-lg"></i> 
             Connect on LinkedIn
           </a>
@@ -108,6 +108,167 @@ document.addEventListener('DOMContentLoaded', function() {
       closeModal();
     }
   });
+
+  // Initialize About section animations - wait for GSAP to be available
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    initAboutAnimations();
+  } else {
+    // Wait for GSAP to load
+    const checkGSAP = setInterval(() => {
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        clearInterval(checkGSAP);
+        initAboutAnimations();
+      }
+    }, 100);
+  }
 });
+
+function initAboutAnimations() {
+  console.log('Initializing About section animations...');
+  const aboutSection = document.querySelector('.about-section');
+  if (!aboutSection) {
+    console.error('About section not found!');
+    return;
+  }
+  console.log('About section found, setting up animations...');
+
+  // Set initial states
+  setAboutInitialStates();
+
+  // Create ScrollTrigger for About section
+  ScrollTrigger.create({
+    trigger: aboutSection,
+    start: "top 80%",
+    end: "bottom 20%",
+    toggleActions: "play none none reverse",
+    onEnter: () => {
+      console.log('About section entered - playing animation');
+      playAboutAnimation();
+    },
+    onEnterBack: () => {
+      console.log('About section re-entered - playing animation');
+      playAboutAnimation();
+    }
+  });
+
+  // Initialize background animations for About section using reusable functions
+  if (typeof AnimationUtils !== 'undefined') {
+    AnimationUtils.initSectionBackgroundAnimations('.about-section', {
+      diagonalLines: {
+        count: 2,
+        opacity: 0.6,
+        scaleX: 1.3,
+        duration: 2.5,
+        rotationDuration: 5
+      },
+      splineCurves: {
+        count: 1,
+        opacity: 0.4,
+        scale: 1.1,
+        duration: 3.5,
+        rotationDuration: 6
+      }
+    });
+  }
+}
+
+function setAboutInitialStates() {
+  const aboutSection = document.querySelector('.about-section');
+  if (!aboutSection) return;
+
+  // Set text elements to initial state
+  const textElements = aboutSection.querySelectorAll('[data-animation]');
+  gsap.set(textElements, {
+    opacity: 0,
+    y: 30,
+    rotationX: -10
+  });
+
+  // Set card to initial state
+  const aboutCard = aboutSection.querySelector('.about-card');
+  if (aboutCard) {
+    gsap.set(aboutCard, {
+      opacity: 0,
+      scale: 0.9,
+      y: 50
+    });
+  }
+}
+
+function playAboutAnimation() {
+  const aboutSection = document.querySelector('.about-section');
+  if (!aboutSection) return;
+
+  // Reset all elements to initial state first
+  setAboutInitialStates();
+
+  // Create a fresh timeline
+  const tl = gsap.timeline();
+
+  // Animate title
+  const title = aboutSection.querySelector('[data-animation="title"]');
+  if (title) {
+    tl.to(title, {
+      opacity: 1,
+      y: 0,
+      rotationX: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    });
+  }
+
+  // Animate intro text
+  const intro = aboutSection.querySelector('[data-animation="intro"]');
+  if (intro) {
+    tl.to(intro, {
+      opacity: 1,
+      y: 0,
+      rotationX: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    }, "-=0.4");
+  }
+
+  // Animate card
+  const aboutCard = aboutSection.querySelector('.about-card');
+  if (aboutCard) {
+    tl.to(aboutCard, {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      duration: 1,
+      ease: "back.out(1.7)"
+    }, "-=0.6");
+  }
+
+  // Animate facts title
+  const factsTitle = aboutSection.querySelector('[data-animation="facts-title"]');
+  if (factsTitle) {
+    tl.to(factsTitle, {
+      opacity: 1,
+      y: 0,
+      rotationX: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    }, "-=0.8");
+  }
+
+  // Animate fact cards with stagger
+  const factCards = aboutSection.querySelectorAll('[data-animation^="fact-"]');
+  tl.to(factCards, {
+    opacity: 1,
+    y: 0,
+    rotationX: 0,
+    duration: 0.8,
+    stagger: 0.15,
+    ease: "power2.out"
+  }, "-=0.6");
+}
+
+
+
+
+
+
 </script>
   

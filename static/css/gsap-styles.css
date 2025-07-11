@@ -4,6 +4,9 @@
 .hero-section {
     position: relative;
     overflow: hidden;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: box-shadow 0.5s ease;
 }
 
 /* Smooth transitions for GSAP animations */
@@ -11,28 +14,42 @@
     opacity: 0;
     transform: translateY(30px);
     will-change: transform, opacity;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 .hero-name {
     will-change: transform, opacity;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 /* Enhanced profile image container */
 .hero-section .lg\:w-1\/2 .relative {
     will-change: transform, opacity;
     transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+    backface-visibility: hidden;
 }
 
 /* Background decoration enhancements */
 .hero-section .absolute.opacity-10 > div {
     will-change: transform, opacity;
     transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 /* Image glow effect */
 .hero-section .absolute.-z-10 .bg-gradient-to-br {
     will-change: transform, opacity;
-    filter: blur(64px);
+    transform-style: preserve-3d;
+}
+
+/* Enhanced 3D text effects */
+.hero-section [data-animation] {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
 }
 
 /* Location badge */
@@ -44,12 +61,17 @@
 .hero-button {
     will-change: transform;
     transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    backface-visibility: hidden;
 }
 
 /* Social icons */
 .hero-section .space-x-6 a {
     will-change: transform;
     transform-style: preserve-3d;
+    transition: all 0.3s ease;
+    backface-visibility: hidden;
 }
 
 /* Enhanced typing effect */
@@ -71,18 +93,53 @@
     will-change: transform;
 }
 
-/* Performance optimizations */
-.hero-section * {
+/* Particle System */
+.particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
 }
 
-/* Smooth scrolling for parallax effects */
-html {
-    scroll-behavior: smooth;
+/* Morphing Shapes */
+.morphing-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* Enhanced hover states for interactive elements */
+.morphing-shape {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, opacity, border-radius;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Enhanced hover effects */
 .hero-button:hover {
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -92,15 +149,105 @@ html {
     transform: translateY(-3px) scale(1.1) rotate(5deg);
 }
 
+/* Ripple effect for buttons */
+.hero-button .ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+/* Sparkle effect for profile image */
+.hero-section .lg\:w-1\/2 .relative .sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+/* Enhanced glow effects */
+.hero-section .space-x-6 a {
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Performance optimizations */
+.hero-section * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: auto;
+}
+
+.hero-section:hover * {
+    will-change: transform, opacity;
+}
+
+/* Smooth scrolling for parallax effects */
+html {
+    scroll-behavior: smooth;
+}
+
 /* Background pattern enhancement */
 .hero-section:before {
     will-change: transform;
     animation: none; /* Disable CSS animation, use GSAP instead */
 }
 
-/* Dark mode adjustments */
+/* Enhanced glow effects for dark mode */
 .dark .hero-section .absolute.-z-10 .bg-gradient-to-br {
     filter: blur(64px) brightness(0.8);
+}
+
+.dark .particle {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dark .morphing-shape {
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));
+}
+
+/* Enhanced depth effects */
+.hero-section .lg\:w-1\/2 {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.hero-section .lg\:w-1\/2 .relative {
+    transform-style: preserve-3d;
+    perspective: 800px;
+}
+
+/* Smooth mouse tracking */
+.hero-section {
+    transition: box-shadow 0.5s ease;
+}
+
+/* Enhanced glow effects */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                rgba(59, 130, 246, 0.1) 0%, 
+                transparent 50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.hero-section:hover::before {
+    opacity: 1;
 }
 
 /* Mobile optimizations */
@@ -111,6 +258,33 @@ html {
     
     .hero-section .lg\:w-1\/2 .relative {
         transform: scale(0.9); /* Slightly smaller on mobile */
+    }
+    
+    .particle {
+        width: 3px;
+        height: 3px;
+    }
+    
+    .morphing-shape {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* Reduce particle count on mobile */
+    .particle:nth-child(n+10) {
+        display: none;
+    }
+
+    .hero-section {
+        perspective: 500px;
+    }
+    
+    .hero-section * {
+        will-change: auto;
+    }
+    
+    .hero-section:hover * {
+        will-change: auto;
     }
 }
 
@@ -130,6 +304,15 @@ html {
     .typewriter {
         animation: none !important;
         border-right: none !important;
+    }
+    
+    .particle,
+    .morphing-shape {
+        display: none !important;
+    }
+    
+    .hero-section .lg\:w-1\/2 .relative {
+        transform: none !important;
     }
 }
 
@@ -166,4 +349,585 @@ html {
     .typewriter {
         border-right: none !important;
     }
+    
+    .particle,
+    .morphing-shape {
+        display: none !important;
+    }
+}
+
+/* Enhanced 3D effects */
+.hero-section {
+    transform-style: preserve-3d;
+}
+
+.hero-section .lg\:w-1\/2 .relative {
+    transform-style: preserve-3d;
+}
+
+/* Mouse tracking enhancements */
+.hero-section {
+    cursor: none; /* Hide cursor for custom effects */
+}
+
+.hero-section:hover {
+    cursor: auto;
+}
+
+/* Enhanced button states */
+.hero-button:active {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Social icon enhanced states */
+.hero-section .space-x-6 a:active {
+    transform: translateY(-1px) scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* Profile image enhanced states */
+.hero-section .lg\:w-1\/2 .relative:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Enhanced particle effects */
+.particle:nth-child(odd) {
+    background: rgba(147, 197, 253, 0.4);
+}
+
+.particle:nth-child(even) {
+    background: rgba(192, 132, 252, 0.4);
+}
+
+/* Enhanced morphing shape effects */
+.morphing-shape:nth-child(1) {
+    background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+}
+
+.morphing-shape:nth-child(2) {
+    background: linear-gradient(45deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+}
+
+.morphing-shape:nth-child(3) {
+    background: linear-gradient(45deg, rgba(239, 68, 68, 0.1), rgba(251, 146, 60, 0.1));
+}
+
+/* Enhanced glow effects for dark mode */
+.dark .hero-section .space-x-6 a:hover {
+    box-shadow: 0 0 25px rgba(96, 165, 250, 0.6);
+}
+
+.dark .hero-button:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Performance optimizations for animations */
+.hero-section * {
+    contain: layout style paint;
+}
+
+/* Enhanced accessibility for screen readers */
+/* aria-hidden should be set in HTML, not CSS */
+
+/* About Section Animations */
+.about-section {
+    position: relative;
+    overflow: visible;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: box-shadow 0.5s ease;
+}
+
+.about-text-element {
+    opacity: 0;
+    transform: translateY(30px);
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.about-card {
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.about-button {
+    will-change: transform;
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    backface-visibility: hidden;
+}
+
+/* Skills Section Domain Animations */
+.skills-section {
+    position: relative;
+    overflow: visible;
+    min-height: 100vh;
+    /* Debug: Make section visible */
+    border: 2px solid blue;
+}
+
+.skills-background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    /* Debug: Make container visible */
+    border: 2px solid red;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.skills-section:hover .skills-background-animation {
+    opacity: 1;
+}
+
+.project-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.dark .project-card {
+    background: rgba(31, 41, 55, 0.95);
+}
+
+/* Enhanced hover effects for skills cards */
+.project-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(15px);
+}
+
+.dark .project-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    background: rgba(31, 41, 55, 0.98);
+}
+
+/* Database Animation Styles (Data Science) */
+.database-diamond {
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    z-index: 10;
+}
+
+/* Code Animation Styles (Software Development) */
+.code-line {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    z-index: 10;
+}
+
+.code-cursor {
+    will-change: transform, opacity;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    animation: blink 1s infinite;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    z-index: 11;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Neural Network Animation Styles (Artificial Intelligence) */
+.neural-node {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    z-index: 10;
+}
+
+.neural-connection {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    z-index: 9;
+}
+
+/* Blueprint Animation Styles (Engineering Expertise) */
+.blueprint-line {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    z-index: 10;
+}
+
+.blueprint-circle {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    z-index: 10;
+}
+
+/* Leadership Animation Styles (Leadership & Project Management) */
+.leadership-element {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    z-index: 10;
+}
+
+.leadership-line {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    z-index: 9;
+}
+
+/* Business Animation Styles (Business & Strategy) */
+.business-element {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    z-index: 10;
+}
+
+.trend-line {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    z-index: 11;
+}
+
+/* International Animation Styles (International Experience) */
+.international-element {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(236, 72, 153, 0.3);
+    z-index: 10;
+}
+
+.international-center {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(236, 72, 153, 0.3);
+    z-index: 11;
+}
+
+/* Community Animation Styles (Community & Learning) */
+.community-element {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(20, 184, 166, 0.3);
+    z-index: 10;
+}
+
+.community-line {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+    /* Debug: Make more visible */
+    border: 1px solid rgba(20, 184, 166, 0.3);
+    z-index: 9;
+}
+
+/* Shared animation container styles */
+.morphing-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Shared diagonal line styles */
+.diagonal-line {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+}
+
+/* Shared spline curve styles */
+.spline-curve {
+    will-change: transform, opacity, scale, border-radius;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+}
+
+/* Mobile optimizations for About section */
+@media (max-width: 768px) {
+    .about-text-element {
+        transform: translateY(20px);
+    }
+    
+    .about-section {
+        perspective: 500px;
+    }
+    
+    .about-section .morphing-shape {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Reduced motion support for About section */
+@media (prefers-reduced-motion: reduce) {
+    .about-section * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .about-text-element {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Mobile optimizations for Skills section */
+@media (max-width: 768px) {
+    .skills-background-animation {
+        opacity: 0.5; /* Slightly more visible on mobile */
+    }
+    
+    .project-card:hover {
+        transform: translateY(-3px) scale(1.01); /* Smaller effect on mobile */
+    }
+    
+    /* Reduce animation complexity on mobile */
+    .database-diamond,
+    .neural-node,
+    .leadership-element,
+    .business-element,
+    .international-element,
+    .community-element {
+        filter: blur(0.2px);
+    }
+    
+    /* Reduce backdrop blur on mobile for better performance */
+    .project-card {
+        backdrop-filter: blur(5px);
+    }
+    
+    .project-card:hover {
+        backdrop-filter: blur(8px);
+    }
+}
+
+/* Reduced motion support for Skills section */
+@media (prefers-reduced-motion: reduce) {
+    .project-card:hover {
+        transform: none !important;
+    }
+    
+    .skills-background-animation {
+        display: none !important;
+    }
+    
+    .skills-section:hover .skills-background-animation {
+        opacity: 0 !important;
+    }
+    
+    /* Disable all animation elements */
+    .database-diamond,
+    .code-line,
+    .code-cursor,
+    .neural-node,
+    .neural-connection,
+    .blueprint-line,
+    .blueprint-circle,
+    .leadership-element,
+    .leadership-line,
+    .business-element,
+    .trend-line,
+    .international-element,
+    .international-center,
+    .community-element,
+    .community-line {
+        display: none !important;
+    }
+}
+
+/* Smooth transitions for all interactive elements */
+.hero-section * {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+} 
+
+/* Morphing shapes enhancements */
+.morphing-shape {
+    will-change: transform, opacity, border-radius;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    perspective: 1000px;
+    transition: all 0.3s ease;
+    filter: blur(0.5px);
+}
+
+/* Enhanced perspective for morphing shapes */
+.morphing-shapes {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+}
+
+.morphing-shape {
+    transform-style: preserve-3d;
+    perspective: 800px;
+    will-change: transform, opacity, border-radius;
+    backface-visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Smooth morphing transitions */
+.morphing-shape {
+    transition: border-radius 4s ease-in-out, 
+                transform 4s ease-in-out, 
+                opacity 4s ease-in-out;
+} 
+
+/* Diagonal lines styling */
+.diagonal-line {
+    will-change: transform, opacity, scale;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.3px);
+    transition: all 0.3s ease;
+}
+
+.diagonal-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    filter: blur(1px);
+    opacity: 0.5;
+}
+
+/* Spline curves styling */
+.spline-curve {
+    will-change: transform, opacity, scale, border-radius;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    filter: blur(0.5px);
+    transition: all 0.3s ease;
+}
+
+/* Enhanced focus states for skills cards */
+.project-card:focus-within {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Print styles for skills section */
+@media print {
+    .skills-background-animation {
+        display: none !important;
+    }
+    
+    .project-card:hover {
+        transform: none !important;
+    }
+    
+    .project-card {
+        background: white !important;
+        backdrop-filter: none !important;
+    }
+    
+    .dark .project-card {
+        background: #f3f4f6 !important;
+    }
+}
+
+/* Performance optimizations for background animations */
+.skills-background-animation * {
+    contain: layout style paint;
+    will-change: auto;
+}
+
+.skills-background-animation:hover * {
+    will-change: transform, opacity, scale;
+}
+
+/* Enhanced accessibility for background animations */
+.skills-background-animation {
+    aria-hidden: true;
+}
+
+/* Smooth transitions for background animations */
+.skills-background-animation * {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 } 
