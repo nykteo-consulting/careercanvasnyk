@@ -41,6 +41,7 @@ git clone https://github.com/felipecordero/careercanvas.git themes/careercanvas
 
 Add the following to your `config.toml`:
 
+
 ```toml
 theme = "careercanvas"
 
