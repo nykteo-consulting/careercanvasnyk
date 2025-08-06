@@ -107,18 +107,24 @@
   <script>
     // Intelligent navigation for section links
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('Navigation script loaded');
+      
       const sectionLinks = document.querySelectorAll('.section-link');
+      console.log('Found section links:', sectionLinks.length);
       
       sectionLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
+          console.log('Section link clicked:', this.getAttribute('data-section'));
           
           const section = this.getAttribute('data-section');
           const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname === '';
+          console.log('Is home page:', isHomePage);
           
           if (isHomePage) {
             // On home page, scroll to section
             const targetElement = document.querySelector(section);
+            console.log('Target element found:', !!targetElement);
             if (targetElement) {
               targetElement.scrollIntoView({
                 behavior: 'smooth',
@@ -127,6 +133,7 @@
             }
           } else {
             // On other pages, navigate to home page with section
+            console.log('Navigating to:', '/' + section);
             window.location.href = '/' + section;
           }
         });
@@ -134,11 +141,14 @@
       
       // Handle hash fragments when page loads
       function handleHashScroll() {
+        console.log('Checking for hash:', window.location.hash);
         if (window.location.hash) {
           const targetElement = document.querySelector(window.location.hash);
+          console.log('Hash target element found:', !!targetElement);
           if (targetElement) {
             // Small delay to ensure page is fully loaded
             setTimeout(() => {
+              console.log('Scrolling to hash target');
               targetElement.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
@@ -151,8 +161,21 @@
       // Handle hash on page load
       handleHashScroll();
       
+      // Also try after a longer delay in case page is still loading
+      setTimeout(handleHashScroll, 500);
+      setTimeout(handleHashScroll, 1000);
+      
       // Handle hash changes (for browser back/forward)
-      window.addEventListener('hashchange', handleHashScroll);
+      window.addEventListener('hashchange', function() {
+        console.log('Hash changed to:', window.location.hash);
+        handleHashScroll();
+      });
+      
+      // Fallback: check for hash on window load as well
+      window.addEventListener('load', function() {
+        console.log('Window loaded, checking hash');
+        setTimeout(handleHashScroll, 200);
+      });
     });
     
     // Submenu toggle
