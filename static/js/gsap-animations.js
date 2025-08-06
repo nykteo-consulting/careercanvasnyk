@@ -1,4 +1,6 @@
 // GSAP Hero Section Animations
+let heroAnimationsInitialized = false;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Check if GSAP is loaded
     if (typeof gsap === 'undefined') {
@@ -7,26 +9,46 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    initHeroAnimations();
-    initParticleSystem();
-    initMorphingShapes();
-    initScrollEffects();
-    initMouseTracking();
-    
-    // Initialize background animations for Hero section using reusable functions
-    if (typeof AnimationUtils !== 'undefined') {
-      AnimationUtils.initSectionBackgroundAnimations('.hero-section', {
-        diagonalLines: {
-          count: 4,
-          opacity: 0.6,
-          scaleX: 1.5
-        },
-        splineCurves: {
-          count: 3,
-          opacity: 0.4,
-          scale: 1.2
+    // Only initialize hero animations once
+    if (!heroAnimationsInitialized) {
+        console.log('Initializing hero animations...');
+        
+        // Initialize hero animations first (priority)
+        initHeroAnimations();
+        initParticleSystem();
+        initMorphingShapes();
+        initScrollEffects();
+        initMouseTracking();
+        
+        // Initialize background animations for Hero section using reusable functions
+        if (typeof AnimationUtils !== 'undefined') {
+          AnimationUtils.initSectionBackgroundAnimations('.hero-section', {
+            diagonalLines: {
+              count: 4,
+              opacity: 0.6,
+              scaleX: 1.5
+            },
+            splineCurves: {
+              count: 3,
+              opacity: 0.4,
+              scale: 1.2
+            }
+          });
         }
-      });
+        
+        // Initialize about animations after a short delay to avoid conflicts
+        setTimeout(() => {
+            initAboutAnimations();
+        }, 100);
+        
+        // Initialize typing effect with delay
+        setTimeout(() => {
+            initTypingEffect();
+        }, 2000);
+        
+        heroAnimationsInitialized = true;
+    } else {
+        console.log('Hero animations already initialized, skipping...');
     }
 });
 
@@ -58,21 +80,44 @@ function loadScrollTrigger() {
         cdnScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js';
         cdnScript.onload = function() {
             gsap.registerPlugin(ScrollTrigger);
-            initHeroAnimations();
-            initParticleSystem();
-            initMorphingShapes();
-            initScrollEffects();
-            initMouseTracking();
+            // Only initialize if not already done
+            if (!heroAnimationsInitialized) {
+                // Initialize hero animations first
+                initHeroAnimations();
+                initParticleSystem();
+                initMorphingShapes();
+                initScrollEffects();
+                initMouseTracking();
+                // Initialize about animations with delay
+                setTimeout(() => {
+                    initAboutAnimations();
+                }, 100);
+                heroAnimationsInitialized = true;
+            }
         };
         document.head.appendChild(cdnScript);
     };
     localScrollTrigger.onload = function() {
         gsap.registerPlugin(ScrollTrigger);
-        initHeroAnimations();
-        initParticleSystem();
-        initMorphingShapes();
-        initScrollEffects();
-        initMouseTracking();
+        // Only initialize if not already done
+        if (!heroAnimationsInitialized) {
+            // Initialize hero animations first
+            initHeroAnimations();
+            initParticleSystem();
+            initMorphingShapes();
+            initScrollEffects();
+            initMouseTracking();
+            // Initialize about animations with delay
+            setTimeout(() => {
+                initAboutAnimations();
+            }, 100);
+            
+            // Initialize typing effect with delay
+            setTimeout(() => {
+                initTypingEffect();
+            }, 2000);
+            heroAnimationsInitialized = true;
+        }
     };
     document.head.appendChild(localScrollTrigger);
 }
@@ -90,6 +135,7 @@ function initHeroAnimations() {
         start: "top 80%",
         end: "bottom 20%",
         toggleActions: "play none none reverse",
+        id: "hero-section-trigger", // Unique ID to avoid conflicts
         onEnter: () => {
             console.log('Hero section entered - playing animation');
             playHeroAnimation();
@@ -117,6 +163,38 @@ function initHeroAnimations() {
             repeat: -1
         });
     }
+
+    // Add natural floating animation to background circles (independent of mouse)
+    const backgroundCircles = heroSection.querySelectorAll('.absolute.opacity-10 > div');
+    backgroundCircles.forEach((circle, index) => {
+        // Each circle has its own natural floating pattern
+        const floatX = (Math.random() - 0.5) * 40; // Random X movement
+        const floatY = (Math.random() - 0.5) * 30; // Random Y movement
+        const floatDuration = 3 + Math.random() * 2; // Random duration between 3-5s
+        const floatDelay = index * 0.5; // Staggered start
+        
+        // Use timeline to ensure natural animation is not overridden
+        const tl = gsap.timeline({ repeat: -1, yoyo: true, delay: floatDelay });
+        
+        tl.to(circle, {
+            x: floatX,
+            y: floatY,
+            duration: floatDuration,
+            ease: "power1.inOut"
+        });
+        
+        // Add subtle rotation for more natural movement
+        gsap.to(circle, {
+            rotation: 360,
+            duration: 8 + Math.random() * 4,
+            ease: "none",
+            repeat: -1,
+            delay: floatDelay
+        });
+        
+        // Mark circles as having natural animation to prevent mouse interference
+        circle.setAttribute('data-natural-animation', 'true');
+    });
 
     // Enhanced hover effects
     initEnhancedHoverEffects();
@@ -215,6 +293,149 @@ function setInitialStates() {
         scale: 0.5,
         rotation: -180
     });
+}
+
+function initAboutAnimations() {
+    console.log('Initializing About section animations...');
+    const aboutSection = document.querySelector('.about-section');
+    if (!aboutSection) {
+        console.error('About section not found!');
+        return;
+    }
+    console.log('About section found, setting up animations...');
+
+    // Set initial states
+    setAboutInitialStates();
+
+    // Create ScrollTrigger for About section with unique ID to avoid conflicts
+    ScrollTrigger.create({
+        trigger: aboutSection,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+        id: "about-section-trigger", // Unique ID to avoid conflicts
+        onEnter: () => {
+            console.log('About section entered - playing animation');
+            playAboutAnimation();
+        },
+        onEnterBack: () => {
+            console.log('About section re-entered - playing animation');
+            playAboutAnimation();
+        }
+    });
+
+    // Initialize background animations for About section with reduced intensity
+    if (typeof AnimationUtils !== 'undefined') {
+        AnimationUtils.initSectionBackgroundAnimations('.about-section', {
+            diagonalLines: {
+                count: 1, // Reduced from 2
+                opacity: 0.4, // Reduced from 0.6
+                scaleX: 1.2, // Reduced from 1.3
+                duration: 3.0, // Increased from 2.5
+                rotationDuration: 6 // Increased from 5
+            },
+            splineCurves: {
+                count: 1,
+                opacity: 0.3, // Reduced from 0.4
+                scale: 1.05, // Reduced from 1.1
+                duration: 4.0, // Increased from 3.5
+                rotationDuration: 8 // Increased from 6
+            }
+        });
+    }
+}
+
+function setAboutInitialStates() {
+    const aboutSection = document.querySelector('.about-section');
+    if (!aboutSection) return;
+
+    // Set text elements to initial state
+    const textElements = aboutSection.querySelectorAll('[data-animation]');
+    gsap.set(textElements, {
+        opacity: 0,
+        y: 30,
+        rotationX: -10
+    });
+
+    // Set card to initial state
+    const aboutCard = aboutSection.querySelector('.about-card');
+    if (aboutCard) {
+        gsap.set(aboutCard, {
+            opacity: 0,
+            scale: 0.9,
+            y: 50
+        });
+    }
+}
+
+function playAboutAnimation() {
+    const aboutSection = document.querySelector('.about-section');
+    if (!aboutSection) return;
+
+    // Reset all elements to initial state first
+    setAboutInitialStates();
+
+    // Create a fresh timeline
+    const tl = gsap.timeline();
+
+    // Animate title
+    const title = aboutSection.querySelector('[data-animation="title"]');
+    if (title) {
+        tl.to(title, {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+    }
+
+    // Animate intro text
+    const intro = aboutSection.querySelector('[data-animation="intro"]');
+    if (intro) {
+        tl.to(intro, {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.4");
+    }
+
+    // Animate card
+    const aboutCard = aboutSection.querySelector('.about-card');
+    if (aboutCard) {
+        tl.to(aboutCard, {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1,
+            ease: "back.out(1.7)"
+        }, "-=0.6");
+    }
+
+    // Animate facts title
+    const factsTitle = aboutSection.querySelector('[data-animation="facts-title"]');
+    if (factsTitle) {
+        tl.to(factsTitle, {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.8");
+    }
+
+    // Animate fact cards with stagger
+    const factCards = aboutSection.querySelectorAll('[data-animation^="fact-"]');
+    tl.to(factCards, {
+        opacity: 1,
+        y: 0,
+        rotationX: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out"
+    }, "-=0.6");
 }
 
 function initParticleSystem() {
@@ -555,14 +776,18 @@ function initMouseTracking() {
         isInHero = false;
         if (rafId) cancelAnimationFrame(rafId);
         
-        // Reset all animated elements to neutral position
+        // Reset mouse-following elements to neutral position (rectangles & lines)
         const profileImage = heroSection.querySelector('.lg\\:w-1\\/2 .relative');
         const morphingShapes = heroSection.querySelectorAll('.morphing-shape');
         const diagonalLines = heroSection.querySelectorAll('.diagonal-line');
         const splineCurves = heroSection.querySelectorAll('.spline-curve');
-        const bgElements = heroSection.querySelectorAll('.absolute.opacity-10 > div');
         
-        gsap.to([profileImage, ...morphingShapes, ...diagonalLines, ...splineCurves, ...bgElements], {
+        // Only reset elements that don't have natural animation
+        const elementsToReset = [profileImage, ...morphingShapes, ...diagonalLines, ...splineCurves].filter(el => 
+            el && !el.hasAttribute('data-natural-animation')
+        );
+        
+        gsap.to(elementsToReset, {
             x: 0,
             y: 0,
             rotationX: 0,
@@ -573,6 +798,9 @@ function initMouseTracking() {
             duration: 0.8,
             ease: "power2.out"
         });
+        
+        // DON'T reset circles - let them continue their natural animation
+        // const bgElements = heroSection.querySelectorAll('.absolute.opacity-10 > div');
         
         // Reset glow effect
         gsap.to(heroSection, {
@@ -600,7 +828,7 @@ function initMouseTracking() {
         const normalizedX = (mouseX - 0.5) * 2;
         const normalizedY = (mouseY - 0.5) * 2;
 
-        // Profile image with enhanced 3D effects
+        // Profile image with enhanced 3D effects (follows mouse)
         const profileImage = heroSection.querySelector('.lg\\:w-1\\/2 .relative');
         if (profileImage) {
             const imageMoveX = normalizedX * 20;
@@ -619,6 +847,7 @@ function initMouseTracking() {
             });
         }
 
+        // RECTANGLES & LINES: Follow mouse rhythm
         // Morphing shapes with enhanced mouse tracking (fastest layer)
         const morphingShapes = heroSection.querySelectorAll('.morphing-shape');
         morphingShapes.forEach((shape, index) => {
@@ -673,22 +902,12 @@ function initMouseTracking() {
             });
         });
 
-        // Background decorations with subtle parallax effect
-        const bgElements = heroSection.querySelectorAll('.absolute.opacity-10 > div');
-        bgElements.forEach((element, index) => {
-            const parallaxX = normalizedX * (15 + index * 5);
-            const parallaxY = normalizedY * (10 + index * 3);
-            
-            gsap.to(element, {
-                x: parallaxX,
-                y: parallaxY,
-                scale: 1 + Math.abs(normalizedX + normalizedY) * 0.05,
-                duration: 0.8,
-                ease: "power2.out"
-            });
-        });
-
-        // Add subtle glow effect based on mouse position
+        // CIRCLES: Move naturally (independent of mouse)
+        // Background circles - they have their own natural animation, don't follow mouse
+        // The circles will continue their natural floating animation from initHeroAnimations()
+        // Elements with data-natural-animation="true" are completely ignored by mouse tracking
+        
+                // Add subtle glow effect based on mouse position
         const glowIntensity = Math.abs(normalizedX + normalizedY) * 0.3;
         gsap.to(heroSection, {
             boxShadow: `0 0 ${20 + glowIntensity * 50}px rgba(59, 130, 246, ${0.1 + glowIntensity * 0.2})`,
@@ -770,13 +989,41 @@ function initEnhancedHoverEffects() {
 }
 
 // Enhanced typing effect with GSAP
+let typingEffectInitialized = false;
+
 function initTypingEffect() {
     const typewriterElement = document.querySelector('.typewriter');
     if (!typewriterElement) return;
 
+    // Only initialize once
+    if (typingEffectInitialized) {
+        console.log('Typing effect already initialized, skipping...');
+        return;
+    }
+
+    console.log('Initializing typing effect...');
+    
     const text = typewriterElement.textContent;
     typewriterElement.textContent = '';
-    typewriterElement.style.borderRight = '2px solid #93c5fd';
+    
+    // Remove the border-right style since we'll use a separate cursor
+    typewriterElement.style.borderRight = 'none';
+    
+    // Create a cursor element that will follow the text
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.style.cssText = `
+        display: inline-block;
+        width: 2px;
+        height: 1.2em;
+        background-color: #93c5fd;
+        margin-left: 2px;
+        vertical-align: text-bottom;
+        animation: blink 0.7s step-end infinite;
+    `;
+    
+    // Add cursor to the typewriter element
+    typewriterElement.appendChild(cursor);
 
     const chars = text.split('');
     const timeline = gsap.timeline({ delay: 1.5 });
@@ -785,25 +1032,19 @@ function initTypingEffect() {
         timeline.to(typewriterElement, {
             duration: 0.05,
             onUpdate: function() {
-                typewriterElement.textContent = chars.slice(0, index + 1).join('');
+                // Update text content
+                const textContent = chars.slice(0, index + 1).join('');
+                typewriterElement.textContent = textContent;
+                // Re-add the cursor after updating text
+                typewriterElement.appendChild(cursor);
             }
         });
     });
-
-    // Enhanced blinking cursor effect
-    gsap.to(typewriterElement, {
-        borderRightColor: 'transparent',
-        duration: 0.7,
-        repeat: -1,
-        yoyo: true,
-        ease: "power2.inOut"
-    });
+    
+    typingEffectInitialized = true;
 }
 
-// Initialize typing effect when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(initTypingEffect, 2000);
-});
+
 
 // Performance optimization: Pause animations when tab is not visible
 document.addEventListener('visibilitychange', function() {
@@ -812,6 +1053,12 @@ document.addEventListener('visibilitychange', function() {
     } else {
         gsap.globalTimeline.resume();
     }
+});
+
+// Reset initialization flag when page is unloaded
+window.addEventListener('beforeunload', function() {
+    heroAnimationsInitialized = false;
+    typingEffectInitialized = false;
 });
 
 // Add window resize handler for responsive animations

@@ -21,7 +21,13 @@
             </div>
           </div>
           {{ else }}
-            <a href="{{ .URL }}" class="nav-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">{{ .Name }}</a>
+            {{ if hasPrefix .URL "#" }}
+              <!-- Section links that should scroll on home page or navigate to home on other pages -->
+              <a href="{{ .URL }}" class="nav-link section-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400" data-section="{{ .URL }}">{{ .Name }}</a>
+            {{ else }}
+              <!-- Regular page links -->
+              <a href="{{ .URL }}" class="nav-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">{{ .Name }}</a>
+            {{ end }}
           {{ end }}
         {{ end }}
         <!-- Social Media Icons -->
@@ -60,9 +66,17 @@
   <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 shadow-lg">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       {{ range .Site.Menus.main }}
-        <a href="{{ .URL }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-          {{ .Name }}
-        </a>
+        {{ if hasPrefix .URL "#" }}
+          <!-- Section links that should scroll on home page or navigate to home on other pages -->
+          <a href="{{ .URL }}" class="section-link block px-3 py-2 rounded-md text-base font-medium text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700" data-section="{{ .URL }}">
+            {{ .Name }}
+          </a>
+        {{ else }}
+          <!-- Regular page links -->
+          <a href="{{ .URL }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+            {{ .Name }}
+          </a>
+        {{ end }}
         {{ if .HasChildren }}
           {{ range .Children }}
             <a href="{{ .URL }}" class="block pl-6 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">{{ .Name }}</a>
@@ -89,8 +103,58 @@
     }
   </style>
 
-  <!-- JavaScript to manage submenu toggle and dark mode -->
+  <!-- JavaScript to manage submenu toggle, dark mode, and intelligent navigation -->
   <script>
+    // Intelligent navigation for section links
+    document.addEventListener('DOMContentLoaded', function() {
+      const sectionLinks = document.querySelectorAll('.section-link');
+      
+      sectionLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const section = this.getAttribute('data-section');
+          const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname === '';
+          
+          if (isHomePage) {
+            // On home page, scroll to section
+            const targetElement = document.querySelector(section);
+            if (targetElement) {
+              targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          } else {
+            // On other pages, navigate to home page with section
+            window.location.href = '/' + section;
+          }
+        });
+      });
+      
+      // Handle hash fragments when page loads
+      function handleHashScroll() {
+        if (window.location.hash) {
+          const targetElement = document.querySelector(window.location.hash);
+          if (targetElement) {
+            // Small delay to ensure page is fully loaded
+            setTimeout(() => {
+              targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }, 100);
+          }
+        }
+      }
+      
+      // Handle hash on page load
+      handleHashScroll();
+      
+      // Handle hash changes (for browser back/forward)
+      window.addEventListener('hashchange', handleHashScroll);
+    });
+    
     // Submenu toggle
     document.querySelectorAll('.group > a.nav-link').forEach(link => {
       link.addEventListener('click', function(e) {
