@@ -17,7 +17,7 @@
 function createAndAnimateDiagonalLines(container, options = {}) {
     const {
         count = 4,
-        background = 'linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.4), transparent)',
+        background = 'linear-gradient(45deg, transparent, var(--color-primary-light, rgba(59, 130, 246, 0.4)), transparent)',
         height = 3,
         width = 250,
         opacity = 0.8,
@@ -88,7 +88,7 @@ function createAndAnimateSplineCurves(container, options = {}) {
     const {
         count = 3,
         size = 180,
-        border = '3px solid rgba(139, 92, 246, 0.3)',
+        border = '3px solid var(--color-primary, rgba(139, 92, 246, 0.3))',
         opacity = 0.6,
         scale = 1.2,
         duration = 6,
@@ -201,7 +201,7 @@ function initSectionBackgroundAnimations(sectionSelector, options = {}) {
 function createDynamicAnimation(container, options = {}) {
     const {
         elements = 5,
-        color = 'rgba(59, 130, 246, 0.4)',
+        color = 'var(--color-primary)',
         duration = 1.2,
         pattern = 'random', // 'random', 'circular', 'grid', 'flow'
         followMouse = true
@@ -407,16 +407,12 @@ function initSkillsHoverAnimations(sectionSelector) {
     // Animation patterns and colors for variety
     const animationPatterns = ['random', 'circular', 'grid', 'flow'];
     const colorPalette = [
-        'rgba(59, 130, 246, 0.4)',   // blue
-        'rgba(147, 51, 234, 0.4)',   // purple
-        'rgba(34, 197, 94, 0.4)',    // green
-        'rgba(239, 68, 68, 0.4)',    // red
-        'rgba(245, 158, 11, 0.4)',   // yellow
-        'rgba(99, 102, 241, 0.4)',   // indigo
-        'rgba(236, 72, 153, 0.4)',   // pink
-        'rgba(20, 184, 166, 0.4)',   // teal
-        'rgba(249, 115, 22, 0.4)',   // orange
-        'rgba(6, 182, 212, 0.4)'     // cyan
+        'var(--color-primary)',      // primary
+        'var(--color-primary-light)', // primary light
+        'var(--color-primary-dark)',  // primary dark
+        'var(--color-second)',        // second
+        'var(--color-second-light)',  // second light
+        'var(--color-second-dark)'    // second dark
     ];
     
     cards.forEach((card, index) => {
@@ -512,7 +508,7 @@ USAGE EXAMPLES:
 4. For dynamic animations with mouse following:
    AnimationUtils.createDynamicAnimation(container, {
      elements: 6,
-     color: 'rgba(59, 130, 246, 0.4)',
+     color: 'var(--color-primary)',
      pattern: 'circular', // 'random', 'circular', 'grid', 'flow'
      duration: 1.5,
      followMouse: true // Elements follow mouse movement

@@ -1,38 +1,38 @@
-<section id="about" class="py-16 bg-white dark:bg-gray-800 relative about-section">
+<section id="about" class="py-16 bg-bg dark:bg-bg relative about-section">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <h2 class="text-3xl font-bold text-center mb-12 font-heading text-gray-900 dark:text-white about-text-element" data-animation="title">About Me</h2>
+    <h2 class="text-3xl font-bold text-center mb-12 font-heading text-text-primary dark:text-text-primary about-text-element" data-animation="title">About Me</h2>
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-      <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed md:mb-0 mb-4 flex-1 about-text-element" data-animation="intro">
+      <p class="text-lg text-text-secondary dark:text-text-secondary leading-relaxed md:mb-0 mb-4 flex-1 about-text-element" data-animation="intro">
         {{ with .Site.GetPage "about" }}{{ .Params.intro | markdownify }}{{ end }}
       </p>
-      <button id="aboutModalBtn" class="ml-0 md:ml-8 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold flex items-center about-button">
+      <button id="aboutModalBtn" class="ml-0 md:ml-8 bg-gradient-primary text-white px-8 py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold flex items-center about-button">
         <i class="fas fa-book-open mr-2"></i>
         More about me
       </button>
     </div>
     <div class="w-full">
-      <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 max-w-2xl mx-auto p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 about-card">
-        <h3 class="text-xl font-semibold mb-6 border-b border-gray-200 dark:border-gray-600 pb-3 font-heading text-gray-900 dark:text-white flex items-center about-text-element" data-animation="facts-title">
-          <i class="fas fa-info-circle mr-3 text-blue-600 dark:text-blue-400"></i>
+      <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary max-w-2xl mx-auto p-6 rounded-xl shadow-lg border border-border-primary dark:border-border-primary about-card">
+        <h3 class="text-xl font-semibold mb-6 border-b border-border-primary dark:border-border-primary pb-3 font-heading text-text-primary dark:text-text-primary flex items-center about-text-element" data-animation="facts-title">
+          <i class="fas fa-info-circle mr-3 text-primary dark:text-white"></i>
           Quick Facts
         </h3>
         <div class="space-y-0">
           {{ with .Site.GetPage "about" }}
             {{ range $index, $fact := .Params.quickfacts }}
               <div class="flex items-start quick-fact-card opacity-0 about-text-element" data-animation="fact-{{ $index }}" data-animate data-animate-delay="{{ mul $index 150 }}">
-                <div class="bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-700 p-3 rounded-xl mr-4 shadow-md flex-shrink-0">
-                  <i class="fas fa-{{ $fact.icon }} text-blue-600 dark:text-blue-300 text-lg"></i>
-                </div>
+                              <div class="icon-bg-primary p-3 rounded-xl mr-4 shadow-md flex-shrink-0">
+                <i class="fas fa-{{ $fact.icon }} text-primary dark:text-white text-lg"></i>
+              </div>
                 <div class="flex-1">
-                  <h4 class="font-bold text-gray-900 dark:text-white mb-1 text-xl">{{ $fact.title }}</h4>
-                  <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">{{ $fact.value | markdownify }}</p>
+                  <h4 class="font-bold text-gray-900 dark:text-text-primary mb-1 text-xl">{{ $fact.title }}</h4>
+                  <p class="text-gray-700 dark:text-text-tertiary text-lg leading-relaxed">{{ $fact.value | markdownify }}</p>
                 </div>
               </div>
             {{ end }}
           {{ end }}
         </div>
-        <div class="flex justify-center mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
-          <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg about-button">
+        <div class="flex justify-center mt-8 pt-6 border-t border-border-primary dark:border-border-primary">
+          <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg about-button">
             <i class="fab fa-linkedin-in mr-3 text-lg"></i> 
             Connect on LinkedIn
           </a>
@@ -42,26 +42,26 @@
 
   <!-- About Modal -->
   {{ with .Site.GetPage "about" }}
-  <div id="aboutModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center px-4 py-16">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[70vh] overflow-y-auto">
+  <div id="aboutModal" class="fixed inset-0 bg-bg bg-opacity-50 z-50 hidden items-center justify-center px-4 py-16">
+    <div class="bg-bg dark:bg-bg rounded-xl shadow-2xl w-full max-w-2xl max-h-[70vh] overflow-y-auto">
       <div class="p-8">
         <div class="flex justify-between items-center mb-6">
-          <h3 class="text-2xl font-bold text-gray-900 dark:text-white">About {{ .Site.Params.name }}</h3>
-          <button id="closeAboutModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl font-bold">
+          <h3 class="text-2xl font-bold text-text-primary dark:text-text-primary">About {{ .Site.Params.name }}</h3>
+          <button id="closeAboutModal" class="text-text-muted hover:text-text-secondary dark:text-text-muted dark:hover:text-text-secondary text-2xl font-bold">
             <i class="fas fa-times"></i>
           </button>
         </div>
         
-        <div class="space-y-6 text-gray-700 dark:text-gray-300">
+        <div class="space-y-6 text-text-secondary dark:text-text-secondary">
           <p class="text-lg leading-relaxed">{{ .Params.intro | markdownify }}</p>
           <p class="text-lg leading-relaxed">{{ .Params.study | markdownify }}</p>
 
-          <div class="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 p-6 rounded-xl border border-blue-200 dark:border-blue-700">
-            <h4 class="text-xl font-semibold mb-3 text-blue-800 dark:text-blue-300 flex items-center">
-              <i class="fas fa-heart mr-3 text-red-500"></i>
+          <div class="bg-gradient-primary-lighter p-6 rounded-xl border border-primary-light">
+            <h4 class="text-xl font-semibold mb-3 text-primary-dark flex items-center">
+              <i class="fas fa-heart mr-3 text-second"></i>
               {{ .Params.passion_title }}
             </h4>
-            <p class="text-blue-900 dark:text-blue-200 leading-relaxed">{{ .Params.passion_text | markdownify }}</p>
+            <p class="text-primary-dark leading-relaxed">{{ .Params.passion_text | markdownify }}</p>
           </div>
 
           <p class="text-lg leading-relaxed">{{ .Params.mix | markdownify }}</p>

@@ -1,47 +1,35 @@
-<footer class="bg-gray-800 text-white py-8 border-t border-gray-700">
+<footer class="bg-bg dark:bg-bg text-text-primary py-8 border-t border-border-primary">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col md:flex-row justify-between items-center">
       <div class="mb-4 md:mb-0">
-        <a href="/#home" class="text-xl font-bold text-white font-heading">{{ .Site.Params.name }}</a>
-        <p class="text-gray-400 mt-1">{{ .Site.Params.tagline }}</p>
-        <p class="text-gray-400 mt-2">{{ .Site.Params.description }}</p>
-        <p class="text-gray-400 mt-1">
+        <a href="/#home" class="text-xl font-bold text-text-primary font-heading">{{ .Site.Params.name }}</a>
+        <p class="text-gray-700 dark:text-text-muted mt-1">{{ .Site.Params.tagline }}</p>
+        <p class="text-gray-700 dark:text-text-muted mt-2">{{ .Site.Params.description }}</p>
+        <p class="text-gray-700 dark:text-text-muted mt-1">
           <i class="fas fa-map-marker-alt mr-2"></i>{{ .Site.Params.location }}
         </p>
-        <a href="mailto:{{ .Site.Params.email }}" class="text-gray-400 hover:text-white mt-1 inline-block">
+        <a href="mailto:{{ .Site.Params.email }}" class="text-gray-700 dark:text-text-muted hover:text-primary dark:hover:text-white mt-1 inline-block">
           <i class="fas fa-envelope mr-2"></i>{{ .Site.Params.email }}
         </a>
         <div class="flex space-x-8 mt-6">
           {{ range .Site.Params.social }}
-          <a href="{{ .url }}" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-200">
-            {{ if eq .icon "linkedin-in" }}
-              <i class="fab fa-{{ .icon }} text-3xl text-[#0077B5]"></i>
-            {{ else if eq .icon "github" }}
-              <i class="fab fa-{{ .icon }} text-3xl text-white"></i>
-            {{ else }}
-              <i class="fab fa-{{ .icon }} text-3xl"></i>
-            {{ end }}
+          <a href="{{ .url }}" target="_blank" class="text-gray-700 dark:text-text-muted hover:text-third dark:hover:text-third-light transition-colors duration-200">
+            <i class="fab fa-{{ .icon }} text-3xl text-gray-800 dark:text-white"></i>
           </a>
           {{ end }}
         </div>
       </div>
       <div class="flex flex-col items-end">
         <div class="flex flex-wrap gap-2 justify-end">
-          {{ range $index, $tag := .Site.Params.collab_tags }}
-          <span class="px-3 py-1 rounded-full text-sm text-white font-medium
-            {{ if eq (mod $index 4) 0 }}bg-gradient-to-r from-blue-500 to-blue-600{{ end }}
-            {{ if eq (mod $index 4) 1 }}bg-gradient-to-r from-purple-500 to-purple-600{{ end }}
-            {{ if eq (mod $index 4) 2 }}bg-gradient-to-r from-green-500 to-green-600{{ end }}
-            {{ if eq (mod $index 4) 3 }}bg-gradient-to-r from-red-500 to-red-600{{ end }}
-            hover:opacity-90 transition-opacity duration-200">
-            {{ $tag }}
-          </span>
+          {{ range .Site.Params.collab_tags }}
+          {{ $isPriority := or (eq . "Urgent") (eq . "Priority") (eq . "Leadership") (eq . "Management") }}
+          <span class="{{ if $isPriority }}bg-third text-white{{ else }}bg-gray-900 dark:bg-gray-700 text-white{{ end }} px-3 py-1 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity duration-200 shadow-md" style="{{ if not $isPriority }}background-color: #111827 !important; color: white !important;{{ end }}">{{ . }}</span>
           {{ end }}
         </div>
       </div>
     </div>
 
-    <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+    <div class="mt-8 pt-8 border-t border-border-primary text-center text-gray-700 dark:text-text-muted text-sm">
       <p>{{ .Site.Params.copyright }}</p>
     </div>
   </div>

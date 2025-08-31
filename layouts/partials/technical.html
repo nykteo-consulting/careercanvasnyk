@@ -1,37 +1,62 @@
 <!-- Technical Skills Section -->
-<section id="technical" class="py-16 bg-gray-50 dark:bg-gray-900">
+<section id="technical" class="py-16 bg-bg-secondary dark:bg-bg-secondary">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {{ with .Site.GetPage "technical" }}
       <!-- Section heading -->
-      <h2 class="text-3xl font-bold text-center mb-4 font-heading text-gray-900 dark:text-white">{{ .Title }}</h2>
-      <p class="text-lg text-center mb-12 text-gray-600 dark:text-gray-400 italic">{{ .Params.intro }}</p>
+      <h2 class="text-3xl font-bold text-center mb-4 font-heading text-text-primary dark:text-text-primary">{{ .Title }}</h2>
+      <p class="text-lg text-center mb-12 text-gray-700 dark:text-text-tertiary italic">{{ .Params.intro }}</p>
 
       <!-- Technical skills groups in cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {{ range $i, $group := .Params.technical_groups }}
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 project-card opacity-0 border border-gray-200 dark:border-gray-700"
+        {{ $isAdvanced := or (in $group.title "Advanced") (in $group.title "Expert") (in $group.title "Specialized") }}
+        <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 project-card opacity-0 border border-gray-200 dark:border-gray-600"
              data-animate data-animate-delay="{{ mul $i 100 }}">
           <div class="project-inner">
-            <!-- Card header with icon and title -->
-            <div class="flex items-center mb-4">
-              <div class="bg-gradient-to-r from-{{ $group.color_scheme }}-100 to-{{ $group.color_scheme }}-200 dark:from-{{ $group.color_scheme }}-900 dark:to-{{ $group.color_scheme }}-800 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-{{ $group.icon }} text-{{ $group.color_scheme }}-600 dark:text-{{ $group.color_scheme }}-300 text-xl" aria-hidden="true"></i>
-              </div>
-              <h3 class="text-xl font-heading font-semibold text-gray-900 dark:text-white">{{ $group.title }}</h3>
+            <!-- Card header with title only -->
+            <div class="mb-4 text-center">
+              <h3 class="text-xl font-heading font-semibold text-gray-900 dark:text-text-primary">{{ $group.title }}</h3>
             </div>
             
-            <!-- Skills flex layout -->
-            <div class="flex flex-wrap gap-2">
+            <!-- Skills flex layout with icons and text below -->
+            <div class="flex flex-wrap gap-4 justify-center">
               {{ range $group.skills }}
-              <span class="skill-pill px-3 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-md flex items-center gap-2 text-sm border {{ $group.color_scheme }}-gradient text-{{ $group.color_scheme }}-800 dark:text-{{ $group.color_scheme }}-200">
-                {{ $brand_icons := $.Site.Params.technical_skills.brand_icons }}
-                {{ if and $brand_icons (in $brand_icons .icon) }}
-                <i class="fab fa-{{ .icon }} text-{{ $group.color_scheme }}-600 dark:text-{{ $group.color_scheme }}-300 text-base" aria-hidden="true"></i>
+              <div class="flex flex-col items-center text-center transition-all duration-300 hover:scale-110">
+                {{ if .devicon_class }}
+                  <!-- Use explicit devicon_class if provided -->
+                  <i class="{{ .devicon_class }} text-5xl mb-2" aria-hidden="true"></i>
+                {{ else if or (eq .icon "python") (eq .icon "js") (eq .icon "typescript") (eq .icon "html5") (eq .icon "css3-alt") (eq .icon "database") (eq .icon "bolt") (eq .icon "atom") (eq .icon "forward") (eq .icon "cube") (eq .icon "chart-line") (eq .icon "window-maximize") (eq .icon "window-restore") (eq .icon "square-root-alt") (eq .icon "table-cells") (eq .icon "chart-bar") (eq .icon "network-wired") (eq .icon "layer-group") (eq .icon "microchip") (eq .icon "eye") (eq .icon "code-branch") (eq .icon "github") (eq .icon "gitlab") (eq .icon "code") (eq .icon "linux") (eq .icon "docker") (eq .icon "laptop-code") (eq .icon "elephant") (eq .icon "leaf") (eq .icon "fire") (eq .icon "cloud") (eq .icon "calculator") }}
+                  <!-- Auto-generate devicon class for known technologies -->
+                  {{ $devicon_name := .icon }}
+                  {{ if eq .icon "js" }}{{ $devicon_name = "javascript" }}{{ end }}
+                  {{ if eq .icon "css3-alt" }}{{ $devicon_name = "css3" }}{{ end }}
+                  {{ if eq .icon "database" }}{{ $devicon_name = "mysql" }}{{ end }}
+                  {{ if eq .icon "bolt" }}{{ $devicon_name = "fastapi" }}{{ end }}
+                  {{ if eq .icon "atom" }}{{ $devicon_name = "react" }}{{ end }}
+                  {{ if eq .icon "forward" }}{{ $devicon_name = "nextjs" }}{{ end }}
+                  {{ if eq .icon "cube" }}{{ $devicon_name = "threejs" }}{{ end }}
+                  {{ if eq .icon "chart-line" }}{{ $devicon_name = "plotly" }}{{ end }}
+                  {{ if eq .icon "window-maximize" }}{{ $devicon_name = "streamlit" }}{{ end }}
+                  {{ if eq .icon "window-restore" }}{{ $devicon_name = "qt" }}{{ end }}
+                  {{ if eq .icon "square-root-alt" }}{{ $devicon_name = "numpy" }}{{ end }}
+                  {{ if eq .icon "table-cells" }}{{ $devicon_name = "pandas" }}{{ end }}
+                  {{ if eq .icon "chart-bar" }}{{ $devicon_name = "matplotlib" }}{{ end }}
+                  {{ if eq .icon "network-wired" }}{{ $devicon_name = "pytorch" }}{{ end }}
+                  {{ if eq .icon "layer-group" }}{{ $devicon_name = "tensorflow" }}{{ end }}
+                  {{ if eq .icon "microchip" }}{{ $devicon_name = "scikit-learn" }}{{ end }}
+                  {{ if eq .icon "eye" }}{{ $devicon_name = "opencv" }}{{ end }}
+                  {{ if eq .icon "code-branch" }}{{ $devicon_name = "git" }}{{ end }}
+                  {{ if eq .icon "laptop-code" }}{{ $devicon_name = "jupyter" }}{{ end }}
+                  {{ if eq .icon "elephant" }}{{ $devicon_name = "postgresql" }}{{ end }}
+                  {{ if eq .icon "leaf" }}{{ $devicon_name = "mongodb" }}{{ end }}
+                  {{ if eq .icon "cloud" }}{{ $devicon_name = "googlecloud" }}{{ end }}
+                  <i class="devicon-{{ $devicon_name }}-plain colored text-5xl mb-2" aria-hidden="true"></i>
                 {{ else }}
-                <i class="fas fa-{{ .icon }} text-{{ $group.color_scheme }}-600 dark:text-{{ $group.color_scheme }}-400 text-base" aria-hidden="true"></i>
+                  <!-- Fallback to FontAwesome -->
+                  <i class="fas fa-{{ .icon }} text-5xl mb-2 text-gray-600 dark:text-gray-400" aria-hidden="true"></i>
                 {{ end }}
-                <span>{{ .name }}</span>
-              </span>
+                <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ .name }}</span>
+              </div>
               {{ end }}
             </div>
           </div>

@@ -1,14 +1,14 @@
-<section id="experience" class="py-16 bg-white dark:bg-gray-800">
+<section id="experience" class="py-16 bg-bg dark:bg-bg">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {{ with .Site.GetPage "experience" }}
-    <h2 class="text-3xl font-bold text-center mb-4 font-heading text-gray-900 dark:text-white">{{ .Title }}</h2>
-    <p class="text-lg text-center mb-12 text-gray-600 dark:text-gray-400 italic">{{ .Params.intro }}</p>
+    <h2 class="text-3xl font-bold text-center mb-4 font-heading text-text-primary dark:text-text-primary">{{ .Title }}</h2>
+    <p class="text-lg text-center mb-12 text-gray-700 dark:text-text-tertiary italic">{{ .Params.intro }}</p>
 
     <!-- Resume Download Buttons -->
     <div class="text-center mb-12">
       <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
         {{ $resumeLabel := .Params.resume_label }}
-        {{ $buttonClass := "flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white text-lg px-6 py-4 rounded-lg font-semibold shadow-lg hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 transform hover:scale-105" }}
+        {{ $buttonClass := "flex items-center justify-center bg-gradient-primary text-white text-lg px-6 py-4 rounded-lg font-semibold shadow-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105" }}
         
         <a href="{{ .Params.resume_url_en }}" target="_blank" rel="noopener noreferrer" class="{{ $buttonClass }}">
           <i class="fas fa-file-pdf text-2xl mr-3"></i>
@@ -24,55 +24,60 @@
     <!-- Experience Timeline -->
     <div class="relative pt-4">
       <!-- Timeline line -->
-      <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-200 via-blue-400 to-blue-200 dark:from-blue-700 dark:via-blue-500 dark:to-blue-700 transform -translate-x-1/2"></div>
+      <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 transform -translate-x-1/2 shadow-lg z-0 timeline-line"></div>
 
       <!-- Timeline items -->
       <div class="space-y-8 md:space-y-16">
         {{ range $index, $exp := .Params.positions }}
         <div class="relative timeline-item">
           <!-- Timeline bullet -->
-          <div class="hidden md:block absolute left-1/2 top-8 w-4 h-4 bg-blue-600 dark:bg-blue-400 rounded-full border-4 border-white dark:border-gray-800 transform -translate-x-1/2 z-10 timeline-bullet"></div>
+          <div class="hidden md:block absolute left-1/2 top-8 w-4 h-4 rounded-full border-4 transform -translate-x-1/2 z-20 timeline-bullet shadow-lg"></div>
           
           <div class="md:flex justify-center">
             <!-- Left or Right column -->
             <div class="md:w-1/2 mb-6 md:mb-0 px-4 flex {{ if modBool $index 2 }}order-1 text-left{{ else }}justify-end text-right{{ end }}">
               <div class="max-w-sm w-full">
                 <!-- Period badge -->
-                <div class="inline-block bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-3 shadow-lg">
+                <div class="inline-block bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-medium mb-3 shadow-lg">
                   <i class="fas fa-calendar-alt mr-2"></i>{{ $exp.period }}
                 </div>
                 
                 <!-- Company info -->
-                <div class="company-card bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600">
-                  <h3 class="text-xl font-heading font-bold text-gray-900 dark:text-white mb-2">
+                <div class="company-card bg-bg dark:bg-bg p-6 rounded-lg shadow-lg border border-border-primary dark:border-border-primary">
+                  <h3 class="text-xl font-heading font-bold text-text-primary dark:text-text-primary mb-2">
                     {{ if $exp.company_url }}
                     <a href="{{ $exp.company_url }}" target="_blank" rel="noopener noreferrer" class="company-link group">
                       {{ $exp.company }}
-                      <i class="fas fa-external-link-alt ml-2 text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm"></i>
+                      <i class="fas fa-external-link-alt ml-2 text-primary dark:text-primary-light opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm"></i>
                     </a>
                     {{ else }}
                     {{ $exp.company }}
                     {{ end }}
                   </h3>
-                  <h4 class="text-blue-600 dark:text-blue-400 font-semibold text-lg mb-3">{{ $exp.role }}</h4>
+                  <h4 class="text-primary dark:text-white font-semibold text-lg mb-3">{{ $exp.role }}</h4>
                   
                   <!-- Industry and Location -->
                   <div class="flex flex-wrap gap-2 mb-3">
                     {{ if $exp.industry }}
-                    <span class="inline-flex items-center bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-xs font-medium">
+                    <span class="inline-flex items-center bg-second text-white px-3 py-1 rounded-full text-xs font-medium">
                       <i class="fas fa-industry mr-1"></i>{{ $exp.industry }}
                     </span>
                     {{ end }}
                     {{ if $exp.location }}
-                    <span class="inline-flex items-center bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-xs font-medium">
+                    <span class="inline-flex items-center bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
                       <i class="fas fa-map-marker-alt mr-1"></i>{{ $exp.location }}
+                    </span>
+                    {{ end }}
+                    {{ if $exp.award }}
+                    <span class="inline-flex items-center bg-third text-white px-3 py-1 rounded-full text-xs font-medium">
+                      <i class="fas fa-trophy mr-1"></i>{{ $exp.award }}
                     </span>
                     {{ end }}
                   </div>
                   
                   <!-- Company description -->
                   {{ if $exp.company_description }}
-                  <p class="text-sm text-gray-600 dark:text-gray-300 italic border-l-4 border-blue-200 dark:border-blue-600 pl-3">
+                  <p class="text-sm text-gray-700 dark:text-text-tertiary italic border-l-4 border-primary-light pl-3">
                     {{ $exp.company_description }}
                   </p>
                   {{ end }}
@@ -82,15 +87,15 @@
 
             <!-- Bullet points -->
             <div class="md:w-1/2 px-4 {{ if modBool $index 2 }}order-0{{ end }}">
-              <div class="achievements-card bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 opacity-0 transition-all duration-700 transform translate-y-4" data-animate>
+              <div class="achievements-card bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 rounded-lg shadow-lg border border-border-primary dark:border-border-primary opacity-0 transition-all duration-700 transform translate-y-4" data-animate>
                 <div class="flex items-center mb-4">
-                  <i class="fas fa-tasks text-blue-600 dark:text-blue-400 mr-3 text-lg"></i>
-                  <h5 class="text-lg font-semibold text-gray-900 dark:text-white">Key Achievements</h5>
+                  <i class="fas fa-tasks text-third dark:text-third-light mr-3 text-lg"></i>
+                  <h5 class="text-lg font-semibold text-text-primary dark:text-text-primary">Key Achievements</h5>
                 </div>
-                <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                <ul class="space-y-3 text-gray-700 dark:text-text-secondary">
                   {{ range $exp.bullet_points }}
                   <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1 flex-shrink-0"></i>
+                    <i class="fas fa-check-circle text-second mr-3 mt-1 flex-shrink-0"></i>
                     <span>{{ . }}</span>
                   </li>
                   {{ end }}

@@ -462,7 +462,7 @@ function initParticleSystem() {
         particle.className = 'particle absolute w-2 h-2 rounded-full';
         particle.style.left = Math.random() * 100 + '%';
         particle.style.bottom = '-20px';
-        particle.style.backgroundColor = Math.random() > 0.5 ? '#3B82F6' : '#8B5CF6';
+        particle.style.backgroundColor = Math.random() > 0.5 ? 'var(--color-primary)' : 'var(--color-second)';
         particle.style.opacity = '0.6';
         particleContainer.appendChild(particle);
         particles.push(particle);
@@ -524,9 +524,9 @@ function createAndAnimateMorphingShapes(shapesContainer) {
     // Create morphing shapes with random positions
     const shapes = [];
     const colors = [
-        'linear-gradient(45deg, #3B82F6, #8B5CF6)',
-        'linear-gradient(45deg, #8B5CF6, #EC4899)',
-        'linear-gradient(45deg, #10B981, #3B82F6)'
+        'linear-gradient(45deg, var(--color-primary), var(--color-second))',
+        'linear-gradient(45deg, var(--color-second), var(--color-primary-light))',
+        'linear-gradient(45deg, var(--color-primary-light), var(--color-primary))'
     ];
 
     // Different dimensions for each shape
@@ -560,7 +560,7 @@ function createAndAnimateMorphingShapes(shapesContainer) {
     for (let i = 0; i < 4; i++) {
         const line = document.createElement('div');
         line.className = 'diagonal-line absolute';
-        line.style.background = 'linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.3), transparent)';
+        line.style.background = 'linear-gradient(45deg, transparent, var(--color-primary), transparent)';
         line.style.height = '3px';
         line.style.width = '300px';
         line.style.opacity = '0';
@@ -588,7 +588,7 @@ function createAndAnimateMorphingShapes(shapesContainer) {
         curve.className = 'spline-curve absolute';
         curve.style.width = '200px';
         curve.style.height = '200px';
-        curve.style.border = '3px solid rgba(139, 92, 246, 0.2)';
+        curve.style.border = '3px solid var(--color-second)';
         curve.style.borderRadius = '50%';
         curve.style.opacity = '0';
         curve.style.zIndex = '1';
@@ -663,11 +663,11 @@ function animateMorphingShapes(shapes) {
             
             // Generate new random color
             const colors = [
-                'linear-gradient(45deg, #3B82F6, #8B5CF6)',
-                'linear-gradient(45deg, #8B5CF6, #EC4899)',
-                'linear-gradient(45deg, #10B981, #3B82F6)',
-                'linear-gradient(45deg, #F59E0B, #EF4444)',
-                'linear-gradient(45deg, #06B6D4, #3B82F6)'
+                'linear-gradient(45deg, var(--color-primary), var(--color-second))',
+                'linear-gradient(45deg, var(--color-second), var(--color-primary-light))',
+                'linear-gradient(45deg, var(--color-primary-light), var(--color-primary))',
+                'linear-gradient(45deg, var(--color-primary-dark), var(--color-second-dark))',
+                'linear-gradient(45deg, var(--color-second-light), var(--color-primary))'
             ];
             const newColor = colors[Math.floor(Math.random() * colors.length)];
             
@@ -910,7 +910,7 @@ function initMouseTracking() {
                 // Add subtle glow effect based on mouse position
         const glowIntensity = Math.abs(normalizedX + normalizedY) * 0.3;
         gsap.to(heroSection, {
-            boxShadow: `0 0 ${20 + glowIntensity * 50}px rgba(59, 130, 246, ${0.1 + glowIntensity * 0.2})`,
+            boxShadow: `0 0 ${20 + glowIntensity * 50}px var(--color-primary-light, rgba(59, 130, 246, ${0.1 + glowIntensity * 0.2}))`,
             duration: 0.5,
             ease: "power2.out"
         });
@@ -1016,7 +1016,7 @@ function initTypingEffect() {
         display: inline-block;
         width: 2px;
         height: 1.2em;
-        background-color: #93c5fd;
+        background-color: var(--color-primary-light);
         margin-left: 2px;
         vertical-align: text-bottom;
         animation: blink 0.7s step-end infinite;

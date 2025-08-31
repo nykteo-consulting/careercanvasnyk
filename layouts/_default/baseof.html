@@ -9,11 +9,15 @@
         }
     </script>
     {{ partial "head.html" . }}
+    
+    <!-- Color Variables - Load first to ensure CSS custom properties are available -->
+    {{ partial "color-variables.html" . }}
+    
     {{ $styles := resources.Get "css/main.css" | postCSS (dict "config" "./postcss.config.js") }}
     {{ if hugo.IsProduction }}
       {{ $styles = $styles | minify | fingerprint }}
     {{ end }}
-    <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+    <link rel="stylesheet" href="{{ $styles.RelPermalink }}?v={{ now.Unix }}" data-version="{{ now.Unix }}">
     <style>
         /* Critical CSS to prevent FOUC */
         body {
@@ -24,7 +28,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex flex-col min-h-screen transition-colors duration-200">
+<body class="bg-bg dark:bg-bg text-text-primary dark:text-text-primary flex flex-col min-h-screen transition-colors duration-200">
 
     {{ partial "nav.html" . }}
     <div class="w-full h-16"></div>

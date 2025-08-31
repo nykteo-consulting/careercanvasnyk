@@ -1,9 +1,9 @@
 {{ define "main" }}
-<section class="py-12 bg-white dark:bg-gray-800">
+<section class="py-12 bg-bg dark:bg-bg">
   <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Enhanced header with better styling -->
     <div class="mb-12">
-      <h1 class="text-4xl font-bold mb-6 font-heading text-gray-900 dark:text-white">{{ .Title }}</h1>
+      <h1 class="text-4xl font-bold mb-6 font-heading text-text-primary dark:text-text-primary">{{ .Title }}</h1>
       <div class="prose prose-lg markdown-content dark:prose-invert prose-gray max-w-4xl">
         {{ .Content }}
       </div>
@@ -13,13 +13,13 @@
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {{ range .Pages.ByWeight }}
       <a href="{{ .RelPermalink }}" class="block group">
-        <article class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 h-full border border-gray-200 dark:border-gray-600 overflow-hidden project-card opacity-0" data-animate>
+        <article class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 h-full border border-border-primary dark:border-border-primary overflow-hidden project-card opacity-0" data-animate>
           {{ if .Params.featured_image }}
           <div class="relative overflow-hidden">
             <img 
               src="{{ .Params.featured_image }}" 
               alt="{{ .Title }}" 
-              class="w-full h-64 object-cover bg-gray-100 dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
+              class="w-full h-64 object-cover bg-bg-secondary dark:bg-bg-secondary transition-transform duration-300 group-hover:scale-105"
               loading="lazy"
             >
             <!-- Overlay effect on hover -->
@@ -27,28 +27,28 @@
           </div>
           {{ else }}
           <!-- Default placeholder with icon -->
-          <div class="h-64 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 flex items-center justify-center">
-            <i class="fas fa-project-diagram text-4xl text-blue-400 dark:text-blue-300"></i>
+          <div class="h-64 bg-gradient-primary-lighter flex items-center justify-center">
+            <i class="fas fa-project-diagram text-4xl text-primary"></i>
           </div>
           {{ end }}
           
           <div class="p-6">
             <!-- Enhanced title with better typography -->
-            <h2 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 flex items-center">
-              <i class="fas fa-arrow-right mr-2 text-blue-500 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+            <h2 class="text-xl font-semibold mb-3 text-text-primary dark:text-text-primary group-hover:text-primary dark:group-hover:text-primary-light transition-colors duration-300 flex items-center">
+              <i class="fas fa-arrow-right mr-2 text-primary dark:text-primary-light opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
               {{ .Title }}
             </h2>
             
             <!-- Enhanced description -->
             {{ if .Description }}
-            <p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed text-sm">{{ .Description }}</p>
+            <p class="text-gray-700 dark:text-text-secondary mb-4 leading-relaxed text-sm">{{ .Description }}</p>
             {{ end }}
             
             <!-- Enhanced tags with better styling -->
             {{ if .Params.tags }}
             <div class="flex flex-wrap gap-2">
               {{ range .Params.tags }}
-              <span class="bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-800 dark:to-blue-700 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-xs font-medium border border-blue-200 dark:border-blue-600 transition-all duration-300 hover:scale-105">
+              <span class="bg-gradient-to-r from-primary-lighter to-primary-light dark:from-primary-dark dark:to-primary text-gray-900 dark:text-white px-3 py-1 rounded-full text-xs font-medium border border-primary-light dark:border-primary transition-all duration-300 hover:scale-105">
                 {{ . }}
               </span>
               {{ end }}
@@ -56,7 +56,7 @@
             {{ end }}
             
             <!-- Read more indicator -->
-            <div class="mt-4 flex items-center text-blue-600 dark:text-blue-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div class="mt-4 flex items-center text-primary dark:text-primary-light text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span>Learn more</span>
               <i class="fas fa-chevron-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
             </div>
@@ -69,10 +69,10 @@
     <!-- Empty state if no pages -->
     {{ if not .Pages }}
     <div class="text-center py-12">
-      <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl p-8 max-w-md mx-auto">
-        <i class="fas fa-folder-open text-4xl text-gray-400 dark:text-gray-500 mb-4"></i>
-        <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-2">No items yet</h3>
-        <p class="text-gray-500 dark:text-gray-500 text-sm">Content will appear here once you add pages to this section.</p>
+      <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary rounded-xl p-8 max-w-md mx-auto">
+        <i class="fas fa-folder-open text-4xl text-gray-500 dark:text-gray-400 mb-4"></i>
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-text-secondary mb-2">No items yet</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">Content will appear here once you add pages to this section.</p>
       </div>
     </div>
     {{ end }}

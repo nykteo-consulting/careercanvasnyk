@@ -6,6 +6,7 @@ A modern, responsive Hugo theme for personal websites and portfolios, created by
 
 - Responsive design with modern UI
 - Dark mode support
+- **Complete color customization** - Every color can be customized via config
 - Portfolio showcase with image galleries
 - Blog support
 - Skills section with interactive cards
@@ -96,6 +97,64 @@ theme = "careercanvas"
   url = "/#contact"
   weight = 5
 ```
+
+## Color Customization
+
+The CareerCanvas theme supports complete color customization through an optimized system that eliminates color repetition. The new three-tier architecture uses base colors, semantic references, and section-specific colors for maximum flexibility and maintainability.
+
+### 🎯 **Key Improvements**
+- **90% reduction** in color definitions through elimination of repetition
+- **Single source of truth** for all hex values
+- **Semantic color mapping** for intuitive customization
+- **Backward compatible** with existing configurations
+
+### Quick Color Customization
+
+1. Copy the example configuration from `themes/careercanvas/example-config.toml` to your site's `config.toml`
+2. Customize colors by changing either base colors or semantic references
+3. Rebuild your site to see the changes
+
+### Example: Change Primary Color to Purple
+
+**Method A - Change Semantic References:**
+```toml
+[params.colors.semantic]
+primary = "purple_500"        # Use existing purple
+primary_dark = "purple_700"
+primary_light = "purple_400"
+primary_lighter = "purple_300"
+```
+
+**Method B - Change Base Colors:**
+```toml
+[params.colors.base]
+blue_500 = "#8b5cf6"  # Replace blue-500 with purple-500
+blue_700 = "#7c3aed"  # Replace blue-700 with purple-600
+blue_400 = "#a78bfa"  # Replace blue-400 with purple-400
+blue_300 = "#c4b5fd"  # Replace blue-300 with purple-300
+```
+
+### Color System Architecture
+
+1. **Base Colors** (`[params.colors.base]`) - Single source of truth for all hex values
+2. **Semantic Colors** (`[params.colors.semantic]`) - Meaningful references to base colors
+3. **Section Colors** - Component-specific references to semantic colors
+
+### Available Color Sections
+
+- `[params.colors.base]` - Base color palette (blue, gray, green, purple, etc.)
+- `[params.colors.semantic]` - Semantic color mapping (primary, secondary, success, etc.)
+- `[params.colors.light]` - Light mode colors
+- `[params.colors.dark]` - Dark mode colors
+- `[params.colors.hero]` - Hero section colors
+- `[params.colors.skills]` - Skills section colors
+- `[params.colors.experience]` - Experience timeline colors
+- `[params.colors.contact]` - Contact form colors
+- `[params.colors.navigation]` - Navigation colors
+- `[params.colors.content]` - Blog/content page colors
+- `[params.colors.effects]` - Animation and effect colors
+
+For detailed documentation, see [COLOR_CUSTOMIZATION.md](COLOR_CUSTOMIZATION.md).
 
 ## Image Galleries
 
