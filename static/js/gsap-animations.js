@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
         initScrollEffects();
         initMouseTracking();
         
+        // Initialize universal animations
+        initUniversalAnimations();
+        
         // Initialize background animations for Hero section using reusable functions
         if (typeof AnimationUtils !== 'undefined') {
           AnimationUtils.initSectionBackgroundAnimations('.hero-section', {
@@ -88,6 +91,10 @@ function loadScrollTrigger() {
                 initMorphingShapes();
                 initScrollEffects();
                 initMouseTracking();
+                
+                // Initialize universal animations
+                initUniversalAnimations();
+                
                 // Initialize about animations with delay
                 setTimeout(() => {
                     initAboutAnimations();
@@ -107,6 +114,10 @@ function loadScrollTrigger() {
             initMorphingShapes();
             initScrollEffects();
             initMouseTracking();
+            
+            // Initialize universal animations
+            initUniversalAnimations();
+            
             // Initialize about animations with delay
             setTimeout(() => {
                 initAboutAnimations();
@@ -923,47 +934,7 @@ function initEnhancedHoverEffects() {
     const heroSection = document.querySelector('.hero-section');
     if (!heroSection) return;
 
-    // Enhanced button hover effects
-    const buttons = heroSection.querySelectorAll('.hero-button');
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', () => {
-            gsap.to(button, {
-                scale: 1.1,
-                duration: 0.15,
-                ease: "power2.out"
-            });
-        });
-
-        button.addEventListener('mouseleave', () => {
-            gsap.to(button, {
-                scale: 1,
-                duration: 0.15,
-                ease: "power2.out"
-            });
-        });
-    });
-
-    // Enhanced social icons hover effects
-    const socialIcons = heroSection.querySelectorAll('.space-x-6 a');
-    socialIcons.forEach(icon => {
-        icon.addEventListener('mouseenter', () => {
-            gsap.to(icon, {
-                scale: 1.4,
-                duration: 0,
-                ease: "none"
-            });
-        });
-
-        icon.addEventListener('mouseleave', () => {
-            gsap.to(icon, {
-                scale: 1,
-                duration: 0,
-                ease: "none"
-            });
-        });
-    });
-
-    // Enhanced profile image hover effect
+    // Enhanced profile image hover effect (specific to hero section)
     const profileImage = heroSection.querySelector('.lg\\:w-1\\/2 .relative');
     if (profileImage) {
         profileImage.addEventListener('mouseenter', () => {
@@ -984,6 +955,105 @@ function initEnhancedHoverEffects() {
             });
         });
     }
+}
+
+// Universal animation system for all data-animation attributes
+function initUniversalAnimations() {
+    // Handle all social animations across the entire site
+    const socialContainers = document.querySelectorAll('[data-animation="social"]');
+    
+    socialContainers.forEach(container => {
+        const socialIcons = container.querySelectorAll('a');
+        
+        socialIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', () => {
+                gsap.to(icon, {
+                    scale: 1.4,
+                    duration: 0.15,
+                    ease: "power2.out"
+                });
+            });
+
+            icon.addEventListener('mouseleave', () => {
+                gsap.to(icon, {
+                    scale: 1,
+                    duration: 0.15,
+                    ease: "power2.out"
+                });
+            });
+        });
+    });
+    
+    // Handle all button animations across the entire site
+    const buttonContainers = document.querySelectorAll('[data-animation="buttons"]');
+    
+    buttonContainers.forEach(container => {
+        const buttons = container.querySelectorAll('a, button');
+        
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                gsap.to(button, {
+                    scale: 1.1,
+                    duration: 0.15,
+                    ease: "power2.out"
+                });
+            });
+
+            button.addEventListener('mouseleave', () => {
+                gsap.to(button, {
+                    scale: 1,
+                    duration: 0.15,
+                    ease: "power2.out"
+                });
+            });
+        });
+    });
+    
+    // Handle all card animations across the entire site
+    const cardContainers = document.querySelectorAll('[data-animation="card"]');
+    
+    cardContainers.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+                scale: 1.05,
+                y: -5,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                scale: 1,
+                y: 0,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+    });
+    
+    // Handle all image animations across the entire site
+    const imageContainers = document.querySelectorAll('[data-animation="image"]');
+    
+    imageContainers.forEach(image => {
+        image.addEventListener('mouseenter', () => {
+            gsap.to(image, {
+                scale: 1.05,
+                rotationY: 5,
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+
+        image.addEventListener('mouseleave', () => {
+            gsap.to(image, {
+                scale: 1,
+                rotationY: 0,
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+    });
 }
 
 // Enhanced typing effect with GSAP

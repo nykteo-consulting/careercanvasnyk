@@ -31,7 +31,7 @@
           {{ end }}
         {{ end }}
         <!-- Social Media Icons -->
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-4" data-animation="social">
           {{ if .Site.Params.linkedin_url }}
           <a href="{{ .Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary hover:text-primary dark:hover:text-primary-light">
             <i class="fab fa-linkedin-in text-xl"></i>
@@ -45,15 +45,15 @@
         </div>
         <!-- Dark Mode Toggle -->
         <button id="darkModeToggle" class="text-text-primary dark:text-text-primary hover:text-primary dark:hover:text-primary-light focus:outline-none">
-          <i class="fas fa-moon dark:hidden"></i>
-          <i class="fas fa-sun hidden dark:block"></i>
+          <i class="fas fa-toggle-on dark:hidden"></i>
+          <i class="fas fa-toggle-off hidden dark:block"></i>
         </button>
       </div>
       <div class="md:hidden flex items-center space-x-4">
         <!-- Dark Mode Toggle Mobile -->
         <button id="darkModeToggleMobile" class="text-text-primary dark:text-text-primary hover:text-primary dark:hover:text-primary-light focus:outline-none">
-          <i class="fas fa-moon dark:hidden"></i>
-          <i class="fas fa-sun hidden dark:block"></i>
+          <i class="fas fa-toggle-on dark:hidden"></i>
+          <i class="fas fa-toggle-off hidden dark:block"></i>
         </button>
         <button id="menu-btn" class="text-text-primary dark:text-text-primary hover:text-primary dark:hover:text-primary-light">
           <i class="fas fa-bars text-2xl"></i>
@@ -84,7 +84,7 @@
         {{ end }}
       {{ end }}
       <!-- Mobile Social Media Icons -->
-      <div class="flex items-center space-x-6 px-3 py-3 border-t border-border-primary dark:border-border-primary mt-2">
+      <div class="flex items-center space-x-6 px-3 py-3 border-t border-border-primary dark:border-border-primary mt-2" data-animation="social">
         <a href="{{ .Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary hover:text-primary dark:hover:text-primary-light">
           <i class="fab fa-linkedin-in text-2xl"></i>
         </a>

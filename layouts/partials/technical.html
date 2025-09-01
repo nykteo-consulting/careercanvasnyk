@@ -19,14 +19,18 @@
             </div>
             
             <!-- Skills flex layout with icons and text below -->
-            <div class="flex flex-wrap gap-4 justify-center">
+            <div class="flex flex-wrap gap-6 justify-center">
               {{ range $group.skills }}
               <div class="flex flex-col items-center text-center transition-all duration-300 hover:scale-110">
-                {{ if .devicon_class }}
-                  <!-- Use explicit devicon_class if provided -->
-                  <i class="{{ .devicon_class }} text-5xl mb-2" aria-hidden="true"></i>
+                {{ if .devicon_name }}
+                  <!-- Use explicit devicon_name if provided -->
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{{ .devicon_name }}/{{ .devicon_name }}-original.svg" 
+                       alt="{{ .name }}" 
+                       width="56" 
+                       height="56" 
+                       class="mb-2" />
                 {{ else if or (eq .icon "python") (eq .icon "js") (eq .icon "typescript") (eq .icon "html5") (eq .icon "css3-alt") (eq .icon "database") (eq .icon "bolt") (eq .icon "atom") (eq .icon "forward") (eq .icon "cube") (eq .icon "chart-line") (eq .icon "window-maximize") (eq .icon "window-restore") (eq .icon "square-root-alt") (eq .icon "table-cells") (eq .icon "chart-bar") (eq .icon "network-wired") (eq .icon "layer-group") (eq .icon "microchip") (eq .icon "eye") (eq .icon "code-branch") (eq .icon "github") (eq .icon "gitlab") (eq .icon "code") (eq .icon "linux") (eq .icon "docker") (eq .icon "laptop-code") (eq .icon "elephant") (eq .icon "leaf") (eq .icon "fire") (eq .icon "cloud") (eq .icon "calculator") }}
-                  <!-- Auto-generate devicon class for known technologies -->
+                  <!-- Auto-generate devicon name for known technologies -->
                   {{ $devicon_name := .icon }}
                   {{ if eq .icon "js" }}{{ $devicon_name = "javascript" }}{{ end }}
                   {{ if eq .icon "css3-alt" }}{{ $devicon_name = "css3" }}{{ end }}
@@ -43,17 +47,23 @@
                   {{ if eq .icon "chart-bar" }}{{ $devicon_name = "matplotlib" }}{{ end }}
                   {{ if eq .icon "network-wired" }}{{ $devicon_name = "pytorch" }}{{ end }}
                   {{ if eq .icon "layer-group" }}{{ $devicon_name = "tensorflow" }}{{ end }}
-                  {{ if eq .icon "microchip" }}{{ $devicon_name = "scikit-learn" }}{{ end }}
+                  {{ if eq .icon "microchip" }}{{ $devicon_name = "scikitlearn" }}{{ end }}
                   {{ if eq .icon "eye" }}{{ $devicon_name = "opencv" }}{{ end }}
                   {{ if eq .icon "code-branch" }}{{ $devicon_name = "git" }}{{ end }}
                   {{ if eq .icon "laptop-code" }}{{ $devicon_name = "jupyter" }}{{ end }}
                   {{ if eq .icon "elephant" }}{{ $devicon_name = "postgresql" }}{{ end }}
                   {{ if eq .icon "leaf" }}{{ $devicon_name = "mongodb" }}{{ end }}
                   {{ if eq .icon "cloud" }}{{ $devicon_name = "googlecloud" }}{{ end }}
-                  <i class="devicon-{{ $devicon_name }}-plain colored text-5xl mb-2" aria-hidden="true"></i>
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{{ $devicon_name }}/{{ $devicon_name }}-original.svg" 
+                       alt="{{ .name }}" 
+                       width="56" 
+                       height="56" 
+                       class="mb-2" />
                 {{ else }}
-                  <!-- Fallback to FontAwesome -->
-                  <i class="fas fa-{{ .icon }} text-5xl mb-2 text-gray-600 dark:text-gray-400" aria-hidden="true"></i>
+                  <!-- Fallback to FontAwesome with random colors -->
+                  {{ $colors := slice "text-blue-500" "text-green-500" "text-purple-500" "text-red-500" "text-yellow-500" "text-indigo-500" "text-pink-500" "text-teal-500" "text-orange-500" "text-cyan-500" }}
+                  {{ $randomColor := index $colors (mod (add (mul (len $colors) 7) (len .name)) (len $colors)) }}
+                  <i class="fas fa-{{ .icon }} text-5xl mb-2 {{ $randomColor }}" aria-hidden="true"></i>
                 {{ end }}
                 <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ .name }}</span>
               </div>

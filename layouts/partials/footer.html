@@ -11,7 +11,7 @@
         <a href="mailto:{{ .Site.Params.email }}" class="text-gray-700 dark:text-text-muted hover:text-primary dark:hover:text-white mt-1 inline-block">
           <i class="fas fa-envelope mr-2"></i>{{ .Site.Params.email }}
         </a>
-        <div class="flex space-x-8 mt-6">
+        <div class="flex space-x-8 mt-6" data-animation="social">
           {{ range .Site.Params.social }}
           <a href="{{ .url }}" target="_blank" class="text-gray-700 dark:text-text-muted hover:text-third dark:hover:text-third-light transition-colors duration-200">
             <i class="fab fa-{{ .icon }} text-3xl text-gray-800 dark:text-white"></i>
