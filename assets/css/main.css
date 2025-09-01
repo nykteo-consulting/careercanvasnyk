@@ -188,23 +188,9 @@
     ) !important;
   }
 
-  .dark .gradient-bg {
-    background: color-mix(in srgb, var(--color-primary) 25%, #2a2a2a) !important;
-  }
 
-  .dark .gradient-bg::before {
-    display: none !important;
-  }
 
-  /* Exception for hero section - keep original gradient */
-  .dark .hero-section.gradient-bg {
-    background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 40%, black) 0%, color-mix(in srgb, var(--color-primary) 30%, black) 100%) !important;
-  }
 
-  .dark .hero-section.gradient-bg::before {
-    display: block !important;
-    background: radial-gradient(circle at 40% 40%, var(--color-primary) 0%, transparent 50%) !important;
-  }
 
   /* Project Cards */
   .project-card {
@@ -528,6 +514,10 @@
 
 .bg-third-lighter {
   background-color: color-mix(in srgb, var(--color-third) 20%, white) !important;
+}
+
+.bg-third-darker {
+  background-color: color-mix(in srgb, var(--color-third) 40%, black 60%) !important;
 }
 
 /* Background classes */
