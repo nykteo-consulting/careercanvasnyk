@@ -1,41 +1,58 @@
-<section id="about" class="py-16 bg-bg dark:bg-bg relative about-section">
+<section id="about" class="py-12 bg-bg dark:bg-bg relative about-section">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <h2 class="text-3xl font-bold text-center mb-12 font-heading text-text-primary dark:text-text-primary about-text-element" data-animation="title">About Me</h2>
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-      <p class="text-lg text-text-secondary dark:text-text-secondary leading-relaxed md:mb-0 mb-4 flex-1 about-text-element" data-animation="intro">
-        {{ with .Site.GetPage "about" }}{{ .Params.intro | markdownify }}{{ end }}
-      </p>
-      <button id="aboutModalBtn" class="ml-0 md:ml-8 bg-gradient-primary text-white px-8 py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold flex items-center about-button">
-        <i class="fas fa-book-open mr-2"></i>
-        More about me
-      </button>
-    </div>
-    <div class="w-full">
-      <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary max-w-2xl mx-auto p-6 rounded-xl shadow-lg border border-border-primary dark:border-border-primary about-card">
-        <h3 class="text-xl font-semibold mb-6 border-b border-border-primary dark:border-border-primary pb-3 font-heading text-text-primary dark:text-text-primary flex items-center about-text-element" data-animation="facts-title">
-          <i class="fas fa-info-circle mr-3 text-primary dark:text-white"></i>
-          Quick Facts
-        </h3>
-        <div class="space-y-0">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <div class="flex-1 about-text-element" data-animation="intro">
+        <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 rounded-xl shadow-lg border border-border-primary dark:border-border-primary">
+          <p class="text-lg text-text-secondary dark:text-text-secondary leading-relaxed">
+            {{ with .Site.GetPage "about" }}{{ .Params.intro | markdownify }}{{ end }}
+          </p>
+          <div class="mt-6">
+            <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg about-button">
+              <i class="fab fa-linkedin-in mr-3 text-lg"></i> 
+              Connect on LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 rounded-xl shadow-lg border border-border-primary dark:border-border-primary about-card">
+        <div class="flex items-center justify-between mb-6 border-b border-border-primary dark:border-border-primary pb-3">
+          <h3 class="text-xl font-semibold font-heading text-text-primary dark:text-text-primary flex items-center about-text-element" data-animation="facts-title">
+            <i class="fas fa-info-circle mr-3 text-primary dark:text-white"></i>
+            Quick Facts
+          </h3>
+          <button id="aboutModalBtn" class="bg-gradient-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold flex items-center about-button text-sm">
+            <i class="fas fa-book-open mr-2"></i>
+            More about me
+          </button>
+        </div>
+        <div class="space-y-2">
           {{ with .Site.GetPage "about" }}
             {{ range $index, $fact := .Params.quickfacts }}
-              <div class="flex items-start quick-fact-card opacity-0 about-text-element" data-animation="fact-{{ $index }}" data-animate data-animate-delay="{{ mul $index 150 }}">
-                              <div class="icon-bg-primary p-3 rounded-xl mr-4 shadow-md flex-shrink-0">
-                <i class="fas fa-{{ $fact.icon }} text-primary dark:text-white text-lg"></i>
-              </div>
+              <div class="flex items-start quick-fact-card opacity-0 about-text-element py-2" data-animation="fact-{{ $index }}" data-animate data-animate-delay="{{ mul $index 150 }}">
+                <i class="fas fa-{{ $fact.icon }} text-primary dark:text-white text-lg mr-3"></i>
                 <div class="flex-1">
-                  <h4 class="font-bold text-gray-900 dark:text-text-primary mb-1 text-xl">{{ $fact.title }}</h4>
-                  <p class="text-gray-700 dark:text-text-tertiary text-lg leading-relaxed">{{ $fact.value | markdownify }}</p>
+                  <h4 class="font-bold text-gray-900 dark:text-text-primary mb-1 text-lg">{{ $fact.title }}</h4>
+                  {{ if or (eq $fact.title "Interests") (eq $fact.title "Languages") }}
+                    <div class="flex flex-wrap gap-2">
+                      {{ $items := split $fact.value "\n" }}
+                      {{ range $items }}
+                        {{ $item := trim . "- " }}
+                        {{ if $item }}
+                          <span class="inline-flex items-center px-3 py-1.5 text-gray-700 dark:text-text-tertiary text-base font-medium border border-border-primary dark:border-border-primary rounded-xl">
+                            {{ $item | markdownify | safeHTML }}
+                          </span>
+                        {{ end }}
+                      {{ end }}
+                    </div>
+                  {{ else }}
+                    <p class="text-gray-700 dark:text-text-tertiary text-base leading-relaxed">{{ $fact.value | markdownify }}</p>
+                  {{ end }}
                 </div>
               </div>
             {{ end }}
           {{ end }}
-        </div>
-        <div class="flex justify-center mt-8 pt-6 border-t border-border-primary dark:border-border-primary">
-          <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-105 shadow-lg about-button">
-            <i class="fab fa-linkedin-in mr-3 text-lg"></i> 
-            Connect on LinkedIn
-          </a>
         </div>
       </div>
     </div>
@@ -43,7 +60,7 @@
   <!-- About Modal -->
   {{ with .Site.GetPage "about" }}
   <div id="aboutModal" class="fixed inset-0 bg-bg bg-opacity-50 z-50 hidden items-center justify-center px-4 py-16">
-    <div class="bg-bg dark:bg-bg rounded-xl shadow-2xl w-full max-w-2xl max-h-[70vh] overflow-y-auto">
+    <div class="bg-bg dark:bg-bg rounded-xl shadow-2xl w-full max-w-4xl max-h-[70vh] overflow-y-auto">
       <div class="p-8">
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-2xl font-bold text-text-primary dark:text-text-primary">About {{ .Site.Params.name }}</h3>
@@ -110,4 +127,5 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
   

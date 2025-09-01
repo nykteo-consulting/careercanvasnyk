@@ -436,6 +436,8 @@ function playAboutAnimation() {
         stagger: 0.15,
         ease: "power2.out"
     }, "-=0.6");
+
+
 }
 
 function initParticleSystem() {
@@ -926,9 +928,8 @@ function initEnhancedHoverEffects() {
     buttons.forEach(button => {
         button.addEventListener('mouseenter', () => {
             gsap.to(button, {
-                scale: 1.05,
-                y: -5,
-                duration: 0.3,
+                scale: 1.1,
+                duration: 0.15,
                 ease: "power2.out"
             });
         });
@@ -936,8 +937,7 @@ function initEnhancedHoverEffects() {
         button.addEventListener('mouseleave', () => {
             gsap.to(button, {
                 scale: 1,
-                y: 0,
-                duration: 0.3,
+                duration: 0.15,
                 ease: "power2.out"
             });
         });
@@ -948,19 +948,17 @@ function initEnhancedHoverEffects() {
     socialIcons.forEach(icon => {
         icon.addEventListener('mouseenter', () => {
             gsap.to(icon, {
-                scale: 1.2,
-                rotation: 360,
-                duration: 0.4,
-                ease: "back.out(1.7)"
+                scale: 1.4,
+                duration: 0,
+                ease: "none"
             });
         });
 
         icon.addEventListener('mouseleave', () => {
             gsap.to(icon, {
                 scale: 1,
-                rotation: 0,
-                duration: 0.4,
-                ease: "power2.out"
+                duration: 0,
+                ease: "none"
             });
         });
     });
