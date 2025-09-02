@@ -206,7 +206,7 @@
 /* Button Variants */
 .btn-primary {
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-white);
   border-color: var(--color-primary);
 }
 
@@ -217,25 +217,25 @@
 
 .btn-secondary {
   background-color: var(--color-secondary);
-  color: white;
+  color: var(--color-white);
   border-color: var(--color-secondary);
 }
 
 .btn-success {
   background-color: var(--color-success);
-  color: white;
+  color: var(--color-white);
   border-color: var(--color-success);
 }
 
 .btn-warning {
   background-color: var(--color-warning);
-  color: white;
+  color: var(--color-white);
   border-color: var(--color-warning);
 }
 
 .btn-error {
   background-color: var(--color-error);
-  color: white;
+  color: var(--color-white);
   border-color: var(--color-error);
 }
 
@@ -280,22 +280,22 @@
 /* Status Indicators */
 .status-success {
   background-color: var(--color-success);
-  color: white;
+  color: var(--color-white);
 }
 
 .status-warning {
   background-color: var(--color-warning);
-  color: white;
+  color: var(--color-white);
 }
 
 .status-error {
   background-color: var(--color-error);
-  color: white;
+  color: var(--color-white);
 }
 
 .status-info {
   background-color: var(--color-info);
-  color: white;
+  color: var(--color-white);
 }
 
 /* Utility Classes */

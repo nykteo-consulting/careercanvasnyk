@@ -30,7 +30,7 @@
         <div class="space-y-2">
           {{ with .Site.GetPage "about" }}
             {{ range $index, $fact := .Params.quickfacts }}
-              <div class="flex items-start quick-fact-card opacity-0 about-text-element py-2" data-animation="fact-{{ $index }}" data-animate data-animate-delay="{{ mul $index 150 }}">
+              <div class="flex items-start quick-fact-card about-text-element py-2" data-animation="fact-{{ $index }}" data-animate>
                 <i class="fas fa-{{ $fact.icon }} text-primary dark:text-white text-lg mr-3"></i>
                 <div class="flex-1">
                   <h4 class="font-bold text-gray-900 dark:text-text-primary mb-1 text-lg">{{ $fact.title }}</h4>

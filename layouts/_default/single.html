@@ -6,7 +6,7 @@
       <div class="{{ if and .Params.tags (or (eq .Type "engineering") (eq .Type "contributions") (eq .Type "blog")) }}lg:w-3/4{{ else }}w-full{{ end }}">
         <h1 class="text-4xl font-bold mb-2 font-heading text-center text-text-primary dark:text-text-primary">{{ .Title }}</h1>
         {{ if eq .Type "blog" }}
-        <div class="text-center text-gray-700 dark:text-text-secondary mb-8">
+        <div class="text-center text-text-secondary dark:text-text-secondary mb-8">
           <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
         </div>
         {{ else }}
@@ -25,19 +25,19 @@
           <div class="space-y-4">
             {{ $related := .Site.RegularPages.Related . | first 10 }}
             {{ range $related }}
-            <article class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+            <article class="bg-bg dark:bg-bg-secondary rounded-lg p-4 shadow-sm border border-border-primary dark:border-border-primary">
               <h3 class="text-lg font-semibold mb-2">
-                <a href="{{ .RelPermalink }}" class="text-gray-900 dark:text-white hover:text-primary dark:hover:text-primary-light transition-colors duration-200">
+                <a href="{{ .RelPermalink }}" class="text-text-primary dark:text-text-primary hover:text-primary dark:hover:text-primary-light transition-colors duration-200">
                   {{ .Title }}
                 </a>
               </h3>
               {{ if .Description }}
-              <p class="text-sm text-gray-700 dark:text-text-secondary">{{ .Description }}</p>
+              <p class="text-sm text-text-secondary dark:text-text-secondary">{{ .Description }}</p>
               {{ end }}
               {{ if .Params.tags }}
               <div class="flex flex-wrap gap-1 mt-2">
                 {{ range .Params.tags }}
-                <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-0.5 rounded-full text-xs border border-gray-200 dark:border-gray-600">
+                <span class="bg-bg-secondary dark:bg-bg-tertiary text-text-primary dark:text-text-primary px-2 py-0.5 rounded-full text-xs border border-border-primary dark:border-border-primary">
                   {{ . }}
                 </span>
                 {{ end }}

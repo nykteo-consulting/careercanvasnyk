@@ -154,7 +154,7 @@
     function showToast(message) {
       const toast = document.createElement('div');
       toast.textContent = message;
-      toast.className = 'fixed bottom-6 right-6 bg-second dark:bg-second-light text-white px-4 py-2 rounded shadow-lg animate-toast';
+              toast.className = 'fixed bottom-6 right-6 bg-second dark:bg-second-light text-white px-4 py-2 rounded shadow-lg';
       document.body.appendChild(toast);
   
       setTimeout(() => {
@@ -164,15 +164,5 @@
   });
 </script>
 
-<style>
-@keyframes toastFade {
-  0%   { opacity: 0; transform: translateY(20px); }
-  10%  { opacity: 1; transform: translateY(0); }
-  90%  { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(20px); }
-}
-.animate-toast {
-  animation: toastFade 4s ease;
-}
-</style>
+
   

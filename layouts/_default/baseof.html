@@ -39,10 +39,15 @@
 
     {{ partial "footer.html" . }}
 
-    <script src="/js/scripts.js"></script>
-    <script src="/js/gsap-animations.js"></script>
+    {{ $scripts := resources.Get "js/scripts.js" }}
+    {{ $gsap := resources.Get "js/gsap-animations.js" }}
+    {{ if hugo.IsProduction }}
+      {{ $scripts = $scripts | minify | fingerprint }}
+      {{ $gsap = $gsap | minify | fingerprint }}
+    {{ end }}
+    <script src="{{ $scripts.RelPermalink }}"></script>
+    <script src="{{ $gsap.RelPermalink }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/fslightbox/index.js"></script>
-    {{ partial "scroll-animation.html" . }}
 
     <!-- Dark mode toggle script -->
     <script>

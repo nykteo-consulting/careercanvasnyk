@@ -13,7 +13,7 @@
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {{ range .Pages.ByWeight }}
       <a href="{{ .RelPermalink }}" class="block group">
-        <article class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 h-full border border-border-primary dark:border-border-primary overflow-hidden project-card opacity-0" data-animate>
+        <article class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary rounded-xl shadow-md hover:shadow-xl h-full border border-border-primary dark:border-border-primary overflow-hidden project-card" data-animate>
           {{ if .Params.featured_image }}
           <div class="relative overflow-hidden">
             <img 
@@ -23,7 +23,7 @@
               loading="lazy"
             >
             <!-- Overlay effect on hover -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-text-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
           {{ else }}
           <!-- Default placeholder with icon -->
@@ -41,14 +41,14 @@
             
             <!-- Enhanced description -->
             {{ if .Description }}
-            <p class="text-gray-700 dark:text-text-secondary mb-4 leading-relaxed text-sm">{{ .Description }}</p>
+            <p class="text-text-secondary dark:text-text-secondary mb-4 leading-relaxed text-sm">{{ .Description }}</p>
             {{ end }}
             
             <!-- Enhanced tags with better styling -->
             {{ if .Params.tags }}
             <div class="flex flex-wrap gap-2">
               {{ range .Params.tags }}
-              <span class="bg-gradient-to-r from-primary-lighter to-primary-light dark:from-primary-dark dark:to-primary text-gray-900 dark:text-white px-3 py-1 rounded-full text-xs font-medium border border-primary-light dark:border-primary transition-all duration-300 hover:scale-105">
+              <span class="bg-gradient-to-r from-primary-lighter to-primary-light dark:from-primary-dark dark:to-primary text-text-primary dark:text-text-primary px-3 py-1 rounded-full text-xs font-medium border border-primary-light dark:border-primary transition-all duration-300 hover:scale-105">
                 {{ . }}
               </span>
               {{ end }}
@@ -58,7 +58,7 @@
             <!-- Read more indicator -->
             <div class="mt-4 flex items-center text-primary dark:text-primary-light text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <span>Learn more</span>
-              <i class="fas fa-chevron-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+              <i class="fas fa-chevron-right ml-2"></i>
             </div>
           </div>
         </article>
@@ -70,111 +70,14 @@
     {{ if not .Pages }}
     <div class="text-center py-12">
       <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary rounded-xl p-8 max-w-md mx-auto">
-        <i class="fas fa-folder-open text-4xl text-gray-500 dark:text-gray-400 mb-4"></i>
-        <h3 class="text-lg font-semibold text-gray-700 dark:text-text-secondary mb-2">No items yet</h3>
-        <p class="text-gray-600 dark:text-gray-400 text-sm">Content will appear here once you add pages to this section.</p>
+        <i class="fas fa-folder-open text-4xl text-text-tertiary dark:text-text-tertiary mb-4"></i>
+        <h3 class="text-lg font-semibold text-text-secondary dark:text-text-secondary mb-2">No items yet</h3>
+        <p class="text-text-tertiary dark:text-text-tertiary text-sm">Content will appear here once you add pages to this section.</p>
       </div>
     </div>
     {{ end }}
   </div>
 </section>
 
-<script>
-// Initialize animations when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize card animations
-  initCardAnimations();
-});
 
-function initCardAnimations() {
-  const cards = document.querySelectorAll('[data-animate]');
-  
-  // Set initial state
-  gsap.set(cards, {
-    opacity: 0,
-    y: 30,
-    scale: 0.95
-  });
-  
-  // Create scroll trigger for cards
-  ScrollTrigger.batch(cards, {
-    start: "top 85%",
-    end: "bottom 15%",
-    onEnter: (elements) => {
-      gsap.to(elements, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "back.out(1.7)"
-      });
-    },
-    onLeave: (elements) => {
-      gsap.to(elements, {
-        opacity: 0,
-        y: -30,
-        scale: 0.95,
-        duration: 0.3
-      });
-    },
-    onEnterBack: (elements) => {
-      gsap.to(elements, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "back.out(1.7)"
-      });
-    },
-    onLeaveBack: (elements) => {
-      gsap.to(elements, {
-        opacity: 0,
-        y: 30,
-        scale: 0.95,
-        duration: 0.3
-      });
-    }
-  });
-}
-
-// Initialize hover animations for project cards
-function initHoverAnimations() {
-  const cards = document.querySelectorAll('.project-card');
-  
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', function() {
-      gsap.to(this, {
-        scale: 1.02,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    });
-    
-    card.addEventListener('mouseleave', function() {
-      gsap.to(this, {
-        scale: 1,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    });
-  });
-}
-
-// Initialize animations when GSAP is available
-if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-  initCardAnimations();
-  initHoverAnimations();
-} else {
-  // Wait for GSAP to load
-  const checkGSAP = setInterval(() => {
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      clearInterval(checkGSAP);
-      initCardAnimations();
-      initHoverAnimations();
-    }
-  }, 100);
-}
-</script>
 {{ end }} 

@@ -10,25 +10,26 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {{ range $i, $group := .Params.technical_groups }}
         {{ $isAdvanced := or (in $group.title "Advanced") (in $group.title "Expert") (in $group.title "Specialized") }}
-        <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 project-card opacity-0 border border-gray-200 dark:border-gray-600"
-             data-animate data-animate-delay="{{ mul $i 100 }}">
+        <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 rounded-lg shadow-lg border border-border-primary dark:border-border-primary tech-skill-card"
+             data-animate>
           <div class="project-inner">
             <!-- Card header with title only -->
             <div class="mb-4 text-center">
-              <h3 class="text-xl font-heading font-semibold text-gray-900 dark:text-text-primary">{{ $group.title }}</h3>
+              <h3 class="text-xl font-heading font-semibold text-text-primary dark:text-text-primary">{{ $group.title }}</h3>
             </div>
             
             <!-- Skills flex layout with icons and text below -->
             <div class="flex flex-wrap gap-6 justify-center">
               {{ range $group.skills }}
-              <div class="flex flex-col items-center text-center transition-all duration-300 hover:scale-110">
+              <div class="flex flex-col items-center text-center">
                 {{ if .devicon_name }}
                   <!-- Use explicit devicon_name if provided -->
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{{ .devicon_name }}/{{ .devicon_name }}-original.svg" 
                        alt="{{ .name }}" 
                        width="56" 
                        height="56" 
-                       class="mb-2" />
+                       class="mb-2"
+                       data-animation="skill-icon" />
                 {{ else if or (eq .icon "python") (eq .icon "js") (eq .icon "typescript") (eq .icon "html5") (eq .icon "css3-alt") (eq .icon "database") (eq .icon "bolt") (eq .icon "atom") (eq .icon "forward") (eq .icon "cube") (eq .icon "chart-line") (eq .icon "window-maximize") (eq .icon "window-restore") (eq .icon "square-root-alt") (eq .icon "table-cells") (eq .icon "chart-bar") (eq .icon "network-wired") (eq .icon "layer-group") (eq .icon "microchip") (eq .icon "eye") (eq .icon "code-branch") (eq .icon "github") (eq .icon "gitlab") (eq .icon "code") (eq .icon "linux") (eq .icon "docker") (eq .icon "laptop-code") (eq .icon "elephant") (eq .icon "leaf") (eq .icon "fire") (eq .icon "cloud") (eq .icon "calculator") }}
                   <!-- Auto-generate devicon name for known technologies -->
                   {{ $devicon_name := .icon }}
@@ -63,9 +64,9 @@
                   <!-- Fallback to FontAwesome with random colors -->
                   {{ $colors := slice "text-blue-500" "text-green-500" "text-purple-500" "text-red-500" "text-yellow-500" "text-indigo-500" "text-pink-500" "text-teal-500" "text-orange-500" "text-cyan-500" }}
                   {{ $randomColor := index $colors (mod (add (mul (len $colors) 7) (len .name)) (len $colors)) }}
-                  <i class="fas fa-{{ .icon }} text-5xl mb-2 {{ $randomColor }}" aria-hidden="true"></i>
+                  <i class="fas fa-{{ .icon }} text-5xl mb-2 {{ $randomColor }}" data-animation="skill-icon" aria-hidden="true"></i>
                 {{ end }}
-                <span class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ .name }}</span>
+                <span class="text-sm font-semibold text-text-secondary dark:text-text-secondary">{{ .name }}</span>
               </div>
               {{ end }}
             </div>

@@ -4,18 +4,18 @@
     {{ with .Site.GetPage "skills" }}
       <!-- Section heading -->
       <h2 class="text-3xl font-bold text-center mb-4 font-heading text-text-primary dark:text-text-primary">{{ .Title }}</h2>
-      <p class="text-lg text-center mb-12 text-gray-700 dark:text-text-tertiary italic">{{ .Params.intro }}</p>
+      <p class="text-lg text-center mb-12 text-text-secondary dark:text-text-tertiary italic">{{ .Params.intro }}</p>
 
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {{ range $i, $domain := .Params.domains }}
-        <div class="bg-bg dark:bg-bg p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 project-card border border-border-primary dark:border-border-primary">
+        <div class="bg-bg dark:bg-bg p-6 rounded-xl shadow-md skill-card border border-border-primary dark:border-border-primary" data-animate>
           <div class="flex items-center mb-4">
-            {{ $colors := slice "text-blue-500" "text-green-500" "text-purple-500" "text-red-500" "text-yellow-500" "text-indigo-500" "text-pink-500" "text-teal-500" "text-orange-500" "text-cyan-500" }}
+            {{ $colors := slice "text-primary" "text-second" "text-third" "text-success" "text-warning" "text-error" "text-primary-light" "text-second-light" "text-third-light" "text-primary-dark" }}
             {{ $randomColor := index $colors (mod (add (mul (len $colors) 7) (len $domain.title)) (len $colors)) }}
             <i class="fas fa-{{ $domain.icon }} text-3xl mr-4 {{ $randomColor }}" aria-hidden="true"></i>
-            <h3 class="text-lg font-heading font-bold text-gray-900 dark:text-text-primary">{{ $domain.title }}</h3>
+            <h3 class="text-lg font-heading font-bold text-text-primary dark:text-text-primary">{{ $domain.title }}</h3>
           </div>
-          <p class="text-gray-700 dark:text-text-tertiary text-base leading-relaxed">{{ $domain.description }}</p>
+          <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">{{ $domain.description }}</p>
         </div>
         {{ end }}
       </div>
@@ -23,7 +23,7 @@
       <div class="text-center">
         <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
           {{ range .Params.technical }}
-          <span class="bg-gradient-primary-lighter text-gray-900 dark:text-primary-dark px-4 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg border border-primary-light flex items-center gap-2">
+          <span class="bg-gradient-primary-lighter text-text-primary dark:text-primary-dark px-4 py-2 rounded-full font-medium border border-primary-light flex items-center gap-2" data-animation="skill-tag">
             <i class="fas fa-check-circle text-primary dark:text-primary-light text-sm"></i>
             {{ . }}
           </span>
@@ -35,25 +35,5 @@
   </div>
 </section>
 
-<script>
-// Initialize skills animations immediately when possible
-if (typeof gsap !== 'undefined' && typeof AnimationUtils !== 'undefined') {
-  AnimationUtils.initSkillsHoverAnimations('#skills');
-} else {
-  // Quick check for dependencies
-  const checkDependencies = setInterval(() => {
-    if (typeof gsap !== 'undefined' && typeof AnimationUtils !== 'undefined') {
-      clearInterval(checkDependencies);
-      AnimationUtils.initSkillsHoverAnimations('#skills');
-    }
-  }, 50);
-  
-  // Shorter timeout for faster feedback
-  setTimeout(() => {
-    clearInterval(checkDependencies);
-  }, 2000);
-}
 
-
-</script>
   
