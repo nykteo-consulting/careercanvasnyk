@@ -363,13 +363,9 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    padding-bottom: 0.1em;
   }
 
-  @media (min-width: 1024px) {
-    .lg\:text-7xl {
-      line-height: 1.25 !important;
-    }
-  }
 
   .hero-tagline::after {
     content: '';
