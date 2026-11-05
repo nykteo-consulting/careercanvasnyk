@@ -15,7 +15,7 @@
 
         {{ with .Rotate "language" }}
           {{ range . }}
-            {{ $lang := $.Site.Language }}
+            {{ $lang := $.Site.Language.Label }}
             {{ with .Params.resume_url }}
               {{ $resumeMap = merge $resumeMap (dict $lang .) }}
             {{ end }}
