@@ -365,8 +365,10 @@
     background-clip: text;
   }
 
-  .hero-name::after {
-    line-height: 1.25rem;
+  @media (min-width: 1024px) {
+    .lg\:text-7xl {
+      line-height: 1.25;
+    }
   }
 
   .hero-tagline::after {
