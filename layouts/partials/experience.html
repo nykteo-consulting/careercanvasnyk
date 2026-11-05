@@ -12,10 +12,9 @@
       
         {{/* Build language → resume_url lookup map */}}
         {{ $resumeMap := dict }}
-
         {{ with .Rotate "language" }}
           {{ range . }}
-            {{ $lang := $.Site.Language.Label }}
+            {{ $lang := $.Site.Language.Lang }}
             {{ with .Params.resume_url }}
               {{ $resumeMap = merge $resumeMap (dict $lang .) }}
             {{ end }}
