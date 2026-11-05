@@ -146,6 +146,15 @@
     background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
   }
 
+
+  .skill-block {
+    margin-top: 1em;
+  }
+  .skill-block p::before {
+    content: "-";
+    position: absolute;
+    left: 1em;
+  }
   /* Skill Pills - All use main color variations */
   .skill-pill {
     background: var(--color-primary);
