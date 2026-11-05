@@ -16,12 +16,13 @@
             <h3 class="text-lg font-heading font-bold text-text-primary dark:text-text-primary">{{ $domain.title }}</h3>
           </div>
           <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">{{ $domain.description }}</p>
+          <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">{{ $domain.skills }}</p>
           <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">
-          {{ range $i, $skill := $domain.skills }}
-          <ul>
-              <li>- {{ $skill }}</li>
-          </ul>
-          {{ end }}
+            {{ range $j, $skill := $domain.skills }}
+              <ul>
+                  <li>- {{ $skill }}</li>
+              </ul>
+            {{ end }}
           </p>
         </div>
         {{ end }}
