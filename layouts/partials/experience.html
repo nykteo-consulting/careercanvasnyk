@@ -12,12 +12,16 @@
       
         {{/* Build language → resume_url lookup map */}}
         {{ $resumeMap := dict }}
-        {{ range .Site.Languages }}
-          {{ $lang := .Lang }}
-          {{ with .Params.resume_url }}
-            {{ $resumeMap = merge $resumeMap (dict $lang .) }}
+
+        {{ with .Rotate "language" }}
+          {{ range . }}
+            {{ $lang := $.Site.Language }}
+            {{ with .Params.resume_url }}
+              {{ $resumeMap = merge $resumeMap (dict $lang .) }}
           {{ end }}
         {{ end }}
+
+
 
         {{/* Render buttons in desired order */}}
         {{ range .Params.resume_downloads }}

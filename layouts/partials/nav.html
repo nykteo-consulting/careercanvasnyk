@@ -69,7 +69,7 @@
                 {{ end }}
                 
                 <a href="{{ $targetURL }}" class="nav-link block px-4 py-2 text-sm text-text-primary dark:text-text-primary {{ if eq .Language.Lang $.Site.Language.Lang }}font-semibold{{ end }}">
-                  <span class="mr-2">{{ $flag }}</span>{{ .Language.LanguageName }}
+                  <span class="mr-2">{{ $flag }}</span>{{ .Language.Label }}
                 </a>
               {{ end }}
             {{ end }}
