@@ -367,7 +367,7 @@
 
   @media (min-width: 1024px) {
     .lg\:text-7xl {
-      line-height: 1.25;
+      line-height: 1.25 !important;
     }
   }
 
