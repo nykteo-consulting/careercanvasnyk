@@ -17,11 +17,11 @@
           </div>
           <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">{{ $domain.description }}</p>
           <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">
+            <ul>
             {{ range $j, $skill := $domain.skills }}
-              <ul>
                   <li>- {{ $skill }}</li>
-              </ul>
             {{ end }}
+             </ul>
           </p>
         </div>
         {{ end }}
