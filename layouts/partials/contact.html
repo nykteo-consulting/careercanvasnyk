@@ -161,39 +161,6 @@
       });
     }
 
-    const calendlyModal = document.getElementById('calendly-modal');
-    const calendlyClose = document.getElementById('calendly-close');
-
-    if (calendlyModal && calendlyClose) {
-      function openCalendlyModal() {
-        calendlyModal.classList.remove('hidden');
-        calendlyModal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      }
-      document.querySelectorAll('.calendly-open-trigger').forEach(function (el) {
-        el.addEventListener('click', openCalendlyModal);
-      });
-
-      function closeCalendlyModal() {
-        calendlyModal.classList.add('hidden');
-        calendlyModal.classList.remove('flex');
-        document.body.style.overflow = 'auto';
-      }
-
-      calendlyClose.addEventListener('click', closeCalendlyModal);
-
-      calendlyModal.addEventListener('click', function (e) {
-        if (e.target === calendlyModal) {
-          closeCalendlyModal();
-        }
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !calendlyModal.classList.contains('hidden')) {
-          closeCalendlyModal();
-        }
-      });
-    }
   
     function showToast(message) {
       const toast = document.createElement('div');
