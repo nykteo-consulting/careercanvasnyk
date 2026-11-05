@@ -150,10 +150,9 @@
   .skill-block {
     margin-top: 1em;
   }
-  .skill-block p::before {
-    content: "-";
-    position: absolute;
-    left: 1em;
+  .skill-block ul {
+    list-style-type: square;
+    list-style-position: inside;
   }
   /* Skill Pills - All use main color variations */
   .skill-pill {
