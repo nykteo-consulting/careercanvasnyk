@@ -18,6 +18,7 @@
             {{ $lang := $.Site.Language }}
             {{ with .Params.resume_url }}
               {{ $resumeMap = merge $resumeMap (dict $lang .) }}
+            {{ end }}
           {{ end }}
         {{ end }}
 
