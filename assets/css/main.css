@@ -294,6 +294,7 @@
   .hero-section {
     /* Navbar uses h-16 (4rem). baseof.html also adds a h-16 spacer. */
     background-image: url("/images/bg.jpg");
+    background-position: bottom center;
     position: relative;
     min-height: calc(100svh - 4rem);
     min-height: calc(100vh - 4rem);
