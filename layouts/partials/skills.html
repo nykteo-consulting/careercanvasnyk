@@ -18,6 +18,10 @@
           <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">{{ $domain.description }}</p>
           <p class="text-text-secondary dark:text-text-tertiary text-base leading-relaxed">
           {{ range $i, $skill := $domains.skills }}
+          <ul>
+              <li>- {{ $skill }}</li>
+          </ul>
+          {{ end }}
           </p>
         </div>
         {{ end }}
@@ -38,5 +42,3 @@
   </div>
 </section>
 
-
-  
