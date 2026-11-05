@@ -164,7 +164,7 @@
                 {{ end }}
               {{ end }}
               
-              <a href="{{ $targetURL }}" class="px-2 py-1 text-xl {{ if eq .Language.Lang $.Site.Language.Lang }}opacity-100 font-semibold{{ else }}opacity-70 hover:opacity-100{{ end }}" aria-label="Switch to {{ .Language.LanguageName }}{{ if $hasTranslation }} (has translation){{ else }} (go to home){{ end }}">
+              <a href="{{ $targetURL }}" class="px-2 py-1 text-xl {{ if eq .Language.Lang $.Site.Language.Lang }}opacity-100 font-semibold{{ else }}opacity-70 hover:opacity-100{{ end }}" aria-label="Switch to {{ .Language.Label }}{{ if $hasTranslation }} (has translation){{ else }} (go to home){{ end }}">
                 <span aria-hidden="true">{{ $flag }}</span>
               </a>
             {{ end }}
