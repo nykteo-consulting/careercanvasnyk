@@ -40,7 +40,8 @@
     </div>
 
     <div class="mt-8 pt-8 border-t border-border-primary text-center text-text-secondary dark:text-text-muted text-sm">
-      <p>© {{ time.Now.Year }} | {{ .Site.Params.copyright }} | <a href="/{{ absLangURL "/legal" }}" class="text-text-secondary dark:text-text-muted hover:text-primary dark:hover:text-primary-light">{{ i18n "legal" }}</a></p>
+      {{  $legUrl = absLangURL "legal" }}
+      <p>© {{ time.Now.Year }} | {{ .Site.Params.copyright }} | <a href="{{ $legUrl }}" class="text-text-secondary dark:text-text-muted hover:text-primary dark:hover:text-primary-light">{{ i18n "legal" }}</a></p>
     </div>
   </div>
 </footer>
