@@ -2,9 +2,8 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col md:flex-row justify-between items-center">
       <div class="mb-4 md:mb-0">
-        <a href="/#home" class="text-xl font-bold text-text-primary font-heading">{{ .Site.Language.Params.firstName }} {{ .Site.Language.Params.lastName }} </a>
+        <a href="/#home" class="text-xl font-bold text-text-primary font-heading">{{ .Site.Language.Params.firstName }} {{ .Site.Language.Params.lastName }} @ {{ .Site.Language.Params.home_text }}</a>
         <p class="text-text-secondary dark:text-text-muted mt-1">{{ .Site.Language.Params.tagline }}</p>
-        <p class="text-text-secondary dark:text-text-muted mt-2">{{ .Site.Language.Params.hero_description | markdownify }}</p>
         <p class="text-text-secondary dark:text-text-muted mt-1">
           <i class="fas fa-map-marker-alt mr-2"></i>{{ .Site.Language.Params.hero_location }}
         </p>
