@@ -92,6 +92,7 @@
   #home p strong {
     /* color: var(--color-third) !important; */
     background: var(--color-second) !important;
+    padding: 0.1rem 0.5rem !important;
   }
 
   /* Contact info card: one circle style for all icons */
