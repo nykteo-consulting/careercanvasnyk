@@ -127,8 +127,7 @@
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         
-        // Get Formspree endpoint from secure configuration
-        const formspreeEndpoint = window.FORMSPREE_ENDPOINT;
+        const formspreeEndpoint = {{ .Site.Params.formspreeendpoint | jsonify | safeJS }};
         
         if (!formspreeEndpoint) {
           showToast('⚠️ Contact form not configured. Please try again later.');
