@@ -82,7 +82,8 @@
 
   .home-link {
     font-family: Hack, monospace !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
+    border: 1px solid var(--color-primary) !important;
   }
 
   /* Contact info card: one circle style for all icons */
