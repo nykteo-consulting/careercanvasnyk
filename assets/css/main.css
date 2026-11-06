@@ -786,6 +786,9 @@
   color: var(--color-text-secondary) !important;
 }
 
+.dark .dark\:text-text-secondary-light {
+  color: var(--color-text-secondary-light) !important;
+}
 .dark .dark\:text-text-tertiary {
   color: var(--color-gray-300) !important;
 }
