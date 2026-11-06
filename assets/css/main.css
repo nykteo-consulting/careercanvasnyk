@@ -91,7 +91,7 @@
 
   #home p strong {
     /* color: var(--color-third) !important; */
-    background: var(--color-third) !important;
+    background: var(--color-second) !important;
   }
 
   /* Contact info card: one circle style for all icons */
