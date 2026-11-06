@@ -4,7 +4,7 @@
       <div class="mb-4 md:mb-0">
         <a href="/#home" class="text-xl font-bold text-text-primary font-heading">{{ .Site.Language.Params.firstName }} {{ .Site.Language.Params.lastName }} </a>
         <p class="text-text-secondary dark:text-text-muted mt-1">{{ .Site.Language.Params.tagline }}</p>
-        <p class="text-text-secondary dark:text-text-muted mt-2">{{ .Site.Language.Params.hero_description }}</p>
+        <p class="text-text-secondary dark:text-text-muted mt-2">{{ .Site.Language.Params.hero_description | markdownify }}</p>
         <p class="text-text-secondary dark:text-text-muted mt-1">
           <i class="fas fa-map-marker-alt mr-2"></i>{{ .Site.Language.Params.hero_location }}
         </p>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="mt-8 pt-8 border-t border-border-primary text-center text-text-secondary dark:text-text-muted text-sm">
-      <p>© {{ time.Now.Year }} | {{ .Site.Params.copyright }}</p>
+      <p>© {{ time.Now.Year }} | {{ .Site.Params.copyright }} | <a href="/{{ relref . "/legal" }}" class="text-text-secondary dark:text-text-muted hover:text-primary dark:hover:text-primary-light">{{ i18n "legal" }}</a></p>
     </div>
   </div>
 </footer>
