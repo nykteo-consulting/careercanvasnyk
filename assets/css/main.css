@@ -89,7 +89,7 @@
   }
 
   #home p strong {
-    color: var(--color-primary) !important;
+    color: var(--color-third) !important;
   }
 
   /* Contact info card: one circle style for all icons */
