@@ -778,6 +778,10 @@
   color: var(--color-text-primary) !important;
 }
 
+.dark .dark\:text-text-primary-light {
+  color: var(--color-text-primary-light) !important;
+}
+
 .dark .dark\:text-text-secondary {
   color: var(--color-text-secondary) !important;
 }
