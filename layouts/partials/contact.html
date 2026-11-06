@@ -4,9 +4,9 @@
     {{ if .Site.Params.calendly_url }}
     {{ $calendlyIcon := resources.Get "images/calendly-icon.svg" }}
     <div class="flex justify-center mb-12">
-      <button type="button" class="calendly-open-trigger bg-gradient-primary text-white px-6 py-3 rounded-lg shadow-lg font-semibold text-base button-hover flex items-center">
+      <a href="{{ .Site.Params.calendly_url }}" target="_blank" class="calendly-open-trigger bg-gradient-primary text-white px-6 py-3 rounded-lg shadow-lg font-semibold text-base button-hover flex items-center">
         {{ with $calendlyIcon }}<img src="{{ .RelPermalink }}" alt="" class="w-5 h-5 mr-2" width="20" height="20">{{ end }}Book a meeting on my Calendly
-      </button>
+      </a>
     </div>
     {{ end }}
 
