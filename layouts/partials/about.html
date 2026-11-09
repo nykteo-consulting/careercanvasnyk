@@ -4,9 +4,9 @@
     <div class="flex flex-col lg:flex-row gap-8">
       <div class="flex-1 about-text-element">
         <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 rounded-xl shadow-lg border border-border-primary dark:border-border-primary">
-          <p class="text-lg text-text-secondary dark:text-text-secondary leading-relaxed">
+          <div class="cc-md text-lg text-text-secondary dark:text-text-secondary leading-relaxed">
             {{ with .Site.GetPage "about" }}{{ .Params.intro | markdownify }}{{ end }}
-          </p>
+          </div>
           <div class="mt-6">
             <a href="{{ $.Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-gradient-primary text-white px-4 py-2 rounded-lg shadow-lg about-button button-hover">
               <i class="fab fa-linkedin-in mr-3 text-lg"></i> 
@@ -14,6 +14,28 @@
             </a>
           </div>
         </div>
+        {{ with .Site.GetPage "about" }}{{ $p := . }}
+        {{ if or $p.Params.passion_text $p.Params.mix $p.Params.study $p.Params.personal }}
+        <div class="about-details mt-8 bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 rounded-xl shadow-lg border border-border-primary dark:border-border-primary">
+          {{ with $p.Params.passion_text }}
+          <h3 class="text-xl font-semibold font-heading text-text-primary dark:text-text-primary flex items-center mb-4">
+            <i class="fas fa-compass mr-3 text-primary dark:text-white" aria-hidden="true"></i>{{ $p.Params.passion_title }}
+          </h3>
+          <div class="cc-md text-base text-text-secondary dark:text-text-secondary leading-relaxed">{{ . | markdownify }}</div>
+          {{ end }}
+          {{ with $p.Params.mix }}
+          <div class="{{ if $p.Params.passion_text }}mt-6 pt-6 border-t border-border-primary dark:border-border-primary{{ end }}">
+            <h3 class="text-xl font-semibold font-heading text-text-primary dark:text-text-primary flex items-center mb-4">
+              <i class="fas fa-trophy mr-3 text-primary dark:text-white" aria-hidden="true"></i>{{ $p.Params.mix_title | default (i18n "keyAchievements") }}
+            </h3>
+            <div class="cc-md text-base text-text-secondary dark:text-text-secondary leading-relaxed">{{ . | markdownify }}</div>
+          </div>
+          {{ end }}
+          {{ with $p.Params.study }}<div class="cc-md mt-6 text-base text-text-secondary dark:text-text-secondary leading-relaxed">{{ . | markdownify }}</div>{{ end }}
+          {{ with $p.Params.personal }}<div class="cc-md mt-6 text-base text-text-secondary dark:text-text-secondary leading-relaxed">{{ . | markdownify }}</div>{{ end }}
+        </div>
+        {{ end }}
+        {{ end }}
       </div>
       <div class="flex-1">
         <div class="bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 rounded-xl shadow-lg border border-border-primary dark:border-border-primary about-card card-hover">
@@ -22,10 +44,6 @@
             <i class="fas fa-info-circle mr-3 text-primary dark:text-white"></i>
             {{ i18n "quickFacts" }}
           </h3>
-          <button id="aboutModalBtn" type="button" aria-haspopup="dialog" class="bg-gradient-primary text-white px-6 py-2 rounded-lg shadow-lg font-semibold flex items-center about-button text-sm button-hover">
-            <i class="fas fa-book-open mr-2"></i>
-            {{ i18n "more" }}
-          </button>
         </div>
         <div class="space-y-1.5">
           {{ with .Site.GetPage "about" }}
@@ -52,7 +70,7 @@
                       {{ end }}
                     </div>
                   {{ else }}
-                    <p class="text-gray-700 dark:text-text-tertiary text-base leading-relaxed">{{ $fact.value | markdownify }}</p>
+                    <div class="cc-md text-gray-700 dark:text-text-tertiary text-base leading-relaxed">{{ $fact.value | markdownify }}</div>
                   {{ end }}
                 </div>
               </div>
@@ -62,75 +80,4 @@
       </div>
     </div>
 
-  <!-- About Modal -->
-  {{ with .Site.GetPage "about" }}
-  <div id="aboutModal" role="dialog" aria-modal="true" aria-label="{{ i18n "aboutName" }} {{ site.Params.name }}" class="fixed inset-0 bg-bg bg-opacity-50 z-50 hidden items-center justify-center px-4 py-16">
-    <div class="bg-bg dark:bg-bg rounded-xl shadow-2xl w-full max-w-5xl lg:max-w-6xl max-h-[70vh] lg:max-h-[80vh] overflow-y-auto sidebar-scroll">
-      <div class="p-8">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-2xl font-bold text-text-primary dark:text-text-primary">{{ i18n "aboutName" }} {{ .Site.Params.name }}</h3>
-          <button id="closeAboutModal" type="button" aria-label="{{ i18n "close" | default "Close" }}" class="text-text-muted text-text-secondary dark:text-text-muted text-2xl font-bold">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        
-        <div class="space-y-6 text-text-secondary dark:text-text-secondary">
-          <p class="text-lg leading-relaxed">{{ .Params.intro | markdownify }}</p>
-          {{ with .Params.study }}<p class="text-lg leading-relaxed">{{ . | markdownify }}</p>{{ end }}
-
-          <div class="bg-gradient-primary-lighter p-6 rounded-xl border border-primary-light">
-            <h4 class="text-xl font-semibold mb-3 text-primary-dark flex items-center">
-              <i class="fas fa-heart mr-3 text-second"></i>
-              {{ .Params.passion_title }}
-            </h4>
-            <p class="text-primary-dark leading-relaxed">{{ .Params.passion_text | markdownify }}</p>
-          </div>
-
-          {{ with .Params.mix }}<div class="text-lg leading-relaxed about-mix">{{ . | markdownify }}</div>{{ end }}
-          {{ with .Params.personal }}<p class="text-lg leading-relaxed">{{ . | markdownify }}</p>{{ end }}
-        </div>
-      </div>
-    </div>
-  </div>
-  {{ end }}
 </section>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const modal = document.getElementById('aboutModal');
-  const modalBtn = document.getElementById('aboutModalBtn');
-  const closeBtn = document.getElementById('closeAboutModal');
-
-  // Open modal
-  modalBtn.addEventListener('click', function() {
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  });
-
-  // Close modal
-  function closeModal() {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
-  }
-
-  closeBtn.addEventListener('click', closeModal);
-
-  // Close modal when clicking outside
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  // Close modal with Escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-      closeModal();
-    }
-  });
-});
-</script>
-
-  

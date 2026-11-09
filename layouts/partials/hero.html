@@ -48,9 +48,9 @@
           {{ end }}
         </h2>
         <!-- Description -->
-        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto lg:mx-0 hero-text-muted leading-relaxed hero-text-element px-4 py-3 rounded-lg" style="background: rgba(0, 0, 0, 0.15); backdrop-filter: blur(32px);" data-animation="description">
+        <div class="hero-description cc-md text-lg md:text-xl mb-8 max-w-2xl mx-auto lg:mx-0 hero-text-muted leading-relaxed hero-text-element px-4 py-3 rounded-lg" style="background: rgba(0, 0, 0, 0.15); backdrop-filter: blur(32px);" data-animation="description">
           {{ .Site.Params.hero_description | markdownify }}
-        </p>
+        </div>
 
         <!-- Action buttons -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-end hero-text-element" data-animation="buttons">
