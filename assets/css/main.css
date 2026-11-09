@@ -300,16 +300,10 @@
     isolation: isolate;
   }
 
-  #calendly-modal {
-    z-index: 101;
-  }
-
   /* Hero Section */
   .hero-section {
     /* Navbar uses h-16 (4rem). baseof.html also adds a h-16 spacer. */
-    background-image: url("/images/bg.jpg");
-    background-position: bottom center;
-    background-size: cover;
+    background-color: var(--color-primary);
     position: relative;
     min-height: calc(100svh - 4rem);
     min-height: calc(100vh - 4rem);

@@ -14,7 +14,8 @@
       {{ end }}
     {{ end }}
     <h1 class="cc-page-header__title">{{ .Title }}</h1>
-    {{ with .Description }}<p class="cc-page-header__lead">{{ . }}</p>{{ end }}
+    {{/* Description masquée si elle ne fait que répéter le titre */}}
+    {{ with .Description }}{{ if ne (lower (strings.TrimRight "." .)) (lower $.Title) }}<p class="cc-page-header__lead">{{ . }}</p>{{ end }}{{ end }}
     {{ if $showMeta }}
     <p class="cc-page-header__meta">
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
