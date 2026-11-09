@@ -905,3 +905,12 @@
 /* Key achievements box (about section) */
 .about-achievements .achievement-item + .achievement-item { margin-top: 1.25rem; }
 .about-achievements .achievement-highlight { margin-bottom: 0.25rem; }
+
+/* About: both columns share the same height; card content is vertically centred */
+.about-col { display: flex; flex-direction: column; gap: 2rem; }
+.about-fill { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
+.about-fill--top { justify-content: flex-start; }           /* keep the card title at the top... */
+.about-fill--top > .about-facts { margin-block: auto; }     /* ...and centre the facts in the remaining space */
+@media (min-width: 1024px) {
+  .about-row { align-items: stretch; }
+}

@@ -59,8 +59,8 @@
 
     {{ partial "color-config.html" . }}
     <script>
-        window.CC_GSAP_URL = {{ site.Params.gsap_url | default "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" }};
-        window.CC_DEVICON_BASE = {{ site.Params.devicon_base | default "https://cdn.jsdelivr.net/gh/devicons/devicon@2.18.0/icons/" }};
+        window.CC_GSAP_URL = {{ site.Params.gsap_url | default "/vendor/gsap/gsap.min.js" }};
+        window.CC_DEVICON_BASE = {{ site.Params.devicon_base | default "/vendor/devicon/" }};
     </script>
     <script src="{{ $scripts.RelPermalink }}"></script>
     <script src="{{ $deviconFallback.RelPermalink }}"></script>

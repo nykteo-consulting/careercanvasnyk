@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function iconUrl(iconStyle) {
       return (
-        (window.CC_DEVICON_BASE || 'https://cdn.jsdelivr.net/gh/devicons/devicon@2.18.0/icons/') +
+        (window.CC_DEVICON_BASE || '/vendor/devicon/') +
         name +
         '/' +
         name +

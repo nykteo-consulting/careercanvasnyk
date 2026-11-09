@@ -39,9 +39,8 @@
 {{ with site.Params.apple_touch_icon }}<link rel="apple-touch-icon" href="{{ . | relURL }}" />{{ end }}
 {{ with site.Params.theme_color }}<meta name="theme-color" content="{{ . }}" />{{ end }}
 
-<!-- Icons: set fontawesome_css / devicon_css to local paths to avoid third-party CDNs (devicon_css = "" disables it) -->
-{{ with site.Params.fontawesome_css | default "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" }}<link rel="stylesheet" href="{{ . }}" />{{ end }}
-{{ $devicon := "https://cdn.jsdelivr.net/gh/devicons/devicon@2.18.0/devicon.min.css" }}{{ if isset site.Params "devicon_css" }}{{ $devicon = site.Params.devicon_css }}{{ end }}
-{{ with $devicon }}<link rel="stylesheet" href="{{ . }}" />{{ end }}
+<!-- Icons: no third-party CDN. The site serves the files itself (defaults below are local paths). -->
+{{ with site.Params.fontawesome_css | default "/vendor/fontawesome/css/all.min.css" }}<link rel="stylesheet" href="{{ . }}" />{{ end }}
+{{ with site.Params.devicon_css }}<link rel="stylesheet" href="{{ . }}" />{{ end }}
 
 <!-- GSAP Animation Library - Loaded dynamically from node_modules or CDN fallback -->
