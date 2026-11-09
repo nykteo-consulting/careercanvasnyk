@@ -1,0 +1,26 @@
+{{/* En-tête des pages de contenu (articles, pages légales, listes).
+     Surtitre : params.kicker, sinon le titre de la section parente (ex. « Blog »).
+     Date et temps de lecture affichés pour les pages de la section blog (params.show_meta = false pour masquer). */}}
+{{ $kicker := .Params.kicker }}
+{{ if and (not $kicker) .IsPage .Parent (not .Parent.IsHome) }}{{ $kicker = .Parent.Title }}{{ end }}
+{{ $showMeta := and .IsPage (eq .Section "blog") (ne .Params.show_meta false) }}
+<header class="cc-page-header">
+  <div class="cc-page-header__inner">
+    {{ if $kicker }}
+      {{ if and .IsPage .Parent (not .Parent.IsHome) }}
+      <a class="cc-page-header__kicker" href="{{ .Parent.RelPermalink }}">{{ $kicker }}</a>
+      {{ else }}
+      <p class="cc-page-header__kicker">{{ $kicker }}</p>
+      {{ end }}
+    {{ end }}
+    <h1 class="cc-page-header__title">{{ .Title }}</h1>
+    {{ with .Description }}<p class="cc-page-header__lead">{{ . }}</p>{{ end }}
+    {{ if $showMeta }}
+    <p class="cc-page-header__meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+      <span aria-hidden="true">·</span>
+      <span>{{ .ReadingTime }} {{ or (i18n "minRead") "min" }}</span>
+    </p>
+    {{ end }}
+  </div>
+</header>

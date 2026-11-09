@@ -191,130 +191,76 @@ function initializeHeroAnimations() {
     
 }
 
-// Enhanced typewriter effect: cycles concepts split on ". "
+// Typewriter effect. The tagline is split on ". " into phrases:
+// - one phrase: typed once, then kept on screen with a blinking cursor;
+// - several phrases: each is typed, held, erased, then the next one is typed (loop).
+// No punctuation is added. With prefers-reduced-motion, the full text stays static.
+// Screen readers get the full text through a visually hidden copy (see hero.html).
 let typingEffectInitialized = false;
 
-function initTypewriterForElement(typewriterElement, startDelayMs) {
-    const originalText = typewriterElement.getAttribute('data-original-text') || typewriterElement.textContent;
-    const concepts = originalText.split('. ')
-        .map(concept => concept.trim())
-        .filter(concept => concept.length > 0)
-        .map(concept => (concept.endsWith('.') ? concept : `${concept}.`));
-    let currentConceptIndex = 0;
-    let cursor = null;
+function initTypewriterForElement(el, startDelayMs) {
+    const originalText = (el.getAttribute('data-original-text') || el.textContent).trim();
+    const phrases = originalText.split('. ').map(p => p.trim()).filter(Boolean)
+        .map((p, i, all) => (i < all.length - 1 && !/[.!?]$/.test(p) ? p + '.' : p));
+    if (!phrases.length) return;
 
-    function eraseText(text, onComplete) {
-        const chars = text.split('');
-        const timeline = gsap.timeline();
-        const reversedChars = [...chars].reverse();
+    // Reserve the height of the tallest phrase so the layout does not jump while typing.
+    let maxHeight = 0;
+    phrases.forEach(p => { el.textContent = p; maxHeight = Math.max(maxHeight, el.offsetHeight); });
+    el.textContent = phrases[0];
+    if (maxHeight) el.style.minHeight = maxHeight + 'px';
 
-        timeline.to(typewriterElement, { duration: 1.5 });
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.setAttribute('aria-hidden', 'true');
 
-        reversedChars.forEach((char, index) => {
-            timeline.to(typewriterElement, {
-                duration: 0.04,
-                onUpdate: function() {
-                    const textContent = reversedChars.slice(index + 1).reverse().join('');
-                    typewriterElement.textContent = textContent;
-                    typewriterElement.appendChild(cursor);
-                }
-            });
-        });
-
-        timeline.to(typewriterElement, { duration: 0.5 });
-        timeline.call(onComplete);
+    function render(text) {
+        el.textContent = text;
+        el.appendChild(cursor);
     }
 
-    function typeConcept(concept, onComplete) {
-        const chars = concept.split('');
-        const timeline = gsap.timeline();
-
-        chars.forEach((char, index) => {
-            timeline.to(typewriterElement, {
-                duration: 0.08,
-                onUpdate: function() {
-                    const textContent = chars.slice(0, index + 1).join('');
-                    typewriterElement.textContent = textContent;
-                    typewriterElement.appendChild(cursor);
-                    typewriterElement.style.color = 'inherit';
-                }
-            });
-        });
-
-        timeline.to(typewriterElement, { duration: 1.5 });
-
-        const reversedChars = [...chars].reverse();
-        reversedChars.forEach((char, index) => {
-            timeline.to(typewriterElement, {
-                duration: 0.04,
-                onUpdate: function() {
-                    const textContent = reversedChars.slice(index + 1).reverse().join('');
-                    typewriterElement.textContent = textContent;
-                    typewriterElement.appendChild(cursor);
-                }
-            });
-        });
-
-        timeline.to(typewriterElement, { duration: 0.5 });
-
-        timeline.call(onComplete);
-    }
-
-    function startTypingLoop() {
-        if (currentConceptIndex >= concepts.length) {
-            currentConceptIndex = 0;
+    function typePhrase(phrase, onComplete) {
+        const tl = gsap.timeline({ onComplete });
+        for (let i = 1; i <= phrase.length; i++) {
+            tl.call(render, [phrase.slice(0, i)], i * 0.06);
         }
+        return tl;
+    }
 
-        typeConcept(concepts[currentConceptIndex], () => {
-            currentConceptIndex++;
-            setTimeout(startTypingLoop, 200);
+    function erasePhrase(phrase, onComplete) {
+        const tl = gsap.timeline({ onComplete });
+        for (let i = phrase.length - 1; i >= 0; i--) {
+            tl.call(render, [phrase.slice(0, i)], (phrase.length - i) * 0.03);
+        }
+        return tl;
+    }
+
+    function cycle(index) {
+        const phrase = phrases[index];
+        typePhrase(phrase, () => {
+            if (phrases.length === 1) return; // single phrase: keep it
+            gsap.delayedCall(2.5, () => erasePhrase(phrase, () => {
+                gsap.delayedCall(0.4, () => cycle((index + 1) % phrases.length));
+            }));
         });
     }
 
-    setTimeout(function() {
-        const visibleText = typewriterElement.textContent.trim();
-        typewriterElement.style.color = 'inherit';
-
-        cursor = document.createElement('span');
-        cursor.className = 'typing-cursor';
-        Object.assign(cursor.style, {
-            display: 'inline-block',
-            width: '2px',
-            height: '1.2em',
-            backgroundColor: 'var(--color-primary-light)',
-            marginLeft: '2px',
-            verticalAlign: 'text-bottom'
-        });
-
-        typewriterElement.appendChild(cursor);
-
-        gsap.to(cursor, {
-            opacity: 0,
-            duration: 0.7,
-            ease: "power2.inOut",
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Keep the visible tagline; hold, erase it, then type the next phrase.
-        eraseText(visibleText, () => {
-            currentConceptIndex = concepts.length > 1 ? 1 : 0;
-            setTimeout(startTypingLoop, 200);
-        });
+    render(''); // start from an empty line (height already reserved)
+    setTimeout(() => {
+        gsap.to(cursor, { opacity: 0, duration: 0.6, ease: 'power2.inOut', yoyo: true, repeat: -1 });
+        cycle(0);
     }, startDelayMs);
 }
 
 function initTypingEffect() {
     if (typingEffectInitialized) return;
-
-    const typewriterElements = document.querySelectorAll('.typewriter');
-    if (!typewriterElements.length) return;
-
-    typewriterElements.forEach((el) => {
-        initTypewriterForElement(el, 1000);
-    });
-
     typingEffectInitialized = true;
+
+    const elements = document.querySelectorAll('.typewriter');
+    if (!elements.length) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    elements.forEach(el => initTypewriterForElement(el, 300));
 }
 
 function initMouseTracking(heroSection) {

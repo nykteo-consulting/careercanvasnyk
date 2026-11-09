@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{ partial "page-header.html" . }}
+<section class="cc-page-body">
+  {{ with .Content }}<div class="cc-prose">{{ . }}</div>{{ end }}
+  {{ $posts := .Pages.ByDate.Reverse }}
+  {{ if $posts }}
+  <ol class="cc-post-list">
+    {{ range $posts }}
+    <li>
+      <article class="cc-post-card">
+        <p class="cc-post-card__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time> · {{ .ReadingTime }} {{ or (i18n "minRead") "min" }}</p>
+        <h2 class="cc-post-card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        {{ with .Description }}<p class="cc-post-card__desc">{{ . }}</p>{{ end }}
+        {{ with .Params.tags }}
+        <ul class="cc-tags" aria-label="Tags">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+        {{ end }}
+      </article>
+    </li>
+    {{ end }}
+  </ol>
+  {{ else }}
+  <p class="cc-empty">{{ or (i18n "noPostsYet") "Aucun article pour le moment." }}</p>
+  {{ end }}
+</section>
+{{ end }}

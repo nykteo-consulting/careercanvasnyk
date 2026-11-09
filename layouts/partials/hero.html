@@ -37,14 +37,14 @@
         <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 font-heading leading-tight hero-name hero-text-element" data-animation="name">
           {{ .Site.Params.firstName }} {{ .Site.Params.lastName }}
         </h1>
-        <!-- Tagline: one block; each cycling phrase wraps (up to ~2 lines); split phrases in JS on ". " -->
+        <!-- Tagline: optional typewriter (params.hero_typewriter); phrases split in JS on ". " -->
         <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-6 font-light hero-text-accent hero-text-element w-full flex items-center justify-center lg:justify-start" data-animation="tagline">
           {{ $tagline := .Site.Params.tagline }}
           {{ if eq site.Params.hero_typewriter false }}
           <span class="w-full max-w-full text-center lg:text-left">{{ $tagline }}</span>
           {{ else }}
-          {{ $first := index (split $tagline ". ") 0 }}
-          <span class="typewriter w-full max-w-full text-center lg:text-left" data-original-text="{{ $tagline }}">{{ $first }}.</span>
+          <span class="cc-sr-only">{{ $tagline }}</span>
+          <span class="typewriter w-full max-w-full text-center lg:text-left" aria-hidden="true" data-original-text="{{ $tagline }}">{{ $tagline }}</span>
           {{ end }}
         </h2>
         <!-- Description -->
