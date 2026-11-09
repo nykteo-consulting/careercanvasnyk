@@ -114,8 +114,8 @@ function loadGSAP() {
         document.head.appendChild(script);
     };
 
-    loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js', 
-        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js',
+    const gsapUrl = window.CC_GSAP_URL || 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js';
+    loadScript(gsapUrl, gsapUrl,
         () => {
             initializeHeroAnimations();
         });

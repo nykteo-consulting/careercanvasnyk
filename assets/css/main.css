@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Nunito+Sans:wght@400;600&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/hack-font/3.3.0/web/hack.min.css');
+/* Fonts are not loaded from a CDN: a site provides its own @font-face (e.g. via partials/head-end.html)
+   and sets --font-body / --font-heading / --font-brand. System fonts are the fallback. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: var(--font-body, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif);
   }
 }
 
 @layer components {
   .font-heading {
-    font-family: 'Montserrat', 'Nunito Sans', sans-serif;
+    font-family: var(--font-heading, var(--font-body, ui-sans-serif, system-ui, sans-serif));
   }
 
   /* Dynamic Color Transitions */
@@ -81,7 +81,7 @@
   }
 
   .home-link {
-    font-family: Hack, monospace !important;
+    font-family: var(--font-brand, Hack, ui-monospace, Consolas, monospace) !important;
     font-weight: 400 !important;
     padding: 0.25rem 0.75rem !important;
     border: 1px solid var(--color-second-dark) !important;

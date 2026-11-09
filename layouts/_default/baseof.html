@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.Language.Lang }}">
 <head>
     <!-- Prevent dark mode flash -->
     <script>
-        // Set dark mode as default unless explicitly set to light
-        if (localStorage.getItem('darkMode') !== 'false') {
-            document.documentElement.classList.add('dark');
-        }
+        // Theme default comes from params.default_theme ("dark" if unset); the visitor's choice wins.
+        window.CC_DEFAULT_DARK = {{ ne (site.Params.default_theme | default "dark") "light" }};
+        (function () {
+            var saved = localStorage.getItem('darkMode');
+            if (saved === 'true' || (saved === null && window.CC_DEFAULT_DARK)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
     </script>
     {{ partial "head.html" . }}
     
@@ -17,8 +21,8 @@
     {{ if eq hugo.Environment "production" }}
       {{ $styles = $styles | minify | fingerprint }}
     {{ end }}
-    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />    
     <link rel="stylesheet" href="{{ $styles.RelPermalink }}?v={{ now.Unix }}" data-version="{{ now.Unix }}">
+    {{ if templates.Exists "partials/head-end.html" }}{{ partial "head-end.html" . }}{{ end }}
     <style>
         /* Critical CSS to prevent FOUC */
         body {
@@ -54,21 +58,23 @@
     {{ end }}
 
     {{ partial "color-config.html" . }}
+    <script>
+        window.CC_GSAP_URL = {{ site.Params.gsap_url | default "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" }};
+        window.CC_DEVICON_BASE = {{ site.Params.devicon_base | default "https://cdn.jsdelivr.net/gh/devicons/devicon@2.18.0/icons/" }};
+    </script>
     <script src="{{ $scripts.RelPermalink }}"></script>
     <script src="{{ $deviconFallback.RelPermalink }}"></script>
     <script src="{{ $colors.RelPermalink }}"></script>
     <script src="{{ $gsap.RelPermalink }}"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/fslightbox/index.js"></script>
 
     <!-- Dark mode toggle script -->
     <script>
-        // Set dark mode as default unless explicitly set to light
-        if (localStorage.getItem('darkMode') !== 'false') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+        (function () {
+            var saved = localStorage.getItem('darkMode');
+            var dark = saved === 'true' || (saved === null && window.CC_DEFAULT_DARK);
+            document.documentElement.classList.toggle('dark', dark);
+        })();
 
         // Stylesheets in head are applied before DOMContentLoaded.
         // Do not wait for window load: the hero photo must not hold first paint.

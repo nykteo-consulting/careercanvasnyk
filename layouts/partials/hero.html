@@ -8,7 +8,7 @@
             <div class="w-full h-full rounded-full overflow-hidden bg-white">
               <img 
                 src="{{ .Site.Params.profile_image }}" 
-                alt="Portrait of {{ .Site.Params.name }}" 
+                alt="{{ i18n "portraitOf" | default "Portrait of" }} {{ .Site.Params.name }}" 
                 loading="eager"
                 fetchpriority="high"
                 decoding="async" 
@@ -19,7 +19,7 @@
             <div class="absolute -bottom-4 -right-4 z-10" data-animation="location-badge">
               <div class="hero-location-badge-scale">
                 <div class="flex items-center bg-black/80 backdrop-blur-sm text-white px-4 py-2 rounded-full shadow-xl border border-white/20 min-w-fit whitespace-nowrap">
-                  <i class="fas fa-map-marker-alt mr-2 text-primary-light flex-shrink-0"></i>
+                  <i class="fas fa-map-marker-alt mr-2 text-primary-light flex-shrink-0" aria-hidden="true"></i>
                   <span class="font-semibold text-sm">{{ .Site.Params.hero_location }}</span>
                 </div>
               </div>
@@ -40,8 +40,12 @@
         <!-- Tagline: one block; each cycling phrase wraps (up to ~2 lines); split phrases in JS on ". " -->
         <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-6 font-light hero-text-accent hero-text-element w-full flex items-center justify-center lg:justify-start" data-animation="tagline">
           {{ $tagline := .Site.Params.tagline }}
+          {{ if eq site.Params.hero_typewriter false }}
+          <span class="w-full max-w-full text-center lg:text-left">{{ $tagline }}</span>
+          {{ else }}
           {{ $first := index (split $tagline ". ") 0 }}
           <span class="typewriter w-full max-w-full text-center lg:text-left" data-original-text="{{ $tagline }}">{{ $first }}.</span>
+          {{ end }}
         </h2>
         <!-- Description -->
         <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto lg:mx-0 hero-text-muted leading-relaxed hero-text-element px-4 py-3 rounded-lg" style="background: rgba(0, 0, 0, 0.15); backdrop-filter: blur(32px);" data-animation="description">
@@ -61,8 +65,8 @@
         <div class="flex justify-center lg:justify-end mt-8 mb-8 md:mb-0 hero-text-element" data-animation="social">
           <div class="flex space-x-4 px-4 py-3 rounded-lg" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);">
             {{ range .Site.Params.social }}
-            <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-white transition-transform duration-300 hover:scale-125">
-              <i class="fab fa-{{ .icon }} text-3xl"></i>
+            <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-white transition-transform duration-300 hover:scale-125" aria-label="{{ .label | default (humanize .icon) }}">
+              <i class="fab fa-{{ .icon }} text-3xl" aria-hidden="true"></i>
             </a>
             {{ end }}
           </div>
@@ -70,13 +74,15 @@
       </div>
     </div>
   </div>
+  {{ with .Site.Params.bg_credit_link }}
   <a
     id="pexels-credit"
     class="pexels-credit"
     data-animation="pexels-credit"
-    href="{{ .Site.Params.bg_credit_link }}"
+    href="{{ . }}"
     target="_blank"
     rel="noopener noreferrer"
   >{{ i18n "bgCredit" }}</a>
+  {{ end }}
 </section>
   

@@ -22,7 +22,7 @@
             <i class="fas fa-info-circle mr-3 text-primary dark:text-white"></i>
             {{ i18n "quickFacts" }}
           </h3>
-          <button id="aboutModalBtn" class="bg-gradient-primary text-white px-6 py-2 rounded-lg shadow-lg font-semibold flex items-center about-button text-sm button-hover">
+          <button id="aboutModalBtn" type="button" aria-haspopup="dialog" class="bg-gradient-primary text-white px-6 py-2 rounded-lg shadow-lg font-semibold flex items-center about-button text-sm button-hover">
             <i class="fas fa-book-open mr-2"></i>
             {{ i18n "more" }}
           </button>
@@ -64,19 +64,19 @@
 
   <!-- About Modal -->
   {{ with .Site.GetPage "about" }}
-  <div id="aboutModal" class="fixed inset-0 bg-bg bg-opacity-50 z-50 hidden items-center justify-center px-4 py-16">
+  <div id="aboutModal" role="dialog" aria-modal="true" aria-label="{{ i18n "aboutName" }} {{ site.Params.name }}" class="fixed inset-0 bg-bg bg-opacity-50 z-50 hidden items-center justify-center px-4 py-16">
     <div class="bg-bg dark:bg-bg rounded-xl shadow-2xl w-full max-w-5xl lg:max-w-6xl max-h-[70vh] lg:max-h-[80vh] overflow-y-auto sidebar-scroll">
       <div class="p-8">
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-2xl font-bold text-text-primary dark:text-text-primary">{{ i18n "aboutName" }} {{ .Site.Params.name }}</h3>
-          <button id="closeAboutModal" class="text-text-muted text-text-secondary dark:text-text-muted text-2xl font-bold">
+          <button id="closeAboutModal" type="button" aria-label="{{ i18n "close" | default "Close" }}" class="text-text-muted text-text-secondary dark:text-text-muted text-2xl font-bold">
             <i class="fas fa-times"></i>
           </button>
         </div>
         
         <div class="space-y-6 text-text-secondary dark:text-text-secondary">
           <p class="text-lg leading-relaxed">{{ .Params.intro | markdownify }}</p>
-          <p class="text-lg leading-relaxed">{{ .Params.study | markdownify }}</p>
+          {{ with .Params.study }}<p class="text-lg leading-relaxed">{{ . | markdownify }}</p>{{ end }}
 
           <div class="bg-gradient-primary-lighter p-6 rounded-xl border border-primary-light">
             <h4 class="text-xl font-semibold mb-3 text-primary-dark flex items-center">
@@ -86,8 +86,8 @@
             <p class="text-primary-dark leading-relaxed">{{ .Params.passion_text | markdownify }}</p>
           </div>
 
-          <p class="text-lg leading-relaxed">{{ .Params.mix | markdownify }}</p>
-          <p class="text-lg leading-relaxed">{{ .Params.personal | markdownify }}</p>
+          {{ with .Params.mix }}<div class="text-lg leading-relaxed about-mix">{{ . | markdownify }}</div>{{ end }}
+          {{ with .Params.personal }}<p class="text-lg leading-relaxed">{{ . | markdownify }}</p>{{ end }}
         </div>
       </div>
     </div>

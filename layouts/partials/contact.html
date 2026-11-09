@@ -4,8 +4,8 @@
     {{ if .Site.Params.calendly_url }}
     {{ $calendlyIcon := resources.Get "images/calendly-icon.svg" }}
     <div class="flex justify-center mb-12">
-      <a href="{{ .Site.Params.calendly_url }}" target="_blank" class="calendly-open-trigger bg-gradient-primary text-white px-6 py-3 rounded-lg shadow-lg font-semibold text-base button-hover flex items-center">
-        {{ with $calendlyIcon }}<img src="{{ .RelPermalink }}" alt="" class="w-5 h-5 mr-2" width="20" height="20">{{ end }}Book a meeting on my Calendly
+      <a href="{{ .Site.Params.calendly_url }}" target="_blank" rel="noopener noreferrer" class="bg-gradient-primary text-white px-6 py-3 rounded-lg shadow-lg font-semibold text-base button-hover flex items-center">
+        {{ with $calendlyIcon }}<img src="{{ .RelPermalink }}" alt="" class="w-5 h-5 mr-2" width="20" height="20">{{ end }}{{ i18n "bookMeeting" | default "Book a meeting on my Calendly" }}
       </a>
     </div>
     {{ end }}
@@ -103,22 +103,6 @@
     </div>
   </div>
 
-  {{ if .Site.Params.calendly_url }}
-  <div id="calendly-modal" class="fixed inset-0 bg-bg bg-opacity-50 hidden items-center justify-center px-4 py-8" aria-modal="true" aria-labelledby="calendly-modal-title">
-    <div class="bg-bg dark:bg-bg rounded-xl shadow-2xl w-full max-w-5xl lg:max-w-6xl max-h-[85vh] lg:max-h-[90vh] overflow-y-auto sidebar-scroll">
-      <div class="p-8">
-        <div class="flex justify-between items-center mb-6">
-          <h3 id="calendly-modal-title" class="text-2xl font-bold text-text-primary dark:text-text-primary">Schedule a Call</h3>
-          <button id="calendly-close" type="button" class="text-text-muted text-text-secondary dark:text-text-muted text-2xl font-bold">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        {{ $height := default "600px" .Site.Params.calendly_height }}
-        <div class="calendly-inline-widget" data-url="{{ .Site.Params.calendly_url }}" style="min-width:320px;height:{{ $height }};"></div>
-      </div>
-    </div>
-  </div>
-  {{ end }}
 </section>
 
 <script>
@@ -131,7 +115,7 @@
         const formspreeEndpoint = {{ .Site.Params.formspreeendpoint | jsonify | safeJS }};
         
         if (!formspreeEndpoint) {
-          showToast('⚠️ Contact form not configured. Please try again later.');
+          showToast({{ i18n "formNotConfigured" | default "Contact form not configured. Please try again later." }});
           return;
         }
         
@@ -147,14 +131,14 @@
           });
     
           if (response.ok) {
-            showToast('✅ Thank you! I\'ll get back to you soon.');
+            showToast({{ i18n "formThanks" | default "Thank you! I will get back to you soon." }});
             form.reset();
           } else {
-            showToast('❌ Error: Please try again.');
+            showToast({{ i18n "formError" | default "Error: please try again." }});
           }
         } catch (error) {
           console.error(error);
-          showToast('⚠️ Failed to submit.');
+          showToast({{ i18n "formFailed" | default "Failed to submit." }});
         }
       });
     }
@@ -163,6 +147,7 @@
     function showToast(message) {
       const toast = document.createElement('div');
       toast.textContent = message;
+      toast.setAttribute('role', 'status');
       toast.className = 'fixed bottom-6 right-6 bg-second dark:bg-second-light text-white px-4 py-2 rounded shadow-lg';
       document.body.appendChild(toast);
   

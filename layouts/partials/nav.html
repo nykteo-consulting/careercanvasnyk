@@ -2,7 +2,14 @@
   <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
     <div class="flex justify-between h-16">
       <div class="flex items-center">
+        {{ with .Site.Params.logo }}
+        <a href="{{ $.Site.Home.RelPermalink }}" class="site-logo flex items-center" aria-label="{{ $.Site.Title }}">
+          <img src="{{ . | relURL }}" alt="{{ $.Site.Title }}" class="h-9 w-auto {{ if $.Site.Params.logo_dark }}dark:hidden{{ end }}" height="36">
+          {{ with $.Site.Params.logo_dark }}<img src="{{ . | relURL }}" alt="{{ $.Site.Title }}" class="h-9 w-auto hidden dark:block" height="36">{{ end }}
+        </a>
+        {{ else }}
         <a href="{{ .Site.Home.RelPermalink }}" class="hover:text-text-secondary dark:hover:text-text-secondary text-3xl font-bold font-heading home-link">{{ .Site.Params.home_text }}</a>
+        {{ end }}
       </div>
       <div class="hidden lg:flex items-center space-x-6">
         {{ range .Site.Menus.main }}
@@ -41,7 +48,7 @@
         {{ if eq $cur "fr" }}{{ $currentFlag = "🇫🇷" }}{{ end }}
         {{ if eq $cur "bg" }}{{ $currentFlag = "🇧🇬" }}{{ end }}
         <div class="relative group">
-          <a href="#" class="nav-link text-text-primary dark:text-text-primary flex items-center" aria-label="Language switcher">
+          <a href="#" class="nav-link text-text-primary dark:text-text-primary flex items-center" aria-label="{{ i18n "language" | default "Language" }}">
             <span class="text-lg mr-1">{{ $currentFlag }}</span>
             <i class="fas fa-chevron-down ml-1 text-sm"></i>
           </a>
@@ -78,36 +85,36 @@
         <!-- Social Media Icons -->
         <div class="flex items-center space-x-4" data-animation="social">
           {{ if .Site.Params.linkedin_url }}
-          <a href="{{ .Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125">
-            <i class="fab fa-linkedin-in text-xl"></i>
+          <a href="{{ .Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in text-xl" aria-hidden="true"></i>
           </a>
           {{ end }}
           {{ if .Site.Params.github_url }}
-          <a href="{{ .Site.Params.github_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125">
-            <i class="fab fa-github text-xl"></i>
+          <a href="{{ .Site.Params.github_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="GitHub">
+            <i class="fab fa-github text-xl" aria-hidden="true"></i>
           </a>
           {{ end }}
           {{ $calendlyIcon := resources.Get "images/calendly-icon.svg" }}
           {{ if and .Site.Params.calendly_url $calendlyIcon }}
-          <a href="{{ .Site.Params.calendly_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="Book a meeting on Calendly">
+          <a href="{{ .Site.Params.calendly_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="{{ i18n "bookMeetingShort" | default "Book a meeting on Calendly" }}">
             <img src="{{ $calendlyIcon.RelPermalink }}" alt="" class="w-6 h-6" width="24" height="24">
           </a>
           {{ end }}
         </div>
         <!-- Dark Mode Toggle -->
-        <button id="darkModeToggle" class="text-text-primary dark:text-text-primary focus:outline-none">
-          <i class="fas fa-toggle-on dark:hidden"></i>
-          <i class="fas fa-toggle-off hidden dark:block"></i>
+        <button id="darkModeToggle" type="button" aria-label="{{ i18n "toggleDarkMode" | default "Toggle dark mode" }}" class="text-text-primary dark:text-text-primary focus:outline-none">
+          <i class="fas fa-toggle-on dark:hidden" aria-hidden="true"></i>
+          <i class="fas fa-toggle-off hidden dark:block" aria-hidden="true"></i>
         </button>
       </div>
       <div class="lg:hidden flex items-center space-x-4">
         <!-- Dark Mode Toggle Mobile -->
-        <button id="darkModeToggleMobile" class="text-text-primary dark:text-text-primary focus:outline-none">
-          <i class="fas fa-toggle-on dark:hidden"></i>
-          <i class="fas fa-toggle-off hidden dark:block"></i>
+        <button id="darkModeToggleMobile" type="button" aria-label="{{ i18n "toggleDarkMode" | default "Toggle dark mode" }}" class="text-text-primary dark:text-text-primary focus:outline-none">
+          <i class="fas fa-toggle-on dark:hidden" aria-hidden="true"></i>
+          <i class="fas fa-toggle-off hidden dark:block" aria-hidden="true"></i>
         </button>
-        <button id="menu-btn" class="text-text-primary dark:text-text-primary">
-          <i class="fas fa-bars text-2xl"></i>
+        <button id="menu-btn" type="button" aria-label="{{ i18n "openMenu" | default "Menu" }}" aria-controls="mobile-menu" class="text-text-primary dark:text-text-primary">
+          <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
         </button>
       </div>
     </div>
@@ -174,18 +181,18 @@
       <!-- Mobile Social Media Icons -->
       <div class="flex items-center space-x-6 px-3 py-3 border-t border-border-primary dark:border-border-primary mt-2" data-animation="social">
         {{ if .Site.Params.linkedin_url }}
-        <a href="{{ .Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125">
-          <i class="fab fa-linkedin-in text-2xl"></i>
+        <a href="{{ .Site.Params.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in text-2xl" aria-hidden="true"></i>
         </a>
         {{ end }}
         {{ if .Site.Params.github_url }}
-        <a href="{{ .Site.Params.github_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125">
-          <i class="fab fa-github text-2xl"></i>
+        <a href="{{ .Site.Params.github_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="GitHub">
+          <i class="fab fa-github text-2xl" aria-hidden="true"></i>
         </a>
         {{ end }}
         {{ $calendlyIcon := resources.Get "images/calendly-icon.svg" }}
         {{ if and .Site.Params.calendly_url $calendlyIcon }}
-        <a href="{{ .Site.Params.calendly_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="Book a meeting on Calendly">
+        <a href="{{ .Site.Params.calendly_url }}" target="_blank" rel="noopener noreferrer" class="text-text-primary dark:text-text-primary transition-transform duration-300 hover:scale-125" aria-label="{{ i18n "bookMeetingShort" | default "Book a meeting on Calendly" }}">
           <img src="{{ $calendlyIcon.RelPermalink }}" alt="" class="w-7 h-7" width="28" height="28">
         </a>
         {{ end }}
@@ -205,7 +212,6 @@
   <script>
     // Intelligent navigation for section links
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Navigation script loaded');
       
       const sectionLinks = document.querySelectorAll('.section-link');
       console.log('Found section links:', sectionLinks.length);

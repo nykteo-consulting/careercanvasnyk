@@ -17,3 +17,4 @@
   </div>
 {{ end }}
   
+{{ if not ($.Page.Scratch.Get "fslightbox") }}{{ $.Page.Scratch.Set "fslightbox" true }}<script src="{{ site.Params.fslightbox_url | default "https://cdn.jsdelivr.net/npm/fslightbox@3.4.2/index.js" }}"></script>{{ end }}
