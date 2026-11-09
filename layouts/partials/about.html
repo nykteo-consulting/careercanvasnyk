@@ -80,5 +80,33 @@
         </div>
       </div>
     </div>
+
+    {{ with .Site.GetPage "about" }}{{ $p := . }}
+    {{ with $p.Params.achievement_groups }}
+    <!-- Key achievements: full-width box, one column per theme -->
+    <div class="about-achievements mt-8 bg-gradient-to-br from-bg-secondary to-bg-tertiary dark:from-bg-secondary dark:to-bg-tertiary p-6 md:p-8 rounded-xl shadow-lg border border-border-primary dark:border-border-primary">
+      <h3 class="text-xl font-semibold font-heading text-text-primary dark:text-text-primary flex items-center mb-6">
+        <i class="fas fa-trophy mr-3 text-primary dark:text-white" aria-hidden="true"></i>{{ $p.Params.achievements_title | default (i18n "keyAchievements") }}
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {{ range . }}
+        <div class="achievement-group">
+          <h4 class="achievement-group-title text-base font-semibold font-heading text-text-primary dark:text-text-primary flex items-center mb-4 pb-2 border-b border-border-primary dark:border-border-primary">
+            {{ with .icon }}<i class="fas fa-{{ . }} mr-2 text-primary dark:text-white" aria-hidden="true"></i>{{ end }}{{ .title }}
+          </h4>
+          <ul class="space-y-5">
+            {{ range .items }}
+            <li class="achievement-item">
+              {{ with .highlight }}<p class="achievement-highlight font-heading font-bold text-lg leading-tight text-second dark:text-second-light mb-1">{{ . }}</p>{{ end }}
+              <div class="cc-md text-base text-text-secondary dark:text-text-secondary leading-relaxed">{{ .text | markdownify }}</div>
+            </li>
+            {{ end }}
+          </ul>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+    {{ end }}
   </div>
 </section>
