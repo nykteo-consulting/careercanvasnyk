@@ -1,39 +1,23 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.Lang }}">
+<html lang="{{ site.Language.Lang }}" data-default-theme="{{ site.Params.default_theme | default "dark" }}">
 <head>
-    <!-- Prevent dark mode flash -->
-    <script>
-        // Theme default comes from params.default_theme ("dark" if unset); the visitor's choice wins.
-        window.CC_DEFAULT_DARK = {{ ne (site.Params.default_theme | default "dark") "light" }};
-        (function () {
-            var saved = localStorage.getItem('darkMode');
-            if (saved === 'true' || (saved === null && window.CC_DEFAULT_DARK)) {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-    </script>
-    {{ partial "head.html" . }}
-    
-    <!-- Color Variables - Load first to ensure CSS custom properties are available -->
-    {{ partial "color-variables.html" . }}
-    
+    {{ $prod := eq hugo.Environment "production" }}
+    {{ $init := resources.Get "js/init.js" }}
+    {{ $main := resources.Get "js/main.js" }}
+    {{ $colors := resources.Get "css/colors.css" | resources.ExecuteAsTemplate "css/colors.css" . }}
     {{ $styles := resources.Get "css/main.css" | postCSS (dict "config" "./postcss.config.js") }}
-    {{ if eq hugo.Environment "production" }}
+    {{ if $prod }}
+      {{ $init = $init | minify | fingerprint }}
+      {{ $main = $main | minify | fingerprint }}
+      {{ $colors = $colors | minify | fingerprint }}
       {{ $styles = $styles | minify | fingerprint }}
     {{ end }}
-    <link rel="stylesheet" href="{{ $styles.RelPermalink }}?v={{ now.Unix }}" data-version="{{ now.Unix }}">
+    {{/* Blocking on purpose: sets the theme and motion preference before first paint */}}
+    <script src="{{ $init.RelPermalink }}"></script>
+    {{ partial "head.html" . }}
+    <link rel="stylesheet" href="{{ $colors.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $styles.RelPermalink }}{{ if not $prod }}?v={{ now.Unix }}{{ end }}">
     {{ if templates.Exists "partials/head-end.html" }}{{ partial "head-end.html" . }}{{ end }}
-    <style>
-        /* Critical CSS to prevent FOUC */
-        body {
-            visibility: hidden;
-        }
-        .dark body {
-            visibility: hidden;
-        }
-    </style>
-    <!-- Without JavaScript the reveal script never runs: show the page anyway. -->
-    <noscript><style>body, .dark body { visibility: visible; }</style></noscript>
 </head>
 <body class="bg-bg dark:bg-bg text-text-primary dark:text-text-primary flex flex-col min-h-screen transition-colors duration-200">
 
@@ -46,47 +30,6 @@
 
     {{ partial "footer.html" . }}
 
-    {{ $scripts := resources.Get "js/scripts.js" }}
-    {{ $gsap := resources.Get "js/gsap-animations.js" }}
-
-    {{ $colors := resources.Get "js/dynamic-colors.js" }}
-    {{ $deviconFallback := resources.Get "js/devicon-fallback.js" }}
-    {{ if eq hugo.Environment "production" }}
-      {{ $scripts = $scripts | minify | fingerprint }}
-      {{ $gsap = $gsap | minify | fingerprint }}
-
-      {{ $colors = $colors | minify | fingerprint }}
-      {{ $deviconFallback = $deviconFallback | minify | fingerprint }}
-    {{ end }}
-
-    {{ partial "color-config.html" . }}
-    <script>
-        window.CC_GSAP_URL = {{ site.Params.gsap_url | default "/vendor/gsap/gsap.min.js" }};
-        window.CC_DEVICON_BASE = {{ site.Params.devicon_base | default "/vendor/devicon/" }};
-    </script>
-    <script src="{{ $scripts.RelPermalink }}"></script>
-    <script src="{{ $deviconFallback.RelPermalink }}"></script>
-    <script src="{{ $colors.RelPermalink }}"></script>
-    <script src="{{ $gsap.RelPermalink }}"></script>
-
-
-    <!-- Dark mode toggle script -->
-    <script>
-        (function () {
-            var saved = localStorage.getItem('darkMode');
-            var dark = saved === 'true' || (saved === null && window.CC_DEFAULT_DARK);
-            document.documentElement.classList.toggle('dark', dark);
-        })();
-
-        // Stylesheets in head are applied before DOMContentLoaded.
-        // Do not wait for window load: the hero photo must not hold first paint.
-        document.addEventListener('DOMContentLoaded', function() {
-            document.body.style.visibility = 'visible';
-            const heroSection = document.querySelector('.hero-section');
-            if (heroSection) {
-                heroSection.classList.add('hero-content-in');
-            }
-        });
-    </script>
+    <script src="{{ $main.RelPermalink }}"></script>
 </body>
 </html>

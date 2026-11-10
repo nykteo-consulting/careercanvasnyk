@@ -15,8 +15,12 @@
       <div class="lg:w-1/2">
         <div class="contact-card bg-bg dark:bg-bg p-8 rounded-lg shadow-lg border border-border-primary dark:border-border-primary card-hover">
           <h3 class="text-xl font-semibold mb-6 text-text-primary dark:text-text-primary">{{ i18n "sendMeAMessage" }}</h3>
-          <form id="contact-form" action="" method="POST" class="space-y-6">
-            <input type="text" name="_gotcha" style="display:none">
+          {{ $endpoint := site.Params.formspreeendpoint }}
+          <form id="contact-form"{{ with $endpoint }} action="{{ . }}"{{ end }} method="POST" class="space-y-6"
+                data-msg-thanks="{{ i18n "formThanks" | default "Thank you! I will get back to you soon." }}"
+                data-msg-error="{{ i18n "formError" | default "Error: please try again." }}"
+                data-msg-failed="{{ i18n "formFailed" | default "Failed to submit." }}">
+            <input type="text" name="_gotcha" hidden tabindex="-1" autocomplete="off">
             <div class="flex flex-col sm:flex-row gap-4">
               <div class="flex-1">
                 <label for="name" class="block text-sm font-medium text-gray-700 dark:text-text-secondary mb-1">{{ i18n "contactFormLabelNameLabel" }}</label>
@@ -37,10 +41,11 @@
             </div>
             <p class="text-sm font-semibold mb-6 text-text-primary dark:text-text-primary">{{ i18n "formSpreeWarning" }}</p>
             <div class="text-center">
-              <button type="submit" class="bg-gradient-primary text-white px-6 py-3 rounded-lg font-medium shadow-lg button-hover">
+              <button type="submit" class="bg-gradient-primary text-white px-6 py-3 rounded-lg font-medium shadow-lg button-hover"{{ if not $endpoint }} disabled{{ end }}>
                 {{ i18n "contactFormSendBtnLabel" }}
               </button>
             </div>
+            <p class="form-status bg-second text-white px-4 py-2 rounded" role="status">{{ if not $endpoint }}{{ i18n "formNotConfigured" | default "Contact form not configured. Please try again later." }}{{ end }}</p>
           </form>
         </div>
       </div>
@@ -76,7 +81,7 @@
             {{ if .Site.Params.calendly_url }}
             {{ with resources.Get "images/calendly-icon.svg" }}
             <div class="flex items-center gap-3">
-              <div class="contact-info-icon" style="--calendly-mask: url({{ .RelPermalink }})">
+              <div class="contact-info-icon">
                 <span class="contact-info-icon-img" role="img" aria-label="Calendly"></span>
               </div>
               <a href="{{ $.Site.Params.calendly_url }}" target="_blank" rel="noopener noreferrer" class="text-primary dark:text-white">{{ replace (replace $.Site.Params.calendly_url "https://" "") "http://" "" }}</a>
@@ -104,57 +109,4 @@
   </div>
 
 </section>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('contact-form');
-    if (form) {
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        
-        const formspreeEndpoint = {{ .Site.Params.formspreeendpoint | jsonify | safeJS }};
-        
-        if (!formspreeEndpoint) {
-          showToast({{ i18n "formNotConfigured" | default "Contact form not configured. Please try again later." }});
-          return;
-        }
-        
-        const formData = new FormData(form);
-    
-        try {
-          const response = await fetch(formspreeEndpoint, {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          });
-    
-          if (response.ok) {
-            showToast({{ i18n "formThanks" | default "Thank you! I will get back to you soon." }});
-            form.reset();
-          } else {
-            showToast({{ i18n "formError" | default "Error: please try again." }});
-          }
-        } catch (error) {
-          console.error(error);
-          showToast({{ i18n "formFailed" | default "Failed to submit." }});
-        }
-      });
-    }
-
-  
-    function showToast(message) {
-      const toast = document.createElement('div');
-      toast.textContent = message;
-      toast.setAttribute('role', 'status');
-      toast.className = 'fixed bottom-6 right-6 bg-second dark:bg-second-light text-white px-4 py-2 rounded shadow-lg';
-      document.body.appendChild(toast);
-  
-      setTimeout(() => {
-        toast.remove();
-      }, 4000);
-    }
-  });
-</script>
 

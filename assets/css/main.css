@@ -15,15 +15,6 @@
     font-family: var(--font-heading, var(--font-body, ui-sans-serif, system-ui, sans-serif));
   }
 
-  /* Dynamic Color Transitions */
-  .color-transition * {
-    transition: color 1s ease, background-color 1s ease, border-color 1s ease, box-shadow 1s ease !important;
-  }
-  
-  .color-transition {
-    transition: --color-main 1s ease, --color-second 1s ease, --color-third 1s ease !important;
-  }
-
   /* Gradient Background */
   .gradient-bg {
     background: linear-gradient(135deg, 
@@ -70,7 +61,7 @@
     z-index: 2;
   }
 
-  .pexels-bg .morphing-shapes > div {
+  .pexels-bg .morphing-shapes > * {
     z-index: 2;
   }
 
@@ -127,7 +118,9 @@
   .dark .contact-info-icon img {
     filter: brightness(0) invert(1);
   }
+  /* Published by the templates that call resources.Get "images/calendly-icon.svg" */
   .contact-info-icon .contact-info-icon-img {
+    --calendly-mask: url("/images/calendly-icon.svg");
     display: block;
     mask-image: var(--calendly-mask);
     -webkit-mask-image: var(--calendly-mask);
@@ -309,26 +302,14 @@
     min-height: calc(100vh - 4rem);
   }
 
-  /* Portrait and text fade in on reveal. The class is added with the body reveal so this does not run while the page is hidden. */
-  .hero-section [data-animation] {
-    opacity: 0;
-  }
-
-  .hero-section.hero-content-in [data-animation] {
-    animation: hero-content-in 0.7s ease-in forwards;
+  /* Portrait and text fade in when the page is revealed (html.ready, set by main.js) */
+  .ready .hero-section [data-animation] {
+    animation: hero-content-in 0.7s ease-in both;
   }
 
   @keyframes hero-content-in {
     from { opacity: 0; }
     to { opacity: 1; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-section [data-animation],
-    .hero-section.hero-content-in [data-animation] {
-      opacity: 1;
-      animation: none;
-    }
   }
 
   /* Stacked hero stays centered. Side-by-side hero stays top-aligned. */
@@ -543,18 +524,18 @@
 }
 
 @layer utilities {
+  /* Anchors land below the fixed 4rem navigation bar */
   section[id] {
-    scroll-margin-top: 3rem;
+    scroll-margin-top: 4rem;
   }
 
-  /* Simple fade-in animation states */
-  section[data-animate] {
+  /* Sections fade in when scrolled into view (main.js); without JS they stay visible */
+  .ready section[data-animate] {
     opacity: 0;
-    /* transform: translateY(15px); */
     transition: opacity 0.6s ease;
   }
 
-  section[data-animate].fade-in-visible {
+  .ready section[data-animate].fade-in-visible {
     opacity: 1;
   }
 }
@@ -822,7 +803,7 @@
   background: linear-gradient(135deg, var(--color-third-lighter), var(--color-third-light)) !important;
 }
 
-/* Typewriter: phrases split on ". " in JS; the JS reserves the height of the tallest phrase */
+/* Typewriter (main.js): the script reserves the height of the tallest phrase */
 .typewriter {
   display: block;
   max-width: 100%;
@@ -840,6 +821,11 @@
   background-color: currentColor;
   margin-left: 0.08em;
   vertical-align: -0.12em;
+  animation: cc-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes cc-blink {
+  50% { opacity: 0; }
 }
 
 /* Visually hidden text for screen readers */
@@ -1060,3 +1046,198 @@ a.cc-page-header__kicker:hover { opacity: 1; text-decoration: underline; text-un
 .cc-tags { list-style: none; padding: 0; margin-top: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .cc-tags li { font-size: 0.75rem; padding: 0.15rem 0.55rem; border-radius: 999px; border: 1px solid var(--color-border); color: var(--color-text-secondary); }
 .cc-empty { color: var(--color-text-secondary); }
+
+/* ---------- Page reveal ----------
+   init.js adds .js in <head>; main.js adds .ready at the end of <body>.
+   Hidden only while both scripts run; shown after 3 s anyway if main.js fails. Never hidden without JS. */
+.js:not(.ready) body {
+  visibility: hidden;
+  animation: cc-reveal 0s 3s forwards;
+}
+
+@keyframes cc-reveal {
+  to { visibility: visible; }
+}
+
+html:not(.js) .js-only {
+  display: none !important;
+}
+
+/* Contact form status: live region kept in the page, empty until a message is sent */
+.form-status:empty {
+  padding: 0;
+}
+
+/* ---------- Toggles (theme, animations) ---------- */
+.nav-toggle {
+  line-height: 1;
+  padding: 0.25rem;
+}
+
+.motion-off-label,
+[data-motion="off"] .motion-on-label {
+  display: none;
+}
+
+[data-motion="off"] .motion-off-label {
+  display: inline;
+}
+
+/* ---------- Menus built on <details> ---------- */
+.nav-dropdown > summary,
+.mobile-nav > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.nav-dropdown > summary::-webkit-details-marker,
+.mobile-nav > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-dropdown[open] > summary .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+/* ---------- Hero ---------- */
+.hero-text-col {
+  width: 100%;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.hero-glass-dark {
+  background: rgb(0 0 0 / 15%);
+  backdrop-filter: blur(32px);
+}
+
+.hero-glass-light {
+  background: rgb(255 255 255 / 20%);
+  backdrop-filter: blur(8px);
+}
+
+/* Background shapes. --mx / --my (-1 to 1) follow the pointer, set by main.js. */
+.hero-section {
+  --mx: 0;
+  --my: 0;
+
+  transition: box-shadow 0.5s ease-out;
+}
+
+.hero-section.is-tracking {
+  box-shadow: 0 0 calc(20px + (var(--mx) + var(--my)) * (var(--mx) + var(--my)) * 8px) var(--color-primary-light);
+}
+
+.morphing-shapes {
+  z-index: 1;
+}
+
+.morphing-shapes > span {
+  position: absolute;
+  display: block;
+  opacity: 0;
+  translate: calc(var(--mx) * var(--sx)) calc(var(--my) * var(--sy));
+  transition: translate 1.2s ease-out;
+  animation-fill-mode: both;
+}
+
+.diagonal-line {
+  --sx: 25px;
+  --sy: 20px;
+
+  width: 1200px;
+  height: 3px;
+  background: linear-gradient(45deg, transparent, var(--color-primary-light), transparent);
+  animation: cc-line 8s ease-in-out infinite alternate;
+}
+
+.spline-curve {
+  --sx: 15px;
+  --sy: 12px;
+
+  width: 180px;
+  height: 180px;
+  border: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: cc-curve 10s linear infinite alternate;
+}
+
+/* Fixed pseudo-random positions, angles and delays */
+.diagonal-line:nth-child(1) { left: 12%; top: 18%; --r: 25deg; animation-delay: 0s; }
+.diagonal-line:nth-child(2) { left: 64%; top: 72%; --r: 140deg; animation-delay: 0.8s; --sx: 33px; --sy: 26px; }
+.diagonal-line:nth-child(3) { left: 38%; top: 46%; --r: 260deg; animation-delay: 1.6s; --sx: 41px; --sy: 32px; }
+.diagonal-line:nth-child(4) { left: 80%; top: 24%; --r: 320deg; animation-delay: 2.4s; --sx: 49px; --sy: 38px; }
+.spline-curve:nth-child(5) { left: 72%; top: 14%; animation-delay: 0s; }
+.spline-curve:nth-child(6) { left: 18%; top: 66%; animation-delay: 1.2s; --sx: 23px; --sy: 18px; }
+.spline-curve:nth-child(7) { left: 52%; top: 82%; animation-delay: 2.4s; --sx: 31px; --sy: 24px; }
+
+@keyframes cc-line {
+  0% { opacity: 0; transform: rotate(var(--r)) scaleX(1); }
+  50% { opacity: 0.4; transform: rotate(calc(var(--r) + 90deg)) scaleX(4); }
+  100% { opacity: 0.4; transform: rotate(calc(var(--r) + 180deg)) scaleX(4); }
+}
+
+@keyframes cc-curve {
+  0% { opacity: 0; border-radius: 50%; transform: rotate(0deg) scale(1); }
+  60% { opacity: 0.6; border-radius: 0%; transform: rotate(216deg) scale(1.2); }
+  100% { opacity: 0.6; border-radius: 0%; transform: rotate(360deg) scale(1.2); }
+}
+
+/* Quick facts rise in when the "about" section appears */
+.fade-in-visible .quick-fact-card {
+  animation: cc-rise 0.6s ease-out both;
+}
+
+.fade-in-visible .quick-fact-card:nth-child(2) { animation-delay: 0.1s; }
+.fade-in-visible .quick-fact-card:nth-child(3) { animation-delay: 0.2s; }
+.fade-in-visible .quick-fact-card:nth-child(4) { animation-delay: 0.3s; }
+.fade-in-visible .quick-fact-card:nth-child(5) { animation-delay: 0.4s; }
+.fade-in-visible .quick-fact-card:nth-child(n+6) { animation-delay: 0.5s; }
+
+@keyframes cc-rise {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Animations off ----------
+   data-motion="off": visitor's choice (toggle) or prefers-reduced-motion by default (init.js).
+   Shapes stay as a still background; content is shown at once. */
+[data-motion="off"] *,
+[data-motion="off"] *::before,
+[data-motion="off"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+[data-motion="off"] .morphing-shapes > span {
+  animation: none !important;
+  translate: none;
+  opacity: 0.25;
+  transform: rotate(var(--r, 0deg));
+}
+
+[data-motion="off"] .hero-section.is-tracking {
+  box-shadow: none;
+}
+
+[data-motion="off"] .typing-cursor {
+  display: none;
+}
+
+[data-motion="off"] .card-hover:hover,
+[data-motion="off"] .quick-fact-card:hover {
+  transform: none !important;
+}
+
+/* Without JS, the visitor's system setting still applies */
+@media (prefers-reduced-motion: reduce) {
+  html:not(.js) *,
+  html:not(.js) *::before,
+  html:not(.js) *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,15 +1,19 @@
 # careercanvasnyk
 
-Thème Hugo du site [nykteo.com](https://nykteo.com) : fork de [CareerCanvas](https://github.com/felipecordero/careercanvas) de Felipe Cordero (licence MIT, voir `LICENSE`).
+Thème Hugo du site [nykteo.com](https://nykteo.com). Licence MIT : voir `LICENSE`.
 
 Dépôt public : n'y mettre aucune donnée personnelle ni confidentielle. Le contenu et la configuration du site sont dans le dépôt privé `nykteo-web`.
 
-## Principales différences avec CareerCanvas
+## Particularités
 
-- Aucune ressource chargée depuis un CDN : Font Awesome, GSAP, Devicon et les polices sont servis par le site (chemins configurables).
+- Aucune ressource chargée depuis un CDN : Font Awesome, Devicon et les polices sont servis par le site (chemins configurables).
+- Aucun script ni style inline : compatible avec une CSP `script-src 'self'; style-src 'self'`. Deux scripts : `assets/js/init.js` (dans `<head>`, thème et animations avant le premier affichage) et `assets/js/main.js` (fin de page).
+- Animations en CSS (formes du hero, apparition des sections, machine à écrire). Bouton d'arrêt dans la barre de navigation et lien en pied de page : `<html data-motion="on|off">`, choix mémorisé, `prefers-reduced-motion` respecté par défaut.
+- Menus (langue, sous-menus, menu mobile) en `<details>` : utilisables sans JavaScript.
+- Formulaire de contact natif (`action` = Formspree) ; avec JavaScript, envoi dans la page et message de statut.
 - Polices par variables CSS (`--font-body`, `--font-heading`, `--font-brand`) au lieu de Google Fonts.
 - Logos clair/sombre, favicons, `theme-color`, thème par défaut configurables.
-- Hero : bio en Markdown, effet typewriter optionnel et accessible.
+- Hero : bio en Markdown, effet machine à écrire optionnel et accessible.
 - Section « à propos » : colonnes de même hauteur, encadré de réalisations clés en deux groupes, plus de fenêtre modale.
 - Pages de contenu (`single`, liste du blog) : bandeau de titre, colonne de lecture, typographie dédiée.
 - `lang` de la page, libellés et `aria-label` traduits via `i18n`.
@@ -24,9 +28,9 @@ Dépôt public : n'y mettre aucune donnée personnelle ni confidentielle. Le con
 | `default_theme` | `light` ou `dark` à la première visite | `dark` |
 | `hero_typewriter` | `false` pour un sous-titre fixe ; phrases séparées par « . » | `true` |
 | `fontawesome_css` | feuille Font Awesome | `/vendor/fontawesome/css/all.min.css` |
-| `devicon_css`, `devicon_base` | feuille Devicon (optionnelle), dossier des icônes SVG | `""`, `/vendor/devicon/` |
-| `gsap_url`, `fslightbox_url` | scripts GSAP et fslightbox (galeries) | `/vendor/gsap/gsap.min.js`, `/vendor/fslightbox/index.js` |
-| `color_palettes` | palette (couleurs principale, secondaire, tertiaire) | voir `COLOR_CUSTOMIZATION.md` |
+| `devicon_css`, `devicon_base` | feuille Devicon (optionnelle), dossier des icônes SVG sous `static/` (résolues à la compilation, repli Font Awesome) | `""`, `/vendor/devicon/` |
+| `fslightbox_url` | script fslightbox (galeries) | `/vendor/fslightbox/index.js` |
+| `color_palettes` | première palette (`main_color`, `second_color`, `third_color`) : variables CSS générées par `assets/css/colors.css` | gris, rouge, vert |
 | `home_title` | `<title>`, `og:title` et `twitter:title` de la page d'accueil (par langue) | « titre du site \| tagline » |
 | `og_image`, `og_image_alt` | image de partage 1200 × 630 et son texte alternatif (par langue) | aucun |
 | `og_locale` | `og:locale` au format `fr_FR`, `en_GB` (par langue) ; les traductions sont déclarées en `og:locale:alternate` | code de langue |

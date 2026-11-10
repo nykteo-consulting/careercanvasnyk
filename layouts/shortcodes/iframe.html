@@ -1,21 +1,19 @@
 {{ $id := .Get "id" }}
 {{ if not $id }}
-  <div style="color: red; font-weight: bold;">{{ i18n "iframeIdRequired" }}</div>
+  <div class="text-red-700 font-bold">{{ i18n "iframeIdRequired" }}</div>
 {{ else }}
 <div class="relative">
     <div class="aspect-video">
       <iframe
         id="iframe-{{ $id }}"
         src="{{ .Get "src" }}"
-        class="w-full h-full"
-        style="border: none;"
+        class="w-full h-full border-0"
         allowfullscreen
         loading="lazy">
       </iframe>
     </div>
-    <button
-      class="absolute top-2 right-2 bg-bg/80 text-text-primary text-sm px-2 py-1 rounded shadow hover:bg-bg"
-      onclick="document.getElementById('iframe-{{ $id }}').requestFullscreen();">
+    <button type="button" data-fullscreen="iframe-{{ $id }}"
+      class="js-only absolute top-2 right-2 bg-bg/80 text-text-primary text-sm px-2 py-1 rounded shadow hover:bg-bg">
       ⛶ {{ i18n "fullscreen" }}
     </button>
   </div>

@@ -1,7 +1,7 @@
-name = "CareerCanvas (Nykteo)"
+name = "careercanvasnyk"
 license = "MIT"
 licenselink = "https://github.com/nykteo/careercanvasnyk/blob/main/LICENSE"
-description = "Fork de CareerCanvas pour le site de Nykteo Consulting"
+description = "Thème Hugo du site de Nykteo Consulting"
 homepage = "https://github.com/nykteo/careercanvasnyk"
 tags = ["blog", "portfolio", "personal", "responsive", "career", "resume", "dark", "light", "tailwind", "company"]
 features = ["responsive", "blog", "dark mode", "resume", "career showcase", "tailwind"]
@@ -11,10 +11,6 @@ min_version = "0.147.1"
   name = "Nykteo Consulting"
   homepage = "https://github.com/nykteo"
 
-[original]
-  author = "Felipe Cordero"
-  homepage = "https://felipecordero.com"
-  repo = "https://github.com/felipecordero/careercanvas"
 
 # Theme Configuration
 # Note: Colors are now defined in config.toml for better user control

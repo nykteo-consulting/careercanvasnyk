@@ -41,7 +41,7 @@
     <div class="mt-8 pt-8 border-t border-border-primary text-center text-text-secondary dark:text-text-muted text-sm">
       {{  $legUrl := absLangURL "legal" }}
       {{  $dataUrl := absLangURL "data" }}
-      <p>© {{ time.Now.Year }} | {{ .Site.Params.copyright }} | <a href="{{ $legUrl }}" class="text-text-secondary dark:text-text-muted hover:text-primary dark:hover:text-primary-light">{{ i18n "legal" }}</a> | <a href="{{ $dataUrl }}" class="text-text-secondary dark:text-text-muted hover:text-primary dark:hover:text-primary-light">{{ i18n "dataprivacy" }}</a></p>
+      <p>© {{ time.Now.Year }} | {{ .Site.Params.copyright }} | <a href="{{ $legUrl }}" class="text-text-secondary dark:text-text-muted hover:text-primary dark:hover:text-primary-light">{{ i18n "legal" }}</a> | <a href="{{ $dataUrl }}" class="text-text-secondary dark:text-text-muted hover:text-primary dark:hover:text-primary-light">{{ i18n "dataprivacy" }}</a><span class="js-only"> | <button type="button" data-toggle="motion" class="motion-toggle-text underline-offset-2 hover:underline hover:text-primary dark:hover:text-primary-light"><span class="motion-on-label">{{ i18n "motionOff" | default "Turn animations off" }}</span><span class="motion-off-label">{{ i18n "motionOn" | default "Turn animations on" }}</span></button></span></p>
     </div>
   </div>
 </footer>

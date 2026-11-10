@@ -1,4 +1,8 @@
 <section id="home" class="flex items-center justify-center gradient-bg text-white relative overflow-hidden hero-section">
+  <div class="morphing-shapes absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <span class="diagonal-line"></span><span class="diagonal-line"></span><span class="diagonal-line"></span><span class="diagonal-line"></span>
+    <span class="spline-curve"></span><span class="spline-curve"></span><span class="spline-curve"></span>
+  </div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-16">
     <div class="hero-inner-row flex flex-col lg:flex-row justify-between gap-12 w-full">
       <!-- Left content - Profile image -->
@@ -28,7 +32,7 @@
         </div>
       </div>
       <!-- Right content -->
-      <div class="text-center lg:text-left mt-8 md:mt-0" style="width: 100%; max-width: 600px; min-width: 300px;">
+      <div class="hero-text-col text-center lg:text-left mt-8 md:mt-0">
         <!-- Greeting -->
         <div class="mb-4 mt-4 md:mt-0 hero-text-element" data-animation="greeting">
           <span class="hero-text-accent font-medium text-lg block">{{ i18n "helloIm" }}</span>
@@ -37,7 +41,7 @@
         <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 font-heading leading-tight hero-name hero-text-element" data-animation="name">
           {{ .Site.Params.firstName }} {{ .Site.Params.lastName }}
         </h1>
-        <!-- Tagline: optional typewriter (params.hero_typewriter); phrases split in JS on ". " -->
+        <!-- Tagline: optional typewriter (params.hero_typewriter), see main.js -->
         <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-6 font-light hero-text-accent hero-text-element w-full flex items-center justify-center lg:justify-start" data-animation="tagline">
           {{ $tagline := .Site.Params.tagline }}
           {{ if eq site.Params.hero_typewriter false }}
@@ -48,7 +52,7 @@
           {{ end }}
         </h2>
         <!-- Description -->
-        <div class="hero-description cc-md text-lg md:text-xl mb-8 max-w-2xl mx-auto lg:mx-0 hero-text-muted leading-relaxed hero-text-element px-4 py-3 rounded-lg" style="background: rgba(0, 0, 0, 0.15); backdrop-filter: blur(32px);" data-animation="description">
+        <div class="hero-description cc-md text-lg md:text-xl mb-8 max-w-2xl mx-auto lg:mx-0 hero-text-muted leading-relaxed hero-text-element px-4 py-3 rounded-lg hero-glass-dark" data-animation="description">
           {{ .Site.Params.hero_description | markdownify }}
         </div>
 
@@ -63,7 +67,7 @@
         </div>
         <!-- Social links -->
         <div class="flex justify-center lg:justify-end mt-8 mb-8 md:mb-0 hero-text-element" data-animation="social">
-          <div class="flex space-x-4 px-4 py-3 rounded-lg" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);">
+          <div class="flex space-x-4 px-4 py-3 rounded-lg hero-glass-light">
             {{ range .Site.Params.social }}
             <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-white transition-transform duration-300 hover:scale-125" aria-label="{{ .label | default (humanize .icon) }}">
               <i class="fab fa-{{ .icon }} text-3xl" aria-hidden="true"></i>
