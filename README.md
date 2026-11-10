@@ -46,4 +46,4 @@ Le site l'inclut en sous-module dans `themes/careercanvas`. Tailwind est compil√
 
 ## Licence
 
-MIT : voir [LICENSE](LICENSE)
+MIT : voir [LICENSE](LICENSE).
