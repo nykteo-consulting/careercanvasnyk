@@ -27,8 +27,13 @@ Dépôt public : n'y mettre aucune donnée personnelle ni confidentielle. Le con
 | `devicon_css`, `devicon_base` | feuille Devicon (optionnelle), dossier des icônes SVG | `""`, `/vendor/devicon/` |
 | `gsap_url`, `fslightbox_url` | scripts GSAP et fslightbox (galeries) | `/vendor/gsap/gsap.min.js`, `/vendor/fslightbox/index.js` |
 | `color_palettes` | palette (couleurs principale, secondaire, tertiaire) | voir `COLOR_CUSTOMIZATION.md` |
+| `home_title` | `<title>`, `og:title` et `twitter:title` de la page d'accueil (par langue) | « titre du site \| tagline » |
+| `og_image`, `og_image_alt` | image de partage 1200 × 630 et son texte alternatif (par langue) | aucun |
+| `og_locale` | `og:locale` au format `fr_FR`, `en_GB` (par langue) ; les traductions sont déclarées en `og:locale:alternate` | code de langue |
 
-Paramètres de page ajoutés : `kicker` (surtitre du bandeau), `show_meta: false` (masque date et temps de lecture d'un article).
+Paramètres de page ajoutés : `kicker` (surtitre du bandeau), `show_meta: false` (masque date et temps de lecture d'un article), `og_image` et `og_image_alt` (image de partage propre à la page), `robots` (par exemple `"noindex, follow"`, produit une balise `<meta name="robots">`).
+
+Les pages de la section `blog` sont déclarées `og:type = article`, avec `article:published_time`, `article:modified_time`, `article:author` et un `article:tag` par étiquette.
 Données des sections « à propos » : `intro`, `passion_title`, `passion_text`, `achievements_title`, `achievement_groups` (`title`, `icon`, `items` avec `highlight` et `text`), `quickfacts` (`icon`, `title`, `value` en Markdown).
 
 ## Installation

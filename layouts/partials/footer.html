@@ -13,7 +13,7 @@
         {{ $calendlyIcon := resources.Get "images/calendly-icon.svg" }}
         <div class="flex space-x-8 mt-6 items-center" data-animation="social">
           {{ range .Site.Params.social }}
-          <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-text-secondary dark:text-text-muted text-third dark:text-third-light transition-transform duration-300 hover:scale-125" aria-label="{{ .label | default (humanize .icon) }}">
+          <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-text-secondary dark:text-text-muted text-third dark:text-third-light transition-transform duration-300 hover:scale-125" aria-label="{{ .label | default (humanize .icon) }}" title="{{ .label | default (humanize .icon) }}">
             {{ if and (eq .icon "calendly") $calendlyIcon }}
             <img src="{{ $calendlyIcon.RelPermalink }}" alt="Calendly" class="w-8 h-8" width="32" height="32">
             {{ else }}

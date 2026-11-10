@@ -10,14 +10,13 @@
         {{ $resumeLabel := .Params.resume_label }}
         {{ $buttonClass := "flex items-center justify-center bg-gradient-primary text-white text-sm sm:text-lg px-4 sm:px-6 py-4 rounded-lg font-semibold shadow-lg w-auto sm:w-auto" }}
       
-        {{/* Build language → resume_url lookup map */}}
+        {{/* Build language → resume_url lookup map from each language's site params
+             (independent of the section page, which may be built with render: never). */}}
         {{ $resumeMap := dict }}
-        {{ with .Rotate "language" }}
-          {{ range . }}
-            {{ $lang := .Site.Language.Lang }}
-            {{ with .Site.Params.resume_url }}
-              {{ $resumeMap = merge $resumeMap (dict $lang .) }}
-            {{ end }}
+        {{ range hugo.Sites }}
+          {{ $lang := .Language.Lang }}
+          {{ with .Params.resume_url }}
+            {{ $resumeMap = merge $resumeMap (dict $lang .) }}
           {{ end }}
         {{ end }}
 

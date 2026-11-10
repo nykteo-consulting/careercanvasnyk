@@ -2,36 +2,67 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+{{- /* Shared values for <title>, Open Graph and Twitter.
+     Home title: params.home_title if set, else "Site title | tagline".
+     Share image: page og_image, else site og_image (per language). */ -}}
+{{- $title := printf "%s | %s" .Title .Site.Title -}}
+{{- if .IsHome -}}
+  {{- $title = site.Params.home_title | default (printf "%s | %s" .Site.Title .Site.Params.tagline) -}}
+{{- end -}}
+{{- $description := .Params.description | default .Site.Params.description -}}
+{{- $ogImage := .Params.og_image | default site.Params.og_image -}}
+{{- $ogImageAlt := .Params.og_image_alt | default site.Params.og_image_alt -}}
+{{- $isArticle := and .IsPage (eq .Section "blog") -}}
+{{- $ogLocale := site.Params.og_locale | default site.Language.Lang -}}
+
 <!-- 🔖 Dynamic title -->
-<title>
-  {{ if .IsHome }}
-    {{ .Site.Title }} | {{ .Site.Params.tagline }}
-  {{ else }}
-    {{ .Title }} | {{ .Site.Title }}
-  {{ end }}
-</title>
+<title>{{ $title }}</title>
 
 <!-- ✅ Meta tags -->
-<meta name="description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
+<meta name="description" content="{{ $description }}" />
 <meta name="author" content="{{ .Site.Params.author | default .Site.Params.name }}" />
 <link rel="canonical" href="{{ .Permalink }}" />
+{{- /* Front matter "robots" (e.g. "noindex, follow") for pages that must stay out of search engines. */}}
+{{ with .Params.robots }}<meta name="robots" content="{{ . }}" />{{ end }}
 
 <!-- 🌐 Open Graph -->
-<meta property="og:type" content="website" />
-<meta property="og:locale" content="{{ site.Language.Lang }}" />
-<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }} | {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}" />
-<meta property="og:description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
+<meta property="og:type" content="{{ if $isArticle }}article{{ else }}website{{ end }}" />
+<meta property="og:locale" content="{{ $ogLocale }}" />
+{{- range .Translations }}
+<meta property="og:locale:alternate" content="{{ .Site.Params.og_locale | default .Language.Lang }}" />
+{{- end }}
+<meta property="og:title" content="{{ $title }}" />
+<meta property="og:description" content="{{ $description }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
-<meta property="og:image" content="{{ with .Params.og_image }}{{ . | absURL }}{{ else }}{{ with site.Params.og_image }}{{ . | absURL }}{{ end }}{{ end }}">
+{{- with $ogImage }}
+<meta property="og:image" content="{{ . | absURL }}" />
+<meta property="og:image:type" content="{{ if hasSuffix (lower .) ".png" }}image/png{{ else if hasSuffix (lower .) ".webp" }}image/webp{{ else }}image/jpeg{{ end }}" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+{{- with $ogImageAlt }}
+<meta property="og:image:alt" content="{{ . }}" />
+{{- end }}
+{{- end }}
 <meta property="og:site_name" content="{{ .Site.Title }}" />
+{{- if $isArticle }}
+<meta property="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}" />
+<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}" />
+<meta property="article:author" content="{{ .Site.Params.author | default .Site.Params.name }}" />
+{{- range .Params.tags }}
+<meta property="article:tag" content="{{ . }}" />
+{{- end }}
+{{- end }}
 
 <!-- 🐦 Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }} | {{ .Site.Params.tagline }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}" />
-<meta name="twitter:description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}" />
-<meta name="twitter:image" content="{{ with .Params.og_image }}{{ . | absURL }}{{ else }}{{ with site.Params.og_image }}{{ . | absURL }}{{ end }}{{ end }}" />
+<meta name="twitter:title" content="{{ $title }}" />
+<meta name="twitter:description" content="{{ $description }}" />
+{{- with $ogImage }}
+<meta name="twitter:image" content="{{ . | absURL }}" />
+{{- with $ogImageAlt }}
+<meta name="twitter:image:alt" content="{{ . }}" />
+{{- end }}
+{{- end }}
 
 <!-- 🔧 Favicon -->
 <link rel="icon" href="/favicon.ico" sizes="any" />
