@@ -31,6 +31,15 @@
   });
   syncToggles();
 
+  // "auto" theme follows the system until the visitor picks one
+  if (root.getAttribute('data-default-theme') === 'auto' && window.matchMedia) {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      var saved = null;
+      try { saved = localStorage.getItem('darkMode'); } catch (err) {}
+      if (saved === null) { root.classList.toggle('dark', e.matches); syncToggles(); }
+    });
+  }
+
   // Menus
   var menus = document.querySelectorAll('details[data-menu]');
   document.addEventListener('click', function (e) {

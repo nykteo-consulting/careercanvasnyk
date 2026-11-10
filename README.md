@@ -25,7 +25,7 @@ Dépôt public : n'y mettre aucune donnée personnelle ni confidentielle. Le con
 |---|---|---|
 | `logo`, `logo_dark` | logo de l'en-tête (fond clair / sombre) | texte `home_text` |
 | `favicon_svg`, `apple_touch_icon`, `theme_color` | icônes et couleur du navigateur | aucun |
-| `default_theme` | `light` ou `dark` à la première visite | `dark` |
+| `default_theme` | `light`, `dark` ou `auto` (réglage du navigateur) tant que le visiteur n'a pas choisi | `dark` |
 | `hero_typewriter` | `false` pour un sous-titre fixe ; phrases séparées par « . » | `true` |
 | `fontawesome_css` | feuille Font Awesome | `/vendor/fontawesome/css/all.min.css` |
 | `devicon_css`, `devicon_base` | feuille Devicon (optionnelle), dossier des icônes SVG sous `static/` (résolues à la compilation, repli Font Awesome) | `""`, `/vendor/devicon/` |
