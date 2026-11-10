@@ -2,9 +2,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-{{- /* Shared values for <title>, Open Graph and Twitter.
-     Home title: params.home_title if set, else "Site title | tagline".
-     Share image: page og_image, else site og_image (per language). */ -}}
 {{- $title := printf "%s | %s" .Title .Site.Title -}}
 {{- if .IsHome -}}
   {{- $title = site.Params.home_title | default (printf "%s | %s" .Site.Title .Site.Params.tagline) -}}
@@ -15,17 +12,13 @@
 {{- $isArticle := and .IsPage (eq .Section "blog") -}}
 {{- $ogLocale := site.Params.og_locale | default site.Language.Lang -}}
 
-<!-- 🔖 Dynamic title -->
 <title>{{ $title }}</title>
 
-<!-- ✅ Meta tags -->
 <meta name="description" content="{{ $description }}" />
 <meta name="author" content="{{ .Site.Params.author | default .Site.Params.name }}" />
 <link rel="canonical" href="{{ .Permalink }}" />
-{{- /* Front matter "robots" (e.g. "noindex, follow") for pages that must stay out of search engines. */}}
 {{ with .Params.robots }}<meta name="robots" content="{{ . }}" />{{ end }}
 
-<!-- 🌐 Open Graph -->
 <meta property="og:type" content="{{ if $isArticle }}article{{ else }}website{{ end }}" />
 <meta property="og:locale" content="{{ $ogLocale }}" />
 {{- range .Translations }}
@@ -53,7 +46,6 @@
 {{- end }}
 {{- end }}
 
-<!-- 🐦 Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{{ $title }}" />
 <meta name="twitter:description" content="{{ $description }}" />
@@ -64,13 +56,11 @@
 {{- end }}
 {{- end }}
 
-<!-- 🔧 Favicon -->
 <link rel="icon" href="/favicon.ico" sizes="any" />
 {{ with site.Params.favicon_svg }}<link rel="icon" href="{{ . | relURL }}" type="image/svg+xml" />{{ end }}
 {{ with site.Params.apple_touch_icon }}<link rel="apple-touch-icon" href="{{ . | relURL }}" />{{ end }}
 {{ with site.Params.theme_color }}<meta name="theme-color" content="{{ . }}" />{{ end }}
 
-<!-- Icons: no third-party CDN. The site serves the files itself (defaults below are local paths). -->
 {{ with site.Params.fontawesome_css | default "/vendor/fontawesome/css/all.min.css" }}<link rel="stylesheet" href="{{ . }}" />{{ end }}
 {{ with site.Params.devicon_css }}<link rel="stylesheet" href="{{ . }}" />{{ end }}
 

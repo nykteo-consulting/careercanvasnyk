@@ -12,7 +12,7 @@
       {{ $colors = $colors | minify | fingerprint }}
       {{ $styles = $styles | minify | fingerprint }}
     {{ end }}
-    {{/* Blocking on purpose: sets the theme and motion preference before first paint */}}
+    {{/* No defer: must run before first paint */}}
     <script src="{{ $init.RelPermalink }}"></script>
     {{ partial "head.html" . }}
     <link rel="stylesheet" href="{{ $colors.RelPermalink }}">

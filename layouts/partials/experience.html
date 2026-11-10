@@ -4,14 +4,12 @@
     <h2 class="text-3xl font-bold text-center mb-4 font-heading text-text-primary dark:text-text-primary">{{ .Title }}</h2>
     <p class="text-lg text-center mb-12 text-gray-700 dark:text-text-tertiary italic">{{ .Params.intro }}</p>
 
-    <!-- Resume Download Buttons -->
     <div class="text-center mb-12">
       <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center items-center">
         {{ $resumeLabel := .Params.resume_label }}
         {{ $buttonClass := "flex items-center justify-center bg-gradient-primary text-white text-sm sm:text-lg px-4 sm:px-6 py-4 rounded-lg font-semibold shadow-lg w-auto sm:w-auto" }}
       
-        {{/* Build language → resume_url lookup map from each language's site params
-             (independent of the section page, which may be built with render: never). */}}
+        {{/* hugo.Sites, not .Rotate: section pages have render: never */}}
         {{ $resumeMap := dict }}
         {{ range hugo.Sites }}
           {{ $lang := .Language.Lang }}
@@ -20,7 +18,6 @@
           {{ end }}
         {{ end }}
 
-        {{/* Render buttons in desired order */}}
         {{ range .Params.resume_downloads }}
           {{ $item := . }}
           {{ with index $resumeMap $item.lang }}
@@ -34,12 +31,9 @@
       </div>
     </div>
 
-    <!-- Experience Timeline -->
     <div class="relative pt-4">
-      <!-- Timeline line -->
       <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 transform -translate-x-1/2 shadow-lg z-0 timeline-line"></div>
 
-      <!-- Timeline items -->
       <div class="space-y-8 md:space-y-16">
         {{ range $index, $exp := .Params.positions }}
         {{ $roles := or $exp.roles (slice) }}
@@ -49,10 +43,8 @@
           {{ $primaryRole = (index $roles 0).title }}
         {{ end }}
         <div class="relative timeline-item" data-animate>
-          <!-- Timeline bullet -->
           <div class="hidden md:block absolute left-1/2 top-2 w-4 h-4 rounded-full border-4 transform -translate-x-1/2 z-20 timeline-bullet shadow-lg"></div>
           
-          <!-- Overall period badge - visible on mobile first -->
           <div class="md:hidden px-4 text-center mb-4">
             <div class="inline-block bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
               <i class="fas fa-calendar-alt mr-2"></i>{{ $exp.period }}
@@ -60,7 +52,6 @@
           </div>
           
           <div class="flex flex-col md:flex-row gap-8 justify-center">
-            <!-- Company info card -->
             <div class="md:w-1/2 px-4 flex justify-end">
               <div class="max-w-sm w-full">
                 <div class="company-card bg-bg dark:bg-bg p-6 rounded-lg shadow-lg border border-border-primary dark:border-border-primary card-hover">
@@ -117,7 +108,6 @@
                   <h4 class="text-primary dark:text-white font-semibold text-lg mb-3">{{ . }}</h4>
                   {{ end }}
                   
-                  <!-- Industry and Location -->
                   <div class="flex flex-wrap gap-2 mb-3">
                     {{ if $exp.industry }}
                     <span class="inline-flex items-center bg-third-darker text-white px-3 py-1 rounded-full text-xs font-medium">
@@ -145,9 +135,7 @@
               </div>
             </div>
 
-            <!-- Key achievements -->
             <div class="md:w-1/2 px-4">
-              <!-- Overall period badge - desktop -->
               <div class="hidden md:block bg-gradient-primary text-white px-4 py-2 rounded-full text-sm font-medium mb-3 shadow-lg w-fit">
                 <i class="fas fa-calendar-alt mr-2"></i>{{ $exp.period }}
               </div>

@@ -1,6 +1,3 @@
-{{/* En-tête des pages de contenu (articles, pages légales, listes).
-     Surtitre : params.kicker, sinon le titre de la section parente (ex. « Blog »).
-     Date et temps de lecture affichés pour les pages de la section blog (params.show_meta = false pour masquer). */}}
 {{ $kicker := .Params.kicker }}
 {{ if and (not $kicker) .IsPage .Parent (not .Parent.IsHome) }}{{ $kicker = .Parent.Title }}{{ end }}
 {{ $showMeta := and .IsPage (eq .Section "blog") (ne .Params.show_meta false) }}
@@ -14,7 +11,6 @@
       {{ end }}
     {{ end }}
     <h1 class="cc-page-header__title">{{ .Title }}</h1>
-    {{/* Description masquée si elle ne fait que répéter le titre */}}
     {{ with .Description }}{{ if ne (lower (strings.TrimRight "." .)) (lower $.Title) }}<p class="cc-page-header__lead">{{ . }}</p>{{ end }}{{ end }}
     {{ if $showMeta }}
     <p class="cc-page-header__meta">

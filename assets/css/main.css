@@ -1,5 +1,3 @@
-/* Fonts are not loaded from a CDN: a site provides its own @font-face (e.g. via partials/head-end.html)
-   and sets --font-body / --font-heading / --font-brand. System fonts are the fallback. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -82,12 +80,11 @@
   }
 
   #home p strong {
-    /* color: var(--color-third) !important; */
     background: var(--color-second) !important;
     padding: 0.1rem 0.5rem !important;
   }
 
-  /* Contact info card: one circle style for all icons */
+  /* Contact info icons */
   .contact-info-icon {
     width: 3rem;
     height: 3rem;
@@ -118,7 +115,6 @@
   .dark .contact-info-icon img {
     filter: brightness(0) invert(1);
   }
-  /* Published by the templates that call resources.Get "images/calendly-icon.svg" */
   .contact-info-icon .contact-info-icon-img {
     --calendly-mask: url("/images/calendly-icon.svg");
     display: block;
@@ -184,7 +180,6 @@
     overflow: hidden;
   }
 
-  /* Ensure company card has proper dark mode background */
   .dark .company-card {
     background-color: var(--color-gray-600) !important;
   }
@@ -200,13 +195,12 @@
     transform: scaleX(0);
   }
 
-  /* Contact Cards - Semantically correct styling */
+  /* Contact Cards */
   .contact-card {
     position: relative;
     overflow: hidden;
   }
 
-  /* Ensure contact card has proper dark mode background */
   .dark .contact-card {
     background-color: var(--color-gray-600) !important;
   }
@@ -222,19 +216,18 @@
     transform: scaleX(0);
   }
 
-  /* Footer social media icons - ensure third color in dark mode */
+  /* Footer social icons */
   .dark footer .fab {
     color: var(--color-white) !important;
   }
 
-  /* Footer collaboration tags - ensure proper dark mode styling */
+  /* Footer collaboration tags */
   .dark footer .collab-tag,
   .dark footer span[class*="bg-third-lighter"] {
     background-color: var(--color-third) !important;
     color: var(--color-white) !important;
   }
 
-  /* Lighter card backgrounds for dark mode */
   .dark .company-card {
     background: linear-gradient(to bottom right, 
       color-mix(in srgb, var(--color-primary) 15%, var(--color-gray-800)),
@@ -257,7 +250,6 @@
   }
 
   /* Navigation */
-  /* Custom underline effect using semantic colors */
   .nav-link {
     position: relative;
   }
@@ -287,7 +279,6 @@
     color: var(--color-primary);
   }
 
-  /* Top nav: own stacking context above hero so links stay clickable */
   nav.fixed {
     z-index: 100;
     isolation: isolate;
@@ -295,14 +286,12 @@
 
   /* Hero Section */
   .hero-section {
-    /* Navbar uses h-16 (4rem). baseof.html also adds a h-16 spacer. */
     background-color: var(--color-primary);
     position: relative;
     min-height: calc(100svh - 4rem);
     min-height: calc(100vh - 4rem);
   }
 
-  /* Portrait and text fade in when the page is revealed (html.ready, set by main.js) */
   .ready .hero-section [data-animation] {
     animation: hero-content-in 0.7s ease-in both;
   }
@@ -312,7 +301,6 @@
     to { opacity: 1; }
   }
 
-  /* Stacked hero stays centered. Side-by-side hero stays top-aligned. */
   .hero-inner-row {
     align-items: center;
   }
@@ -322,12 +310,10 @@
       align-items: flex-start !important;
     }
 
-    /* Nudge portrait up so the top of the frame lines up with the greeting line (beats md:mt-0 from Tailwind) */
     .hero-profile-col {
       margin-top: -1rem !important;
     }
 
-    /* Larger than lg:w-96 (arbitrary Tailwind classes are often missing from Hugo’s CSS output) */
     .hero-profile-ring {
       width: min(30rem, 100%) !important;
       height: auto !important;
@@ -335,7 +321,7 @@
     }
   }
 
-  /* Location badge: one scale factor (keeps inner markup at base size) */
+  /* Location badge */
   .hero-location-badge-scale {
     transform-origin: bottom right;
     transform: scale(1.18);
@@ -382,14 +368,13 @@
     text-shadow: 0 1px 2px var(--color-shadow-dark);
   }
 
-  /* Simple, DRY hover effects using CSS variables */
+  /* Hover effects */
   :root {
     --hover-scale: 1.15;
     --hover-transition: 0.3s ease;
     --hover-lift: 4px;
   }
 
-  /* Card hover - simple lift effect */
   .card-hover {
     transition: all var(--hover-transition);
     cursor: pointer;
@@ -404,7 +389,7 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   }
 
-  /* Hero buttons - ensure proper sizing */
+  /* Hero buttons */
   .hero-button {
     display: inline-flex;
     align-items: center;
@@ -417,7 +402,6 @@
   }
 
 
-  /* Button hover - no movement, just highlight */
   .button-hover:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     filter: brightness(1.1);
@@ -428,7 +412,7 @@
     filter: brightness(1.15);
   }
 
-  /* Quick fact hover - natural rounded lighting effect */
+  /* Quick facts */
   .quick-fact-card {
     position: relative;
     transition: all var(--hover-transition);
@@ -494,9 +478,8 @@
       transparent 80%
     );
   }
-  /* Icon size and zoom - devicon font needs explicit size (img/.fas have intrinsic size) */
   .tech-skill-card .devicon.colored {
-    font-size: 3rem; /* match container h-14 / text-5xl */
+    font-size: 3rem;
   }
   .tech-skill-card img,
   .tech-skill-card .fas,
@@ -510,26 +493,23 @@
     transform: scale(var(--hover-scale));
   }
 
-  /* Lighten devicons that are too dark (GitHub, Linux) so they stay visible on light bg */
   .tech-skill-card .devicon-github-plain.colored,
   .tech-skill-card .devicon-github-original.colored,
   .tech-skill-card .devicon-linux-plain.colored {
-    color: #6b7280 !important; /* gray-500 */
+    color: #6b7280 !important;
   }
   .dark .tech-skill-card .devicon-github-plain.colored,
   .dark .tech-skill-card .devicon-github-original.colored,
   .dark .tech-skill-card .devicon-linux-plain.colored {
-    color: #9ca3af !important; /* gray-400, visible on dark bg */
+    color: #9ca3af !important;
   }
 }
 
 @layer utilities {
-  /* Anchors land below the fixed 4rem navigation bar */
   section[id] {
     scroll-margin-top: 4rem;
   }
 
-  /* Sections fade in when scrolled into view (main.js); without JS they stay visible */
   .ready section[data-animate] {
     opacity: 0;
     transition: opacity 0.6s ease;
@@ -574,7 +554,6 @@
   color: var(--color-primary) !important;
 }
 
-/* Force dark mode override for navbar name */
 .dark .text-primary.dark\:text-white {
   color: var(--color-white) !important;
 }
@@ -803,7 +782,7 @@
   background: linear-gradient(135deg, var(--color-third-lighter), var(--color-third-light)) !important;
 }
 
-/* Typewriter (main.js): the script reserves the height of the tallest phrase */
+/* Typewriter */
 .typewriter {
   display: block;
   max-width: 100%;
@@ -812,7 +791,6 @@
   line-height: 1.25;
 }
 
-/* Typing cursor: follows the text colour of the tagline */
 .typing-cursor {
   display: inline-block;
   width: 0.08em;
@@ -828,7 +806,6 @@
   50% { opacity: 0; }
 }
 
-/* Visually hidden text for screen readers */
 .cc-sr-only {
   position: absolute !important;
   width: 1px; height: 1px;
@@ -876,21 +853,20 @@
   scrollbar-color: color-mix(in srgb, var(--color-primary-light) 40%, transparent) transparent;
 }
 
-/* Markdown rendered from front matter / params (.cc-md): keep paragraph spacing and bullets */
+/* Markdown from params (.cc-md) */
 .cc-md > * + * { margin-top: 0.75em; }
 .cc-md ul { list-style: disc; padding-left: 1.25em; }
 .cc-md ol { list-style: decimal; padding-left: 1.25em; }
 .cc-md li + li { margin-top: 0.25em; }
 
-/* Key achievements box (about section) */
+/* About */
 .about-achievements .achievement-item + .achievement-item { margin-top: 1.25rem; }
 .about-achievements .achievement-highlight { margin-bottom: 0.25rem; }
 
-/* About: both columns share the same height; card content is vertically centred */
 .about-col { display: flex; flex-direction: column; gap: 2rem; }
 .about-fill { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
-.about-fill--top { justify-content: flex-start; }           /* keep the card title at the top... */
-.about-fill--top > .about-facts { margin-block: auto; }     /* ...and centre the facts in the remaining space */
+.about-fill--top { justify-content: flex-start; }
+.about-fill--top > .about-facts { margin-block: auto; }
 @media (min-width: 1024px) {
   .about-row { align-items: stretch; }
 }
@@ -947,7 +923,6 @@ a.cc-page-header__kicker:hover { opacity: 1; text-decoration: underline; text-un
   padding: 2.75rem 1.25rem 4rem;
 }
 
-/* Typographie de lecture (~70 caractères par ligne) */
 .cc-prose {
   font-size: 1.0625rem;
   line-height: 1.75;
@@ -1038,7 +1013,6 @@ a.cc-page-header__kicker:hover { opacity: 1; text-decoration: underline; text-un
 .cc-post-card__meta { font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 0.4rem; }
 .cc-post-card__title { display: block; font-family: var(--font-heading); font-weight: 700; font-size: 1.2rem; line-height: 1.35; }
 .cc-post-card__title a { color: inherit; text-decoration: none; }
-/* Toute la carte est cliquable via le lien du titre */
 .cc-post-card__title a::after { content: ""; position: absolute; inset: 0; }
 .cc-post-card__title a:focus-visible { outline: none; }
 .cc-post-card:focus-within { outline: 3px solid var(--color-second); outline-offset: 2px; }
@@ -1047,9 +1021,7 @@ a.cc-page-header__kicker:hover { opacity: 1; text-decoration: underline; text-un
 .cc-tags li { font-size: 0.75rem; padding: 0.15rem 0.55rem; border-radius: 999px; border: 1px solid var(--color-border); color: var(--color-text-secondary); }
 .cc-empty { color: var(--color-text-secondary); }
 
-/* ---------- Page reveal ----------
-   init.js adds .js in <head>; main.js adds .ready at the end of <body>.
-   Hidden only while both scripts run; shown after 3 s anyway if main.js fails. Never hidden without JS. */
+/* ---------- Page reveal: hidden until main.js runs, 3 s at most, never without JS ---------- */
 .js:not(.ready) body {
   visibility: hidden;
   animation: cc-reveal 0s 3s forwards;
@@ -1063,12 +1035,11 @@ html:not(.js) .js-only {
   display: none !important;
 }
 
-/* Contact form status: live region kept in the page, empty until a message is sent */
 .form-status:empty {
   padding: 0;
 }
 
-/* ---------- Toggles (theme, animations) ---------- */
+/* ---------- Toggles ---------- */
 .nav-toggle {
   line-height: 1;
   padding: 0.25rem;
@@ -1083,7 +1054,7 @@ html:not(.js) .js-only {
   display: inline;
 }
 
-/* ---------- Menus built on <details> ---------- */
+/* ---------- Menus ---------- */
 .nav-dropdown > summary,
 .mobile-nav > summary {
   list-style: none;
@@ -1116,7 +1087,7 @@ html:not(.js) .js-only {
   backdrop-filter: blur(8px);
 }
 
-/* Background shapes. --mx / --my (-1 to 1) follow the pointer, set by main.js. */
+/* Background shapes; --mx / --my set by main.js */
 .hero-section {
   --mx: 0;
   --my: 0;
@@ -1162,7 +1133,6 @@ html:not(.js) .js-only {
   animation: cc-curve 10s linear infinite alternate;
 }
 
-/* Fixed pseudo-random positions, angles and delays */
 .diagonal-line:nth-child(1) { left: 12%; top: 18%; --r: 25deg; animation-delay: 0s; }
 .diagonal-line:nth-child(2) { left: 64%; top: 72%; --r: 140deg; animation-delay: 0.8s; --sx: 33px; --sy: 26px; }
 .diagonal-line:nth-child(3) { left: 38%; top: 46%; --r: 260deg; animation-delay: 1.6s; --sx: 41px; --sy: 32px; }
@@ -1183,7 +1153,6 @@ html:not(.js) .js-only {
   100% { opacity: 0.6; border-radius: 0%; transform: rotate(360deg) scale(1.2); }
 }
 
-/* Quick facts rise in when the "about" section appears */
 .fade-in-visible .quick-fact-card {
   animation: cc-rise 0.6s ease-out both;
 }
@@ -1199,9 +1168,7 @@ html:not(.js) .js-only {
   to { opacity: 1; transform: none; }
 }
 
-/* ---------- Animations off ----------
-   data-motion="off": visitor's choice (toggle) or prefers-reduced-motion by default (init.js).
-   Shapes stay as a still background; content is shown at once. */
+/* ---------- Animations off ---------- */
 [data-motion="off"] *,
 [data-motion="off"] *::before,
 [data-motion="off"] *::after {
@@ -1232,7 +1199,6 @@ html:not(.js) .js-only {
   transform: none !important;
 }
 
-/* Without JS, the visitor's system setting still applies */
 @media (prefers-reduced-motion: reduce) {
   html:not(.js) *,
   html:not(.js) *::before,

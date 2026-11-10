@@ -1,4 +1,3 @@
-// Runs in <head> before first paint: theme and motion preference, no flash.
 (function () {
   var root = document.documentElement;
   var dark = null, motion = null;

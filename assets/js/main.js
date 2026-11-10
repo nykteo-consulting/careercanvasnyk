@@ -5,7 +5,6 @@
 
   // Theme and animation toggles
   function syncToggles() {
-    // Icon buttons carry aria-pressed; text buttons swap their label in CSS.
     document.querySelectorAll('[data-toggle][aria-pressed]').forEach(function (b) {
       var on = b.dataset.toggle === 'motion' ? motionOn() : root.classList.contains('dark');
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -32,7 +31,7 @@
   });
   syncToggles();
 
-  // Menus (<details>): close on outside click, Escape, or link click
+  // Menus
   var menus = document.querySelectorAll('details[data-menu]');
   document.addEventListener('click', function (e) {
     menus.forEach(function (d) {
@@ -62,7 +61,7 @@
     sections.forEach(function (s) { s.classList.add('fade-in-visible'); });
   }
 
-  // Hero: shapes follow the pointer through CSS variables
+  // Hero shapes follow the pointer
   var hero = document.querySelector('.hero-section');
   if (hero && window.matchMedia && matchMedia('(hover: hover)').matches) {
     var frame = 0, px = 0, py = 0;
@@ -85,8 +84,7 @@
     });
   }
 
-  // Typewriter: phrases split on ". "; one phrase is typed once and kept.
-  // Screen readers read a visually hidden copy (hero.html).
+  // Typewriter
   var timers = [];
   var typewriters = document.querySelectorAll('.typewriter');
   function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
@@ -102,7 +100,6 @@
       .map(function (p, i, all) { return i < all.length - 1 && !/[.!?]$/.test(p) ? p + '.' : p; });
     if (!phrases.length) return;
 
-    // Reserve the height of the tallest phrase so the layout does not jump.
     var h = 0;
     phrases.forEach(function (p) { el.textContent = p; h = Math.max(h, el.offsetHeight); });
     if (h) el.style.minHeight = h + 'px';
@@ -136,11 +133,11 @@
     later(function () { cycle(0); }, 300);
   });
 
-  // Reveal the page (see .js:not(.ready) in main.css)
+  // Reveal the page
   root.classList.add('ready');
 })();
 
-// Contact form: native POST to Formspree; with JS, sent in the page with a status message.
+// Contact form
 (function () {
   var form = document.getElementById('contact-form');
   if (!form || !form.action || !window.fetch) return;
