@@ -3,9 +3,9 @@ name: Notify deploy
 on:
   push:
     branches: [main]
-  pull_request:
-    types: [closed]
-    branches: [main]
+  # pull_request:
+  #   types: [closed]
+  #   branches: [main] 
 
 permissions: {}
 
