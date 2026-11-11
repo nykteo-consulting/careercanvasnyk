@@ -1120,7 +1120,7 @@ html:not(.js) .js-only {
   width: 1200px;
   height: 3px;
   background: linear-gradient(45deg, transparent, var(--color-primary-light), transparent);
-  animation: cc-line 8s ease-in-out infinite alternate;
+  animation: cc-line 24s ease-in-out infinite alternate;
 }
 
 .spline-curve {
@@ -1131,16 +1131,17 @@ html:not(.js) .js-only {
   height: 180px;
   border: 3px solid var(--color-primary);
   border-radius: 50%;
-  animation: cc-curve 10s linear infinite alternate;
+  animation: cc-curve 30s linear infinite alternate;
 }
 
+/* Délais négatifs : formes déjà décalées au chargement, sans attente. */
 .diagonal-line:nth-child(1) { left: 12%; top: 18%; --r: 25deg; animation-delay: 0s; }
-.diagonal-line:nth-child(2) { left: 64%; top: 72%; --r: 140deg; animation-delay: 0.8s; --sx: 33px; --sy: 26px; }
-.diagonal-line:nth-child(3) { left: 38%; top: 46%; --r: 260deg; animation-delay: 1.6s; --sx: 41px; --sy: 32px; }
-.diagonal-line:nth-child(4) { left: 80%; top: 24%; --r: 320deg; animation-delay: 2.4s; --sx: 49px; --sy: 38px; }
+.diagonal-line:nth-child(2) { left: 64%; top: 72%; --r: 140deg; animation-delay: -6s; --sx: 33px; --sy: 26px; }
+.diagonal-line:nth-child(3) { left: 38%; top: 46%; --r: 260deg; animation-delay: -12s; --sx: 41px; --sy: 32px; }
+.diagonal-line:nth-child(4) { left: 80%; top: 24%; --r: 320deg; animation-delay: -18s; --sx: 49px; --sy: 38px; }
 .spline-curve:nth-child(5) { left: 72%; top: 14%; animation-delay: 0s; }
-.spline-curve:nth-child(6) { left: 18%; top: 66%; animation-delay: 1.2s; --sx: 23px; --sy: 18px; }
-.spline-curve:nth-child(7) { left: 52%; top: 82%; animation-delay: 2.4s; --sx: 31px; --sy: 24px; }
+.spline-curve:nth-child(6) { left: 18%; top: 66%; animation-delay: -10s; --sx: 23px; --sy: 18px; }
+.spline-curve:nth-child(7) { left: 52%; top: 82%; animation-delay: -20s; --sx: 31px; --sy: 24px; }
 
 @keyframes cc-line {
   0% { opacity: 0; transform: rotate(var(--r)) scaleX(1); }
