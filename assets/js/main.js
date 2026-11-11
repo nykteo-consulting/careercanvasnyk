@@ -143,6 +143,27 @@
     later(function () { cycle(0); }, 300);
   });
 
+  // Back to top
+  var toTop = document.querySelector('.back-to-top');
+  if (toTop) {
+    toTop.hidden = false;
+    var ticking = false;
+    var update = function () {
+      toTop.classList.toggle('is-visible', window.scrollY > window.innerHeight / 2);
+      ticking = false;
+    };
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: motionOn() ? 'smooth' : 'auto' });
+      // Le bouton disparaît : rendre le focus au début de la page.
+      var first = document.querySelector('nav a');
+      if (first) first.focus({ preventScroll: true });
+    });
+  }
+
   // Reveal the page
   root.classList.add('ready');
 })();
