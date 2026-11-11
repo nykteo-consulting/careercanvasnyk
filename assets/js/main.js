@@ -57,6 +57,7 @@
   // Section fade-in
   var sections = document.querySelectorAll('section[data-animate]');
   if ('IntersectionObserver' in window) {
+    // Seuil 0 + marge : une section plus haute que l'écran n'atteint jamais un seuil en %.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -64,7 +65,7 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0, rootMargin: '0px 0px 15% 0px' });
     sections.forEach(function (s) { io.observe(s); });
   } else {
     sections.forEach(function (s) { s.classList.add('fade-in-visible'); });
@@ -141,6 +142,27 @@
     render('');
     later(function () { cycle(0); }, 300);
   });
+
+  // Back to top
+  var toTop = document.querySelector('.back-to-top');
+  if (toTop) {
+    toTop.hidden = false;
+    var ticking = false;
+    var update = function () {
+      toTop.classList.toggle('is-visible', window.scrollY > window.innerHeight / 2);
+      ticking = false;
+    };
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: motionOn() ? 'smooth' : 'auto' });
+      // Le bouton disparaît : rendre le focus au début de la page.
+      var first = document.querySelector('nav a');
+      if (first) first.focus({ preventScroll: true });
+    });
+  }
 
   // Reveal the page
   root.classList.add('ready');
