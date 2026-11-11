@@ -155,7 +155,8 @@
   }
   .skill-block ul {
     list-style-type: square;
-    list-style-position: inside;
+    list-style-position: outside;
+    padding-left: 1.25rem;
   }
   /* Skill Pills - All use main color variations */
   .skill-pill {

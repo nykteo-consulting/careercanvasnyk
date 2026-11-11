@@ -57,6 +57,7 @@
   // Section fade-in
   var sections = document.querySelectorAll('section[data-animate]');
   if ('IntersectionObserver' in window) {
+    // Seuil 0 + marge : une section plus haute que l'écran n'atteint jamais un seuil en %.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -64,7 +65,7 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0, rootMargin: '0px 0px 15% 0px' });
     sections.forEach(function (s) { io.observe(s); });
   } else {
     sections.forEach(function (s) { s.classList.add('fade-in-visible'); });
