@@ -3,11 +3,15 @@ name: Notify deploy
 on:
   push:
     branches: [main]
+  pull_request:
+    types: [closed]
+    branches: [main]
 
 permissions: {}
 
 jobs:
   notify:
+    if: github.event_name == 'push' || github.event.pull_request.merged == true
     runs-on: ubuntu-24.04
     steps:
       - name: Trigger nykteo-deploy
@@ -15,8 +19,11 @@ jobs:
           GH_TOKEN: ${{ secrets.DEPLOY_DISPATCH_TOKEN }}
           EVENT: theme-updated
         run: |
-          curl -fsS -X POST \
+          # Expect 204: a 3xx (renamed repo) would otherwise pass silently.
+          code=$(curl -sS -o /dev/stderr -w '%{http_code}' -X POST \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/nykteo/nykteo-deploy/dispatches \
-            -d "{\"event_type\":\"$EVENT\"}"
+            https://api.github.com/repos/nykteo-consulting/nykteo-deploy/dispatches \
+            -d "{\"event_type\":\"$EVENT\"}")
+          echo "HTTP $code"
+          [ "$code" = 204 ]
