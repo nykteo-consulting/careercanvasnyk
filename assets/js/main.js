@@ -156,11 +156,19 @@
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
     }, { passive: true });
     update();
-    toTop.addEventListener('click', function () {
+    toTop.addEventListener('click', function (e) {
       window.scrollTo({ top: 0, behavior: motionOn() ? 'smooth' : 'auto' });
-      // Le bouton disparaît : rendre le focus au début de la page.
+      // Clavier uniquement (detail 0), et après le défilement : un focus pendant
+      // le défilement l'interrompt sur Safari iOS.
+      if (e.detail !== 0) { toTop.blur(); return; }
       var first = document.querySelector('nav a');
-      if (first) first.focus({ preventScroll: true });
+      if (!first) return;
+      var done = function () {
+        window.removeEventListener('scrollend', done);
+        first.focus({ preventScroll: true });
+      };
+      if ('onscrollend' in window) window.addEventListener('scrollend', done);
+      else setTimeout(done, 1000);
     });
   }
 
