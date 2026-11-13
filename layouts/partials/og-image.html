@@ -1,0 +1,5 @@
+{{- /* Image de partage : renvoie (dict "url" "alt"). Surchargeable côté site. */ -}}
+{{- return dict
+  "url" (.Params.og_image | default site.Params.og_image)
+  "alt" (.Params.og_image_alt | default site.Params.og_image_alt)
+-}}

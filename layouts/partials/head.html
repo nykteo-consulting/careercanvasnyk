@@ -7,8 +7,9 @@
   {{- $title = site.Params.home_title | default (printf "%s | %s" .Site.Title .Site.Params.tagline) -}}
 {{- end -}}
 {{- $description := .Params.description | default .Site.Params.description -}}
-{{- $ogImage := .Params.og_image | default site.Params.og_image -}}
-{{- $ogImageAlt := .Params.og_image_alt | default site.Params.og_image_alt -}}
+{{- $og := partial "og-image.html" . -}}
+{{- $ogImage := $og.url -}}
+{{- $ogImageAlt := $og.alt -}}
 {{- $isArticle := and .IsPage (eq .Section "blog") -}}
 {{- $ogLocale := site.Params.og_locale | default site.Language.Lang -}}
 
